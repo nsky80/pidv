@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <meta charset="UTF-8"> -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>  
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    <link href="{% static 'user_mgmt/css/materialize.css' %}" rel="stylesheet"/>
+		<!-- For icon in menu -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <style>body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}</style>
+    <script type="text/javascript" src="{% static 'user_mgmt/js/bin/materialize.min.js' %}"></script>
+    <!-- Configurations of tinymce app -->
+    <script src="{% static 'tinymce/js/prism.js' %}"></script>
+    <link href="{% static 'tinymce/css/prism.css' %}" rel="stylesheet">
+    <style>   
+/* Flexible footer */
+      body {
+          display: flex;
+          min-height: 100vh;
+          flex-direction: column;
+        }
+
+        user_mgmt {
+          flex: 1 0 auto;
+        }
+    </style>
+</head>
+<body style="background-color: #eeeeee ;">
+  {% if request.path == '/account'  or request.path == '/network' or request.path == '/account/edit_profile/'%}
+    {% include 'user_mgmt/includes/profile_navbar.html' %}
+  {% else %}
+    {% include 'user_mgmt/includes/navbar.html' %}
+  {% endif %}
+	{% include 'user_mgmt/includes/fixed_action_button.html' %}
+  {% include 'user_mgmt/includes/messaging.html' %}
+
+  <user_mgmt>
+	{% block content %}
+  {% endblock %}
+</user_mgmt>
+  {% block account %}
+  {% endblock %}
+  {% include 'user_mgmt/includes/footer.html' %}
+  <script type="text/javascript">M.AutoInit();</script>
+</body>
+</html>

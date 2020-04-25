@@ -1,0 +1,30 @@
+
+<div class="navbar-fixed">
+    <nav class="brown darken-1" role="navigation">
+        <div class="nav-wrapper">
+            <a href="/" class="brand-logo">&nbsp;&nbsp;PIDV! Home</a>
+
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li {% if request.get_full_path == '/' or request.get_full_path == '/home' %}class="active"{% endif %}><a href="/home"><i class="material-icons left">home</i>Home</a></li>
+                <li {% if request.get_full_path == '/community' %}class="active"{% endif %}><a href="/community"><i class="material-icons left">people</i>Community</a></li>
+
+                    <li {% if request.get_full_path == '/register' %}class="active"{% endif %}><a href="/register"><i class="material-icons left">person_add</i>Register</a></li>
+					<li {% if request.get_full_path == '/login' %}class="active"{% endif %}><a href="/login" class="waves-effect waves-light btn orange darken-4"><i class="material-icons left">group_work</i>Login</a></li>
+					<li {% if request.get_full_path == '/about' %}class="active"{% endif %}><a href="/about"><i class="material-icons left">domain</i>About</a></li>
+
+
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    <ul class="sidenav" id="mobile-demo">
+        <li {% if request.get_full_path == '/' or request.get_full_path == '/home' %}class="active"{% endif %}><a href="/home"><i class="material-icons left">home</i>Home</a></li>
+        <li {% if request.get_full_path == '/community' %}class="active"{% endif %}><a href="/community"><i class="material-icons left">people</i>Community</a></li>
+        
+			<li {% if request.get_full_path == '/register' %}class="active"{% endif %}><a href="/register"><i class="material-icons left">person_add</i>Register</a></li>
+			<li {% if request.get_full_path == '/login' %}class="active"{% endif %}><a href="/login" class="waves-effect waves-light btn orange darken-4"><i class="material-icons left">group_work</i>Login</a></li>
+			<li {% if request.get_full_path == '/about' %}class="active"{% endif %}><a href="/about"><i class="material-icons left">domain</i>About</a></li>
+
+    </ul>
