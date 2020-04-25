@@ -75,6 +75,7 @@ def register(request):
 				 )
 
 
+# this shows the information of user
 def account(request):
 	if request.user.is_authenticated:
 		user = request.user
@@ -135,6 +136,7 @@ def feedback(request):
 				)
 
 
+# currently it shows only list of active users
 def community(request):
 	if request.user.is_authenticated:
 		active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
@@ -157,6 +159,11 @@ def help(request):
 	return render(request=request, template_name="user_mgmt/under_construction.html")
 
 
+def contribute(request):
+	return render(request=request, template_name="user_mgmt/contribute.html")
+
+
+# template for error handling 
 def under_construction(request, slug):
 	messages.success(request, slug)
 	messages.error(request, "Either this page is under construction or invalid url!")
