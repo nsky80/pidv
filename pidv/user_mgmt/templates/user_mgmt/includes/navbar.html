@@ -23,10 +23,10 @@
 							<li class="divider" tabindex="-1"></li>
 							<!-- <li><a href="/setting">Setting</a></li> -->
 							<li><a href="/personal_content"><i class="material-icons">view_module</i>Your Contents</a></li>
-							<li><a href="#!"><i class="material-icons">cloud</i>Kake!</a></li>
+							<li><a href="/logout"  class="red darken-4" style="color:white;"><i class="material-icons">group_work</i>LOGOUT!</a></li>
                         </ul>
                     </li>
-                    <li><a href="/logout" class="waves-effect waves-light btn orange darken-4"><i class="material-icons left">group_work</i>Logout</a></li>
+                    <li><a href="/help" class="waves-effect waves-light btn orange darken-4"><i class="material-icons left">help</i>Help</a></li>
                 {% else %}
                     <li {% if request.get_full_path == '/' or request.get_full_path == '/dashboard' %}class="active"{% endif %}><a href="/"><i class="material-icons left">home</i>Home</a></li>
                     <li {% if request.get_full_path == '/community' %}class="active"{% endif %}><a href="/community"><i class="material-icons left">people</i>Community</a></li>

@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django.contrib.sessions.models import Session
 from django.utils import timezone
+from .forms import EditProfileForm, ContactForm, FeedbackForm
 # Create your views here.
 
 
@@ -90,3 +91,52 @@ def dashboard(request):
         return render(request=request, template_name="user_mgmt/dashboard.html")
     else:
         return redirect("/")
+
+
+def help(request):
+	return render(request=request, template_name="user_mgmt/under_construction.html")
+
+
+def under_construction(request):
+	messages.error(request, "Either this page is underconstruction or invalid url!")
+	return render(request=request, template_name="user_mgmt/under_construction.html")
+
+
+def edit_profile(request):
+	if request.user.is_authenticated:
+		if request.method == "POST":
+			form = EditProfileForm(request.POST, instance=request.user)
+
+			if form.is_valid():
+				try:
+					form.save()
+					return redirect("/account")
+				except Exception as ex:
+					messages.error(request, f"Please Give Error as Feedback to developers {ex}")
+		else:
+			form = EditProfileForm(instance=request.user)
+			args = {'form': form}
+			return render(request=request,
+						  template_name="user_mgmt/edit_user_profile.html",
+						  context=args)
+	else:
+		return HttpResponseNotFound()         
+
+
+def feedback(request):
+	if request.method == "POST":
+		form = FeedbackForm(request.POST, request.FILES)
+		if form.is_valid():
+			form.save(commit=True)
+			messages.success(request, f"Feedback sent successfully!")
+			return redirect("/")
+		else:
+			messages.error(request, f"Please Write Content!")
+			return render(request=request,
+							template_name="user_mgmt/feedback.html",
+							context={"form": form})
+	form = FeedbackForm
+	return render(request=request, 
+				template_name="user_mgmt/feedback.html",
+				context={"form":form}
+				)
