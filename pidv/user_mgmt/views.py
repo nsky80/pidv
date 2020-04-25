@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, User
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 from .forms import EditProfileForm, ContactForm, FeedbackForm
+from django.contrib.auth.models import User		# for community tab purpose
 # Create your views here.
 
 
@@ -133,6 +134,24 @@ def feedback(request):
 				context={"form":form}
 				)
 
+
+def community(request):
+	if request.user.is_authenticated:
+		active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
+		user_id_list = []
+		for session in active_sessions:
+			data = session.get_decoded()
+			user_id_list.append(data.get('_auth_user_id', None))
+		# Query all logged in users based on id list
+		users =  User.objects.filter(id__in=user_id_list)
+		return render(request=request, 
+					template_name="user_mgmt/community.html",
+					context={"users": users},
+					)
+	else:
+		messages.warning(request, f"For Community Login first!")
+		return redirect("/login")
+				 
 
 def help(request):
 	return render(request=request, template_name="user_mgmt/under_construction.html")

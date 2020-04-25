@@ -13,5 +13,6 @@ urlpatterns = [
     path('account/edit_profile/', views.edit_profile, name="edit_profile"),
     path('help', views.help, name="help"),
     path('feedback', views.feedback, name="feedback"),
+    path('community', views.community, name="community"),
     path('<slug>', views.under_construction, name="under_construction"),
 ]

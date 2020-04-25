@@ -1,0 +1,27 @@
+{% extends 'user_mgmt/header.html' %}
+    {% block title %}Community | Explore & ask{% endblock %}
+
+    {% block content %}
+        <center><h3 style="margin: 15px;"><b>Welcome to Community!</b></h3></center>
+        {% load static %}
+        <div class="container">
+		    <h6><b>List of Active Users are: </b></h6>
+
+            <ul class="collection">
+                {% for u in users %}
+                    <li class="collection-item avatar">
+                      <img src="{% static 'user_mgmt/images/back1.jpg' %}" alt="" class="circle">
+                      <span class="title">{{u}}</span>
+                      <p>First Line <br>
+                         Second Line
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                {% endfor %}
+            </ul>
+                      
+            <!-- <img class="responsive-img" src=" static 'user_mgmt/images/under_construction.jpg"> -->
+
+        </div>
+    <br><br>
+    {% endblock %}
