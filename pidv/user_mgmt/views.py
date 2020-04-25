@@ -93,15 +93,7 @@ def dashboard(request):
         return redirect("/")
 
 
-def help(request):
-	return render(request=request, template_name="user_mgmt/under_construction.html")
-
-
-def under_construction(request):
-	messages.error(request, "Either this page is underconstruction or invalid url!")
-	return render(request=request, template_name="user_mgmt/under_construction.html")
-
-
+# for editing existing user profile
 def edit_profile(request):
 	if request.user.is_authenticated:
 		if request.method == "POST":
@@ -140,3 +132,13 @@ def feedback(request):
 				template_name="user_mgmt/feedback.html",
 				context={"form":form}
 				)
+
+
+def help(request):
+	return render(request=request, template_name="user_mgmt/under_construction.html")
+
+
+def under_construction(request, slug):
+	messages.success(request, slug)
+	messages.error(request, "Either this page is under construction or invalid url!")
+	return render(request=request, template_name="user_mgmt/under_construction.html")

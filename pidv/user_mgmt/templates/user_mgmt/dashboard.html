@@ -1,8 +1,24 @@
 {% extends 'user_mgmt/header.html' %}
-{% block title %}Dashboard | Explore Your Own Space!{% endblock %}
-{% block content %}
+{% block title %} {{user.username}}'s Dashboard | Explore Your Own Space {% endblock %}
 
-    <div class="container" >
-        <center>This is Dashboard</center>
+{% block account %}
+<user_mgmt>
+    <h1 class="center" style="margin-top: -10px;">	<center><h3><b>{{user.username}}'s Dashboard</b></h3></center></h1>
+    <div class="container hoverable" style="padding: 20px; background-color: white; margin-top: 10px;">
+        
+    <!-- <ul class="collection with-header"> -->
+    <ul class="collection">
+        <!-- <li class="collection-header"><h4>First Names</h4></li> -->
+        <li class="collection-item"><h6><b>Username&nbsp;&nbsp;: </b>{{user.username}}</h6></li>
+        <li class="collection-item"><h6><b>FirstName&nbsp;&nbsp;: </b>{{user.first_name}}</h6></li>
+        <li class="collection-item"><h6><b>LastName&nbsp;&nbsp;: </b>{{user.last_name}}</h6></li>
+        <li class="collection-item"><h6><b>Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b>{{user.email}}</h6></li>
+    </ul>
+    <div class="center-align">
+            <a href="/upload" class="waves-effect red waves-yellow btn pulse" d><i class="material-icons left">file_upload</i><b>Upload new CSV</b></a>
     </div>
+    </div>
+</user_mgmt>
+<br>
+<br>
 {% endblock %}
