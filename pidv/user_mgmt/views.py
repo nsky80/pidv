@@ -88,14 +88,6 @@ def account(request):
 		return redirect("user_mgmt:login")
 
 
-# This is used for authenticated users
-def dashboard(request):
-    if request.user.is_authenticated:
-        return render(request=request, template_name="user_mgmt/dashboard.html")
-    else:
-        return redirect("/")
-
-
 # for editing existing user profile
 def edit_profile(request):
 	if request.user.is_authenticated:
@@ -171,20 +163,28 @@ def contribute(request):
 
 
 def upload_csv_file(request): 
-    form = Upload_csvForm(request.POST or None, request.FILES or None) 
-    if request.method =='POST': 
+	form = Upload_csvForm(request.POST or None, request.FILES or None) 
+	if request.method =='POST': 
           
-        if form.is_valid(): 
+		if form.is_valid(): 
               
-            obj = form.save(commit = False) 
-            obj.user = request.user
-            obj.save() 
-            form = Upload_csvForm() 
-            messages.success(request, "File Successfully uploaded!") 
-          
-  
-    return render(request, 'user_mgmt/upload_csv.html', {'form':form}) 
+			obj = form.save(commit = False) 
+			obj.user = request.user
+			obj.save() 
+			form = Upload_csvForm() 
+			messages.success(request, "File Successfully uploaded!") 
+			return redirect("/dashboard")
 
+	return render(request, 'user_mgmt/upload_csv.html', {'form':form}) 
+
+
+# This is used for authenticated users
+def dashboard(request):
+	if request.user.is_authenticated:
+		files = Upload_csv.objects.all() 
+		return render(request=request, template_name="user_mgmt/dashboard.html", context={"files": files})
+	else:
+		return redirect("/")
 
 
 # template for error handling 

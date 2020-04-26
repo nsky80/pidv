@@ -9,10 +9,10 @@
     <!-- <ul class="collection with-header"> -->
     <ul class="collection">
         <!-- <li class="collection-header"><h4>First Names</h4></li> -->
-        <li class="collection-item"><h6><b>Username&nbsp;&nbsp;: </b>{{user.username}}</h6></li>
-        <li class="collection-item"><h6><b>FirstName&nbsp;&nbsp;: </b>{{user.first_name}}</h6></li>
-        <li class="collection-item"><h6><b>LastName&nbsp;&nbsp;: </b>{{user.last_name}}</h6></li>
-        <li class="collection-item"><h6><b>Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b>{{user.email}}</h6></li>
+        <li class="collection-item"><h5><center><b>Your Uploaded Files&nbsp;&nbsp; </b></center></h5></li>
+        {% for f in files %}
+            <li class="collection-item"><h6><b>File&nbsp;&nbsp;: </b>{{f}}</h6></li>
+        {% endfor %}
     </ul>
     <div class="center-align">
             <a href="/upload" class="waves-effect red waves-yellow btn pulse" d><i class="material-icons left">file_upload</i><b>Upload new CSV</b></a>

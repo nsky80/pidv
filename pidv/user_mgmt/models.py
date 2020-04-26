@@ -28,3 +28,8 @@ class Upload_csv(models.Model):
 					) 
 
 	uploaded_file = models.FileField(upload_to=user_directory_path)
+	class Meta:
+		verbose_name_plural = "Upload_CSV"
+	
+	def __str__(self):
+		return self.uploaded_file.name
