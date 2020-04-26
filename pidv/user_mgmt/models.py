@@ -22,7 +22,7 @@ class Feedback(models.Model):
 
 def user_directory_path(instance, filename):
 	# file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-	return "Media/" + 'user_{0}/{1}'.format(instance.user.id, filename)
+	return "media/" + 'user_{0}/{1}'.format(instance.user.id, filename)
 
 class Upload_csv(models.Model):
 	# user = models.ForeignKey(User, default=1, on_delete=models.SET_DEFAULT)
