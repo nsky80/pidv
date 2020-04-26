@@ -14,10 +14,15 @@ class Feedback(models.Model):
 	feedback_date = models.DateTimeField("Feedback Time", default=timezone.now)
 	feedback_content = models.TextField(help_text="Share Your Ideas Here!")
 	feedback_user_id = models.EmailField("Email ID")
+	class Meta:
+		verbose_name_plural = "Feedback"
+	
+	def __str__(self):
+		return self.feedback_title
 
 def user_directory_path(instance, filename):
 	# file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-	return 'user_{0}/{1}'.format(instance.user.id, filename)
+	return "Media/" + 'user_{0}/{1}'.format(instance.user.id, filename)
 
 class Upload_csv(models.Model):
 	# user = models.ForeignKey(User, default=1, on_delete=models.SET_DEFAULT)
