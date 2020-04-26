@@ -9,7 +9,11 @@
     <!-- <ul class="collection with-header"> -->
     <ul class="collection">
         <!-- <li class="collection-header"><h4>First Names</h4></li> -->
-        <li class="collection-item"><h5><center><b>Your Uploaded Files&nbsp;&nbsp; </b></center></h5></li>
+        {% if files %}
+            <li class="collection-item"><h5><center><b>Your Uploaded Files&nbsp;&nbsp; </b></center></h5></li>
+        {% else %}
+            <li class="collection-item"><h5><center><b>Looks like you haven't uploaded yet!&nbsp;&nbsp; </b></center></h5></li>
+        {% endif %}
         {% for f in files %}
             <li class="collection-item"><h6><b>File&nbsp;&nbsp;: </b>{{f}}</h6></li>
         {% endfor %}

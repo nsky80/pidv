@@ -85,7 +85,7 @@ def account(request):
 				  context={"user":user},
 				 )
 	else:
-		return redirect("user_mgmt:login")
+		return redirect("user_mgmt:login_request")
 
 
 # for editing existing user profile
@@ -147,6 +147,38 @@ def community(request):
 		messages.warning(request, f"For Community Login first!")
 		return redirect("/login")
 				 
+ 
+ # This handles uploading of file
+
+def upload_csv_file(request): 
+	if request.user.is_authenticated:
+		form = Upload_csvForm(request.POST or None, request.FILES or None) 
+		if request.method =='POST': 
+			
+			if form.is_valid(): 
+				
+				obj = form.save(commit = False) 
+				obj.user = request.user
+				obj.save() 
+				form = Upload_csvForm() 
+				messages.success(request, "File Successfully uploaded!") 
+				return redirect("/dashboard")
+
+		return render(request, 'user_mgmt/upload_csv.html', {'form':form}) 
+	else:
+		messages.error(request, "Login of Signup First!")
+		return redirect("user_mgmt:login_request")
+
+
+# This is used for authenticated users
+def dashboard(request):
+	if request.user.is_authenticated:
+		# files = Upload_csv.objects.filter(request.user == Upload_csv.user) 
+		files = Upload_csv.objects.filter(user=request.user)
+		return render(request=request, template_name="user_mgmt/dashboard.html", context={"files": files})
+	else:
+		return redirect("/")
+
 
 def help(request):
 	return render(request=request, template_name="user_mgmt/under_construction.html")
@@ -154,37 +186,6 @@ def help(request):
 
 def contribute(request):
 	return render(request=request, template_name="user_mgmt/contribute.html")
-
- 
- # This handles uploading of file
-# def usblog(request): 
-#     snipps = Snippet.objects.all() 
-#     return render(request, 'indexg.html', {'snipps' : snipps}) 
-
-
-def upload_csv_file(request): 
-	form = Upload_csvForm(request.POST or None, request.FILES or None) 
-	if request.method =='POST': 
-          
-		if form.is_valid(): 
-              
-			obj = form.save(commit = False) 
-			obj.user = request.user
-			obj.save() 
-			form = Upload_csvForm() 
-			messages.success(request, "File Successfully uploaded!") 
-			return redirect("/dashboard")
-
-	return render(request, 'user_mgmt/upload_csv.html', {'form':form}) 
-
-
-# This is used for authenticated users
-def dashboard(request):
-	if request.user.is_authenticated:
-		files = Upload_csv.objects.all() 
-		return render(request=request, template_name="user_mgmt/dashboard.html", context={"files": files})
-	else:
-		return redirect("/")
 
 
 # template for error handling 
