@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseNotFound
+from django.shortcuts import render, redirect, reverse
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
@@ -8,6 +8,10 @@ from django.utils import timezone
 from .forms import EditProfileForm, ContactForm, FeedbackForm, Upload_csvForm
 from django.contrib.auth.models import User		# for community tab purpose
 from .models import Upload_csv
+# from collections import defaultdict
+# import json
+# import pandas as pd
+
 # Create your views here.
 
 
@@ -186,6 +190,37 @@ def help(request):
 
 def contribute(request):
 	return render(request=request, template_name="user_mgmt/contribute.html")
+
+
+def open_csv(request, username, filename):
+	if request.user.is_authenticated:
+		if "user_" + str(request.user.id) == username:
+			# messages.error(request, str(request.user.id) + " " + str(username))
+			messages.success(request, request.get_full_path())
+			return render(request=request, template_name="user_mgmt/experiment.html")
+
+			# try:
+			# 	csv_file = request.FILES[request.get_full_path()]
+			# 	if not csv_file.name.endswith('.csv'):
+			# 		messages.error(request,'File is not CSV type')
+			# 		# return HttpResponseRedirect(reverse("open_csv:upload_csv"))
+			# 		return redirect("user_mgmt:dashboard")
+			# 	#if file is too large, return
+			# 	if csv_file.multiple_chunks():
+			# 		messages.error(request,"Uploaded file is too big (%.2f MB)." % (csv_file.size/(1000*1000),))
+			# 		return HttpResponseRedirect(reverse("user_mgmt:dashboard"))
+			# 	df = pd.read_csv(csv_file)
+			# 	messages.success(request, type(df))
+			# 	data = df.to_json(orient='split')
+			# 	return render(request, template_name="user_mgmt/experiment.html", context={"csv_data": data})
+
+			# except Exception as e:
+			# 	# logging.getLogger("error_logger").error("Unable to upload file. "+repr(e))
+			# 	# messages.error(request,"Unable to upload file. "+repr(e))
+			# 	messages.error(request,"Unable to upload file. " + repr(e))
+
+			
+			# return HttpResponseRedirect(reverse("user_mgmt:dashboard"))
 
 
 # template for error handling 

@@ -15,11 +15,13 @@
             <li class="collection-item"><h5><center><b>Looks like you haven't uploaded yet!&nbsp;&nbsp; </b></center></h5></li>
         {% endif %}
         {% for f in files %}
-            <li class="collection-item"><h6><b>File&nbsp;&nbsp;: </b>{{f.uploaded_file.url}}</h6></li>
+            <li class="collection-item"><h6><b>File&nbsp;&nbsp;: </b><a href="{{f.uploaded_file.url}}" >{{f.uploaded_file.name}}</a></h6></li>
+            
+  
         {% endfor %}
     </ul>
     <div class="center-align">
-            <a href="/upload" class="waves-effect red waves-yellow btn pulse" d><i class="material-icons left">file_upload</i><b>Upload new CSV</b></a>
+            <a href="/upload" class="waves-effect red waves-yellow btn pulse" ><i class="material-icons left">file_upload</i><b>Upload new CSV</b></a>
     </div>
     </div>
 </user_mgmt>
