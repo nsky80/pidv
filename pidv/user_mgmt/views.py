@@ -21,7 +21,7 @@ def homepage(request):
 def login_request(request):
     if request.user.is_authenticated:
         # return HttpResponse('<script>history.back();</script>')
-        return redirect("account")
+        return redirect("user_mgmt:account")
     if request.method == "POST":
         form = AuthenticationForm(request=request, data=request.POST)
         if form.is_valid():
@@ -32,7 +32,7 @@ def login_request(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}")
                 # return HttpResponse('<script>javascript:history.go(-2);</script>')
-                return redirect("/dashboard")
+                return redirect("user_mgmt:dashboard")
             else:
                 messages.error(request, "Invalid username or password!")
         else:
@@ -53,7 +53,7 @@ def logout_request(request):
 # For registering new user			 
 def register(request):
 	if request.user.is_authenticated:
-		return redirect("account")
+		return redirect("user_mgmt:account")
 	if request.method == "POST":
 		form = UserCreationForm(request.POST)
 		if form.is_valid():

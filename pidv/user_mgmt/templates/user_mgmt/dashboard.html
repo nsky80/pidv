@@ -15,7 +15,7 @@
             <li class="collection-item"><h5><center><b>Looks like you haven't uploaded yet!&nbsp;&nbsp; </b></center></h5></li>
         {% endif %}
         {% for f in files %}
-            <li class="collection-item"><h6><b>File&nbsp;&nbsp;: </b>{{f}}</h6></li>
+            <li class="collection-item"><h6><b>File&nbsp;&nbsp;: </b>{{f.uploaded_file.url}}</h6></li>
         {% endfor %}
     </ul>
     <div class="center-align">
