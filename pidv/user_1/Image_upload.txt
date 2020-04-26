@@ -1,0 +1,149 @@
+Settings.py>>
+	TEMPLATES = [
+    {
+		  'django.template.context_processors.media',]
+	}
+	
+	include>>
+		MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
+		MEDIA_URL= "/media/"
+	
+Models.py>>
+	class Hotel(models.Model): 
+	name = models.CharField(max_length=50) 
+	hotel_Main_Img = models.ImageField(upload_to='images/') 
+
+	def __str__(self):
+		return self.name
+		
+forms.py>>
+	from django import forms 
+	from .models import Hotel
+
+	class HotelForm(forms.ModelForm): 
+
+		class Meta: 
+			model = Hotel 
+			fields = ['name', 'hotel_Main_Img'] 
+
+views.py>>
+	def experiment(request):
+		if request.method == 'POST': 
+			form = HotelForm(request.POST, request.FILES) 
+	  
+			if form.is_valid(): 
+				form.save() 
+				return HttpResponse('success') 
+		else: 
+			form = HotelForm() 
+		return render(request=request, 
+					  template_name='main/experiment.html',
+					  context={'form' : form}
+					) 
+
+	def display_hotel_images(request): 
+	  
+		if request.method == 'GET': 
+			# getting all the objects of hotel. 
+			Hotels = Hotel.objects.all()  
+			return render(request, 'main/display_hotel_images.html', 
+						 {'hotel_images' : Hotels})
+
+
+URL.py>>
+	from django.conf import settings # for images handling
+	from django.conf.urls.static import static 
+
+	if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL,
+                              document_root=settings.MEDIA_ROOT)
+
+
+main html>>
+			<form method = "post" enctype="multipart/form-data"> 
+				{% csrf_token %} 
+				{{ form.as_p }} 
+				<button type="submit">Upload</button> 
+			</form> 
+			
+display image html>>
+	  
+    {% for hotel in hotel_images %} 
+            <div class="col-md-4"> 
+                    {{ hotel.name }} 
+                     <img src="{{ hotel.hotel_Main_Img.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" /> 
+                    {{ hotel.hotel_Main_Img.url }}
+            </div> 
+    {% endfor %} 
+	
+	
+to delete images too>>
+	#models.py
+ 
+	from django.db.models.signals import post_delete
+	from django.dispatch import receiver
+	 
+	 
+	class MyModel(models.Model):
+		"""Model containing file field"""
+		file = models.FileField(upload_to='somewhere', blank=False)
+		...
+	 
+	@receiver(post_delete, sender=MyModel)
+	def submission_delete(sender, instance, **kwargs):
+		instance.file.delete(False) 
+  
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <title>Hotel Images</title> 
+  
+      <meta name="viewport" content="width=device-width, initial-scale=1"> 
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> 
+      </script> 
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"> 
+      </script> 
+</head> 
+<body> 
+  
+    {% for hotel in hotel_images %} 
+            <div class="col-md-4"> 
+                    {{ hotel.essay_title }} 
+                     <img src="{{ hotel.essay_image.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" /> 
+             
+            </div> 
+    {% endfor %} 
+  
+</body> 
+</html> 
+
+
+    if request.method == 'POST': 
+        form = HotelForm(request.POST, request.FILES) 
+  
+        if form.is_valid(): 
+            form.save() 
+            return HttpResponse('success') 
+    else: 
+        form = HotelForm() 
+    return render(request=request, 
+				  template_name='main/experiment.html',
+				  context={'form' : form}
+				) 
+
+
+<div class="container">
+		<center><h2>Login Yourself!</h2></center>
+        <form method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <br>
+            <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Sign in</button>
+
+        </form>
+        <br>
+        If you don't have an account <a href="/register" class="waves-effect waves-light btn"><i class="material-icons left">
+        people</i>Register</a> instead.
+</div>

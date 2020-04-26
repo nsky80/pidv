@@ -1,5 +1,5 @@
 from django import forms 
-from .models import Feedback
+from .models import Feedback, Upload_csv
 # from django.contrib.flatpages.models import FlatPage
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
@@ -22,6 +22,14 @@ class FeedbackForm(forms.ModelForm):
     class Meta:
         model = Feedback
         fields = ('feedback_title', 'feedback_user_id', 'feedback_content')
+
+
+class Upload_csvForm(forms.ModelForm): 
+    class Meta: 
+        model = Upload_csv 
+        fields = [
+        'uploaded_file', 
+        ] 
 
 
 # This class is added only for testing purposes it will remove soon!

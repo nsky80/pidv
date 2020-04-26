@@ -27,7 +27,7 @@
     </style>
 </head>
 <body style="background-color: #eeeeee ;">
-  {% if request.path == '/account'  or request.path == '/dashboard' or request.path == '/account/edit_profile/'%}
+  {% if request.path == '/account'  or request.path == '/dashboard' or request.path == '/upload' or request.path == '/account/edit_profile/'%}
     {% include 'user_mgmt/includes/profile_navbar.html' %}
   {% else %}
     {% include 'user_mgmt/includes/navbar.html' %}

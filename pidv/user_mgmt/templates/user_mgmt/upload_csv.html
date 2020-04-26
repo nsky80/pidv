@@ -1,0 +1,22 @@
+    {% extends 'user_mgmt/header.html' %}
+    {% block title %} Upload new CSV File {% endblock %}
+    
+    {% block account %}
+    <user_mgmt>
+        <h1 class="center" style="margin-top: -10px;">	<center><h3><b>Upload New CSV file</b></h3></center></h1>
+        <div class="container hoverable" style="padding: 20px; background-color: white; margin-top: 10px;">
+            
+        <!-- <ul class="collection with-header"> -->
+            <form method="post" enctype="multipart/form-data"> 
+                {% csrf_token %} 
+                {{form.as_p}} 
+                <button type="submit" class="waves-effect red waves-yellow btn pulse"><i class="material-icons left">file_upload</i>Upload</button> 
+            </form> 
+        <!-- <div class="center-align">
+                <a href="/upload" class="waves-effect red waves-yellow btn pulse" d><i class="material-icons left">file_upload</i><b>Upload new CSV</b></a>
+        </div> -->
+        </div>
+    </user_mgmt>
+    <br>
+    <br>
+    {% endblock %}

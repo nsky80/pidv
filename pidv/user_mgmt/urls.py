@@ -15,5 +15,6 @@ urlpatterns = [
     path('contribute', views.contribute, name="contribute"),
     path('feedback', views.feedback, name="feedback"),
     path('community', views.community, name="community"),
+    path('upload', views.upload_csv_file, name="upload"),
     path('<slug>', views.under_construction, name="under_construction"),
 ]

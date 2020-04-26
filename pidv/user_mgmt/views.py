@@ -5,8 +5,9 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django.contrib.sessions.models import Session
 from django.utils import timezone
-from .forms import EditProfileForm, ContactForm, FeedbackForm
+from .forms import EditProfileForm, ContactForm, FeedbackForm, Upload_csvForm
 from django.contrib.auth.models import User		# for community tab purpose
+from .models import Upload_csv
 # Create your views here.
 
 
@@ -161,6 +162,29 @@ def help(request):
 
 def contribute(request):
 	return render(request=request, template_name="user_mgmt/contribute.html")
+
+ 
+ # This handles uploading of file
+# def usblog(request): 
+#     snipps = Snippet.objects.all() 
+#     return render(request, 'indexg.html', {'snipps' : snipps}) 
+
+
+def upload_csv_file(request): 
+    form = Upload_csvForm(request.POST or None, request.FILES or None) 
+    if request.method =='POST': 
+          
+        if form.is_valid(): 
+              
+            obj = form.save(commit = False) 
+            obj.user = request.user
+            obj.save() 
+            form = Upload_csvForm() 
+            messages.success(request, "File Successfully uploaded!") 
+          
+  
+    return render(request, 'user_mgmt/upload_csv.html', {'form':form}) 
+
 
 
 # template for error handling 
