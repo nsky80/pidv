@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
@@ -207,6 +207,8 @@ def open_csv(request, username, filename):
 		if "user_" + str(request.user.id) == username:
 			messages.success(request, request.get_full_path())
 			return render(request=request, template_name="user_mgmt/experiment.html")
+	else:
+		raise Http404
 
 			# try:
 			# 	csv_file = request.FILES[request.get_full_path()]
