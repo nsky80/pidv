@@ -33,6 +33,7 @@ class Upload_csv(models.Model):
 					) 
 
 	uploaded_file = models.FileField(upload_to=user_directory_path)
+	uploaded_on = models.DateTimeField("Feedback Time", default=timezone.now)
 	class Meta:
 		verbose_name_plural = "Upload_CSV"
 	
