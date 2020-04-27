@@ -4,12 +4,12 @@
 {% block account %}
        
 <user_mgmt>
-    <h1 class="center" style="margin-top: -10px;">	<center><h1><b>Edit Your Profile</b></h1></center></h1>
+    <h1 class="center" style="margin-top: -10px;">	<center><h2><b>Edit Your Profile</b></h2></center></h1>
     <div class="container hoverable" style="padding: 20px; background-color: white; margin-top: 10px;">
          <form method="POST">
             {% csrf_token %}
             {{form.as_p}}
-            <button class="btn waves-effect waves-light" type="submit" name="action"><b>Submit
+            <button class="btn waves-effect teal darken-4 waves-light" type="submit" name="action"><b>Submit
                 </b><i class="material-icons right">send</i>
             </button>
         </form>

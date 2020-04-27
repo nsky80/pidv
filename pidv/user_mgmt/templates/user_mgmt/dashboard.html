@@ -3,28 +3,39 @@
 
 {% block account %}
 <user_mgmt>
-    <h1 class="center" style="margin-top: -10px;">	<center><h3><b>{{user.username}}'s Dashboard</b></h3></center></h1>
+    <h1 class="center" style="margin-top: -10px;">	<center><h2><b>{{user.username}}'s Dashboard</b></h2></center></h1>
     <div class="container hoverable" style="padding: 20px; background-color: white; margin-top: 10px;">
-        
-    <!-- <ul class="collection with-header"> -->
-    <ul class="collection">
-        <!-- <li class="collection-header"><h4>First Names</h4></li> -->
-        {% if files %}
-            <li class="collection-item"><h5><center><b>Your Uploaded Files&nbsp;&nbsp; </b></center></h5></li>
-        {% else %}
-            <li class="collection-item"><h5><center><b>Looks like you haven't uploaded yet!&nbsp;&nbsp; </b></center></h5></li>
-        {% endif %}
-        {% for f in files %}
-            <li class="collection-item"><h6><b>File&nbsp;&nbsp;: </b><a href="{{f.uploaded_file.url}}" >{{f.uploaded_file.name}}</a></h6></li>
-            
-  
-        {% endfor %}
-    </ul>
-    <div class="center-align">
-            <a href="/upload" class="waves-effect red waves-yellow btn" ><i class="material-icons left">file_upload</i><b>Upload new Data File</b></a>
-    </div>
+
+        <ul class="collapsible">
+            {% if files %}
+                <li class="collection-item"><h5><center><b>Your Uploaded Files&nbsp;&nbsp; </b></center></h5></li>
+            {% else %}
+                <li class="collection-item"><h5><center><b>Looks like you haven't uploaded yet!&nbsp;&nbsp; </b></center></h5></li>
+            {% endif %}
+            <hr>
+            {% for f in files %}
+                <li>
+                    <div class="collapsible-header"><h6><b>File&nbsp;&nbsp;:&nbsp </b><h6 style="color:cornflowerblue">{{f.uploaded_file.name}}</h6></div>
+                    <div class="collapsible-body">
+                        <!-- <span>Lorem ipsum dolor sit amet.</span> -->
+                        <span>
+                            <center>
+                                <a href="{{f.uploaded_file.url}}" class="waves-effect waves-light btn"><i class="material-icons left">open_in_browser</i>Open</a>
+                                <a class="waves-effect waves-light btn green"><i class="material-icons left">cached</i>Preprocess</a>
+                                <a class="waves-effect waves-light btn red"><i class="material-icons left">delete</i>Delete</a>
+                            </center>
+                        </span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="center-align">
+                <a href="/upload" class="waves-effect teal darken-4 waves-yellow btn" ><i class="material-icons left">file_upload</i><b>Upload new Data File</b></a>
+        </div>
     </div>
 </user_mgmt>
 <br>
 <br>
 {% endblock %}
+        
