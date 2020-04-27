@@ -152,22 +152,31 @@ def community(request):
 		return redirect("/login")
 				 
  
- # This handles uploading of file
-
+ # This handles uploading of csv file
 def upload_csv_file(request): 
 	if request.user.is_authenticated:
-		form = Upload_csvForm(request.POST or None, request.FILES or None) 
 		if request.method =='POST': 
-			
+			form = Upload_csvForm(request.POST or None, request.FILES or None) 
 			if form.is_valid(): 
-				
 				obj = form.save(commit = False) 
-				obj.user = request.user
-				obj.save() 
-				form = Upload_csvForm() 
-				messages.success(request, "File Successfully uploaded!") 
-				return redirect("/dashboard")
-
+				# checking whether file extension is csv or not
+				uploaded_file_name = obj.uploaded_file.name
+				if uploaded_file_name.endswith('.csv') or uploaded_file_name.endswith('.xls') or uploaded_file_name.endswith('.xlsx') or uploaded_file_name.endswith('.xltx'):
+					# if obj.uploaded_file.multiple_chunks():
+					# checking whether file is too large or not
+					file_size = obj.uploaded_file.size/(1000*1000)
+					if int(file_size) > 2:
+						messages.error(request,"Uploaded file is too big (%.2f MB)." % (file_size),)
+						return HttpResponseRedirect(reverse("user_mgmt:upload"))
+					else:
+						obj.user = request.user
+						obj.save() 
+						messages.success(request, "File Successfully uploaded!") 
+						return redirect("/dashboard")
+				else:
+					messages.error(request, "Upload CSV files only!")
+					return HttpResponseRedirect(reverse("user_mgmt:upload"))
+		form = Upload_csvForm()
 		return render(request, 'user_mgmt/upload_csv.html', {'form':form}) 
 	else:
 		messages.error(request, "Login of Signup First!")
@@ -194,21 +203,13 @@ def contribute(request):
 
 def open_csv(request, username, filename):
 	if request.user.is_authenticated:
+		# checking whether user is opening its own file or not
 		if "user_" + str(request.user.id) == username:
-			# messages.error(request, str(request.user.id) + " " + str(username))
 			messages.success(request, request.get_full_path())
 			return render(request=request, template_name="user_mgmt/experiment.html")
 
 			# try:
 			# 	csv_file = request.FILES[request.get_full_path()]
-			# 	if not csv_file.name.endswith('.csv'):
-			# 		messages.error(request,'File is not CSV type')
-			# 		# return HttpResponseRedirect(reverse("open_csv:upload_csv"))
-			# 		return redirect("user_mgmt:dashboard")
-			# 	#if file is too large, return
-			# 	if csv_file.multiple_chunks():
-			# 		messages.error(request,"Uploaded file is too big (%.2f MB)." % (csv_file.size/(1000*1000),))
-			# 		return HttpResponseRedirect(reverse("user_mgmt:dashboard"))
 			# 	df = pd.read_csv(csv_file)
 			# 	messages.success(request, type(df))
 			# 	data = df.to_json(orient='split')
@@ -218,8 +219,6 @@ def open_csv(request, username, filename):
 			# 	# logging.getLogger("error_logger").error("Unable to upload file. "+repr(e))
 			# 	# messages.error(request,"Unable to upload file. "+repr(e))
 			# 	messages.error(request,"Unable to upload file. " + repr(e))
-
-			
 			# return HttpResponseRedirect(reverse("user_mgmt:dashboard"))
 
 
