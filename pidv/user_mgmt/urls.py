@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from user_mgmt import views, module2_views
 
 app_name = "user_mgmt"
 
@@ -16,6 +16,6 @@ urlpatterns = [
     path('feedback', views.feedback, name="feedback"),
     path('community', views.community, name="community"),
     path('upload', views.upload_csv_file, name="upload"),
-    path('media/<str:username>/<str:filename>', views.open_csv, name="open_csv"),
+    path('media/<str:username>/<str:filename>', module2_views.open_data_file, name="open_data_file"),
     path('<slug>', views.under_construction, name="under_construction"),
 ]
