@@ -17,5 +17,6 @@ urlpatterns = [
     path('community', views.community, name="community"),
     path('upload', views.upload_csv_file, name="upload"),
     path('media/<str:username>/<str:filename>', module2_views.open_data_file, name="open_data_file"),
+    path('media/<str:username>/<str:filename>/download', module2_views.download_file, name="download_file"),
     path('<slug>', views.under_construction, name="under_construction"),
 ]

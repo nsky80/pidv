@@ -8,23 +8,32 @@
 
         <ul class="collapsible">
             {% if files %}
-                <li class="collection-item"><h5><center><b>Your Uploaded Files&nbsp;&nbsp; </b></center></h5></li>
+                <li class="collection-item">
+                    <li style="font-size: 30px;margin: 10px;"><i class="material-icons left" style="font-size: 40px;">folder_open</i>Your Uploaded Data Files</li>
+                    <!-- <h5 class="center"><b><i class="material-icons" style="font-size: 40px;">folder_open</i>&nbsp;&nbsp;Your Uploaded Files&nbsp;&nbsp; </b></h5> -->
+                </li>
             {% else %}
                 <li class="collection-item"><h5><center><b>Looks like you haven't uploaded yet!&nbsp;&nbsp; </b></center></h5></li>
             {% endif %}
             <hr>
             {% for f in files %}
                 <li>
-                    <div class="collapsible-header"><h6><b>File&nbsp;&nbsp;:&nbsp </b><h6 style="color:cornflowerblue">{{f.uploaded_file.name}}</h6></div>
+                    <div class="collapsible-header">
+                        <h6>
+                            <b>File&nbsp;&nbsp;:&nbsp </b></h6>
+                            <h6 style="color:cornflowerblue">{{f.uploaded_file.name}}</h6>
+                    </div>
                     <div class="collapsible-body">
                         <!-- <span>Lorem ipsum dolor sit amet.</span> -->
                         <span>
                             <center>
-                                <h6>Uploaded on:&nbsp; {{f.uploaded_on}}</h6>
+                                <h6><b>Uploaded on:</b>&nbsp; {{f.uploaded_on}}</h6>
+                                <h6><b>Size&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp; {{f.uploaded_file.size}}Bytes</h6>
                             </center>
                             <br>
                             <center>
                                 <a href="{{f.uploaded_file.url}}" class="waves-effect waves-light btn"><i class="material-icons left">open_in_browser</i>Open</a>
+                                <a href="{{f.uploaded_file.url}}/download" class="waves-effect blue waves-light btn"><i class="material-icons left">file_download</i>Download</a>
                                 <a class="waves-effect waves-light btn green"><i class="material-icons left">cached</i>Preprocess</a>
                                 <a class="waves-effect waves-light btn red"><i class="material-icons left">delete</i>Delete</a>
                             </center>

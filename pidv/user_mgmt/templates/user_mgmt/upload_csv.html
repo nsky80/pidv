@@ -3,7 +3,7 @@
     
     {% block account %}
     <user_mgmt>
-        <h1 class="center" style="margin-top: -10px;">	<center><h3><b>Upload New CSV file</b></h3></center></h1>
+        <h1 class="center" style="margin-top: -10px;">	<center><h3><b>Upload New CSV File!</b></h3></center></h1>
         <div class="container hoverable" style="padding: 20px; background-color: white; margin-top: 10px;">
             
         <!-- <ul class="collection with-header"> -->
@@ -11,6 +11,7 @@
                 {% csrf_token %} 
                 {{form.as_p}} 
                 <button type="submit" class="waves-effect teal darken-4 waves-yellow btn"><i class="material-icons left">file_upload</i>Upload</button> 
+                <b>Currently we are supporting maximum upload size of 2MB.</b>
             </form> 
         <!-- <div class="center-align">
                 <a href="/upload" class="waves-effect red waves-yellow btn pulse" d><i class="material-icons left">file_upload</i><b>Upload new CSV</b></a>
