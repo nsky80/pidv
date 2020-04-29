@@ -4,9 +4,12 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from user_mgmt.models import Upload_csv
 # import json
 import pandas as pd
-import csv
+# import csv
 import os
 from django.conf import settings
+from user_mgmt.module3 import datatable_converter
+
+
 
 # This function used to 
 def open_data_file(request, username, filename):
@@ -22,9 +25,12 @@ def open_data_file(request, username, filename):
                     df = pd.read_csv(file_obj.uploaded_file)
                 else:
                     df = pd.read_excel(file_obj.uploaded_file)
-                json_data = df.to_json(orient='split')
-                dict_data = df.to_dict('list')
-                return render(request, template_name="module2_html/open_data_file.html", context={"json_data":json_data, "dict_data":dict_data})
+                datatable = datatable_converter.converter(df)
+                # json_data = df.to_json(orient='split')
+                # dict_data = df.to_dict('list')
+                # return render(request, template_name="module2_html/open_data_file.html", context={"json_data":json_data, "dict_data":dict_data})
+                return render(request, template_name="module2_html/open_data_file.html", context={"data_file": datatable})
+
             except Exception as ex:
                 messages.error(request, ex)
                 return HttpResponseRedirect(reverse("user_mgmt:dashboard"))        
@@ -46,3 +52,10 @@ def download_file(request, username, filename):
                 messages.error(request, ex)
                 return HttpResponseRedirect(reverse("user_mgmt:dashboard"))        
     raise Http404
+
+
+# This function handles the preprocessing of Dataset
+def preprocess(request, username, filename):
+    if request.user.is_authenticated:
+        if "user_" + str(request.user.id) == username:
+            return render(request, template_name='module2_html/preprocess.html')
