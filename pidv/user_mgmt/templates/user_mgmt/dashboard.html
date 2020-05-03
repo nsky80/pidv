@@ -35,18 +35,31 @@
                                 <a href="{{f.uploaded_file.url}}" class="waves-effect waves-light btn"><i class="material-icons left">open_in_browser</i>Open</a>
                                 <a href="{{f.uploaded_file.url}}/download" class="waves-effect blue waves-light btn"><i class="material-icons left">file_download</i>Download</a>
                                 <a href="{{f.uploaded_file.url}}/preprocess" class="waves-effect waves-light btn green"><i class="material-icons left">cached</i>Preprocess</a>
-                                <a class="waves-effect waves-light btn red"><i class="material-icons left">delete</i>Delete</a>
+                                <a href="#modal_delete" class="waves-effect waves-light btn red modal-trigger"><i class="material-icons left">delete</i>Delete</a>
                             </center>
                         </span>
                     </div>
                 </li>
+                                <!-- Modal for deleting content Structure -->
+                <div id="modal_delete" class="modal">
+                    <div class="modal-content" style="color: black">
+                    <h3 class="center">Are you sure?</h3>
+                    <p>Once you delete this file then it is not recoverable, make sure you have downloaded it.</p>
+                    </div>
+                    <div class="modal-footer">
+                    <a href="#" class="modal-close waves-effect green btn"><i class="material-icons left">arrow_back</i>Go Back</a>
+                    <a href="{{f.uploaded_file.url}}/delete_file" class="waves-effect waves-light btn red"><i class="material-icons left">delete</i><b>Delete permanently</b></a>
+                    </div>
+                </div>
             {% endfor %}
         </ul>
 
         <div class="center-align">
                 <a href="/upload" class="waves-effect teal darken-4 waves-yellow btn" ><i class="material-icons left">file_upload</i><b>Upload new Data File</b></a>
         </div>
+
     </div>
+
 </user_mgmt>
 <br>
 <br>

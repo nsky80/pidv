@@ -54,6 +54,22 @@ def download_file(request, username, filename):
     raise Http404
 
 
+def delete_data_file(request, username, filename):
+    if request.user.is_authenticated:
+		# checking whether user is opening its own file or not
+        if "user_" + str(request.user.id) == username:
+            # messages.success(request, username)
+            try:
+                file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
+                # instance.delete()
+                file_obj.delete()
+                messages.success(request, "File Deleted Successfully!")
+                return HttpResponseRedirect(reverse("user_mgmt:dashboard"))
+            except Exception as ex:
+                messages.error(request, ex)
+                return HttpResponseRedirect(reverse("user_mgmt:dashboard"))        
+    raise Http404
+
 # This function handles the preprocessing of Dataset
 def preprocess(request, username, filename):
     if request.user.is_authenticated:

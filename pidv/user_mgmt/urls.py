@@ -20,5 +20,6 @@ urlpatterns = [
     path('media/<str:username>/<str:filename>', module2_views.open_data_file, name="open_data_file"),
     path('media/<str:username>/<str:filename>/download', module2_views.download_file, name="download_file"),
     path('media/<str:username>/<str:filename>/preprocess', module2_views.preprocess, name='preprocess'),
+    path('media/<str:username>/<str:filename>/delete_file', module2_views.delete_data_file, name='delete_file'),
     path('<slug>', views.under_construction, name="under_construction"),
 ]
