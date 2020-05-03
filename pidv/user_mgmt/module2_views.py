@@ -7,7 +7,7 @@ import pandas as pd
 # import csv
 import os
 from django.conf import settings
-from user_mgmt.module3 import datatable_converter
+from user_mgmt.module3 import datatable_table_creator
 
 
 
@@ -25,7 +25,7 @@ def open_data_file(request, username, filename):
                     df = pd.read_csv(file_obj.uploaded_file)
                 else:
                     df = pd.read_excel(file_obj.uploaded_file)
-                datatable = datatable_converter.converter(df)
+                datatable = datatable_table_creator.converter(df)
                 # json_data = df.to_json(orient='split')
                 # dict_data = df.to_dict('list')
                 # return render(request, template_name="module2_html/open_data_file.html", context={"json_data":json_data, "dict_data":dict_data})
