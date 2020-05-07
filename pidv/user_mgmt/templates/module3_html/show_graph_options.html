@@ -14,8 +14,29 @@
               </div>
             <!-- </div> -->
     <!-- </nav> -->
-
+    <!-- This is for Pie chart option -->
     <div class="row">
+        <!-- size 6 on a large screen, 12 on a small, 6 on a med -->
+            <div class="col s12 m6 l6">
+                <a href="{{ request.path }}/pie_chart" class="waves-effect waves-light" style="color:#000">
+                    <div class="card-panel hoverable" style="height:470px; background-color:#FFFFFF;">
+                        <div class="card-image">
+                            <img class="responsive-img" src="{% static 'module3_static/pie_chart.png' %}" style="width:400px;height: 280px;">
+                            <br><span class="card-title"><h6><b>Pie Chart</b></h6></span>
+                        </div>
+                        <div class="card-content">
+                            <p>Draw a pie chart</p>
+                        </div>
+                        <div class="card-action center-align">
+                            <a href="{{ request.path }}/pie_chart" class="waves-effect teal darken-4 waves-light btn"><b>Checkout Graph</b></a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+ 
+
+
+    <!-- Option for another graph Coming soon -->
 
         <!-- size 6 on a large screen, 12 on a small, 6 on a med -->
             <div class="col s12 m6 l6">
@@ -33,7 +54,8 @@
                         </div>
                     </div>
                 </a>
-            </div>
+            </div>          
     </div>
+
 </div>
 {% endblock %}

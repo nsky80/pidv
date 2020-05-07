@@ -27,6 +27,8 @@ def pie_chart(request, username, filename):
                     df = pd.read_csv(file_obj.uploaded_file)
                 else:
                     df = pd.read_excel(file_obj.uploaded_file)
+                row1 = "Name"
+                row2 = "chemistry"
                 pie_graph = pie_chart_creator.draw_pie_chart(df, row1, row2)
                 return render(request, template_name="module3_html/draw_pie_chart.html", context={"graph": pie_graph})
 
