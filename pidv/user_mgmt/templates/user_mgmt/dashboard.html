@@ -26,17 +26,56 @@
                     <div class="collapsible-body">
                         <!-- <span>Lorem ipsum dolor sit amet.</span> -->
                         <span>
-                            <center>
-                                <h6><b>Uploaded on:</b>&nbsp; {{f.uploaded_on}}</h6>
-                                <h6><b>Size&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp; {{f.uploaded_file.size}}Bytes</h6>
-                            </center>
-                            <br>
-                            <center>
-                                <a href="{{f.uploaded_file.url}}" class="waves-effect waves-light btn"><i class="material-icons left">open_in_browser</i>Open</a>
-                                <a href="{{f.uploaded_file.url}}/download" class="waves-effect blue waves-light btn"><i class="material-icons left">file_download</i>Download</a>
-                                <a href="{{f.uploaded_file.url}}/preprocess" class="waves-effect waves-light btn green"><i class="material-icons left">cached</i>Preprocess</a>
-                                <a href="#modal_delete" class="waves-effect waves-light btn red modal-trigger"><i class="material-icons left">delete</i>Delete</a>
-                            </center>
+                            <table class="striped">
+                                <thead>
+                                  <tr>
+                                      <th>Name/Action</th>
+                                      <th>Description</th>
+
+                                  </tr>
+                                </thead>
+                        
+                                <tbody>
+                                  <tr>
+                                    <td><b>Uploaded on :</b></td>
+                                    <td>{{f.uploaded_on}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Size :</b></td>
+                                    <td>{{f.uploaded_file.size}} Bytes</td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                        <a href="{{f.uploaded_file.url}}" class="waves-effect waves-light btn"><i class="material-icons left">open_in_browser</i>Open</a>
+                                      </td>
+                                      <td>View your data</td>
+                                  </tr>
+                                <tr>
+                                    <td>
+                                        <a href="{{f.uploaded_file.url}}/preprocess" class="waves-effect waves-light btn green"><i class="material-icons left">cached</i>Preprocess</a>
+                                    </td>
+                                    <td>Preprocess your data</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="{{f.uploaded_file.url}}/visualize" class="waves-effect pink darken-4 waves-light btn"><i class="material-icons left">insert_chart</i>Visualize</a>
+                                    </td>
+                                    <td>Visualize the Data</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="{{f.uploaded_file.url}}/download" class="waves-effect blue waves-light btn"><i class="material-icons left">file_download</i>Download</a>
+                                    </td>
+                                    <td>Download Current File</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#modal_delete" class="waves-effect waves-light btn red modal-trigger"><i class="material-icons left">delete</i>Delete</a>
+                                    </td>
+                                    <td>Delete this file</td>
+                                </tr>
+                                </tbody>
+                              </table>
                         </span>
                     </div>
                 </li>

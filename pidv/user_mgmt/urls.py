@@ -1,5 +1,5 @@
 from django.urls import path
-from user_mgmt import views, module2_views
+from user_mgmt import views, module2_views, module3_views
 
 app_name = "user_mgmt"
 
@@ -21,5 +21,7 @@ urlpatterns = [
     path('media/<str:username>/<str:filename>/download', module2_views.download_file, name="download_file"),
     path('media/<str:username>/<str:filename>/preprocess', module2_views.preprocess, name='preprocess'),
     path('media/<str:username>/<str:filename>/delete_file', module2_views.delete_data_file, name='delete_file'),
+    path('media/<str:username>/<str:filename>/visualize', module3_views.show_graph_options, name='show_graph_options'),
+
     path('<slug>', views.under_construction, name="under_construction"),
 ]

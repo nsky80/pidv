@@ -1,0 +1,39 @@
+{% extends 'user_mgmt/header.html' %}
+{% block title %}Cateogry of Graphs!{% endblock %}
+{% block content %}
+{% load static %}
+<div class="container style="max-width:1500px; min-height:100%">
+    <br>
+    <!-- <nav class="brown darken-1"> -->
+            <!-- <div class="nav-wrapper"> -->
+              <div class="col s12" style="font-size: 130%">
+                <a href="javascript:history.go(-1);" class="waves-effect teal darken-4 waves-light btn tooltipped" data-position="bottom" data-tooltip="Go Back"><i class="material-icons left">arrow_back</i>Go back</a>
+                <!-- <a href="javascript:history.go(0);" class="tooltipped" data-position="bottom" data-tooltip="Go Back">&nbsp;<b>All Category</b>&nbsp;&nbsp;></a> -->
+                <center><h2>Choose Appropriate Graph</h2></center>
+
+              </div>
+            <!-- </div> -->
+    <!-- </nav> -->
+
+    <div class="row">
+
+        <!-- size 6 on a large screen, 12 on a small, 6 on a med -->
+            <div class="col s12 m6 l6">
+                <a href="#" class="waves-effect waves-light" style="color:#000">
+                    <div class="card-panel hoverable" style="height:470px; background-color:#FFFFFF;">
+                        <div class="card-image">
+                            <img class="responsive-img" src="{% static 'user_mgmt/images/back3.png' %}" style="width:400px;height: 280px;">
+                            <br><span class="card-title"><h6><b>Pie Chart</b></h6></span>
+                        </div>
+                        <div class="card-content">
+                            <p>Draw a pie chart</p>
+                        </div>
+                        <div class="card-action center-align">
+                            <a href="#" class="waves-effect teal darken-4 waves-light btn"><b>Checkout Graph</b></a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+    </div>
+</div>
+{% endblock %}
