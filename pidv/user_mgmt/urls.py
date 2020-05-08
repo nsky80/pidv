@@ -23,6 +23,8 @@ urlpatterns = [
     path('media/<str:username>/<str:filename>/delete_file', module2_views.delete_data_file, name='delete_file'),
     path('media/<str:username>/<str:filename>/visualize', module3_views.show_graph_options, name='show_graph_options'),
     path('media/<str:username>/<str:filename>/visualize/pie_chart', module3_views.pie_chart, name='pie_chart'),
+    # path('media/<str:username>/<str:filename>/visualize/pie_chart1', module3_views.pie_chart1, name='pie_chart1'),
+
 
     path('<slug>', views.under_construction, name="under_construction"),
 ]

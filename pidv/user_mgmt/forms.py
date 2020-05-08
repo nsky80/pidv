@@ -32,6 +32,25 @@ class Upload_csvForm(forms.ModelForm):
         ] 
 
 
+class ColumnSelectionForm(forms.Form):
+
+    # col1 = forms.ModelChoiceField(queryset=None)
+    # col2 = forms.ModelChoiceField(queryset=None)
+
+    def __init__(self, string_type, numeric_type, *args,**kwargs):
+        # self.string_type = string_type
+        # self.numeric_type = numeric_type
+        super(ColumnSelectionForm, self).__init__(*args,**kwargs)
+        self.fields['col1'].widget = forms.Select(choices=string_type)
+        self.fields['col2'].widget = forms.Select(choices=numeric_type)
+
+    # height = forms.CharField()
+    col1 = forms.CharField(label="String Columns" )
+    col2 = forms.CharField(label="Numeric Columns")
+
+
+
+
 # This class is added only for testing purposes it will remove soon!
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=30)

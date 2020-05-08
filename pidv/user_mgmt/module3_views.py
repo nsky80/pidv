@@ -3,11 +3,12 @@ from django.shortcuts import render, redirect, reverse
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from user_mgmt.models import Upload_csv
 # import json
+from user_mgmt.forms import ColumnSelectionForm
 import pandas as pd
 # import csv
 # import os
 from django.conf import settings
-from user_mgmt.module3 import pie_chart_creator
+from user_mgmt.module3 import pie_chart_creator, general_tools
 
 
 def show_graph_options(request, username, filename):
@@ -18,21 +19,34 @@ def pie_chart(request, username, filename):
     if request.user.is_authenticated:
 		# checking whether user is opening its own file or not
         if "user_" + str(request.user.id) == username:
-            # messages.success(request, username)
             try:
                 file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
-
-                # csv_file = file_obj.uploaded_file
                 if file_obj.uploaded_file.name.endswith('csv'):
                     df = pd.read_csv(file_obj.uploaded_file)
                 else:
                     df = pd.read_excel(file_obj.uploaded_file)
-                row1 = "Name"
-                row2 = "chemistry"
-                pie_graph = pie_chart_creator.draw_pie_chart(df, row1, row2)
-                return render(request, template_name="module3_html/draw_pie_chart.html", context={"graph": pie_graph})
+                # it returns the header of csv along with datatype. eg.('Name', 'string'), ('physics', 'number')
+                schema = general_tools.description_creator(df)
+                string_type = [('0', 'Select String Type')]
+                numeric_type = [('0', 'Select Numeric Type')]
+                for data_ in schema:
+                    if data_[1] == 'string':
+                        string_type.append((str(len(string_type)), data_[0]))
+                    elif data_[1] == 'number':
+                        numeric_type.append((str(len(numeric_type)), data_[0]))
+                    else:
+                        pass
+                if request.method == 'POST':
+                    form = ColumnSelectionForm(string_type, numeric_type, request.POST)
+                    if form.is_valid():
+                        col1 = string_type[int(form.cleaned_data.get('col1'))][1]
+                        col2 = numeric_type[int(form.cleaned_data.get('col2'))][1]
+                        pie_graph = pie_chart_creator.draw_pie_chart(df, col1, col2)
+                        return render(request, template_name="module3_html/draw_pie_chart.html", context={"graph": pie_graph})
 
+                form = ColumnSelectionForm(string_type, numeric_type)
+                return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form})
             except Exception as ex:
                 messages.error(request, ex)
-                return HttpResponseRedirect(reverse("user_mgmt:dashboard"))        
+                return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form})
     raise Http404

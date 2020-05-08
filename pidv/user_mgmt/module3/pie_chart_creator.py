@@ -28,8 +28,8 @@ pie_chart_template = """
 
 // Set chart options
       var options = {'title':'Pie Chart for given columns',
-                     'width':400,
-                     'height':300};
+                     'width':700,
+                     'height':500};
 
       // Instantiate and draw our chart, passing in some options.
       var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
@@ -56,14 +56,13 @@ def draw_pie_chart(original_df, row1, row2, flag=False):
         columns_ = list(df.columns)
         data_table = general_tools.create_datatable(df)
 
-#         print("Content-type: text/plain")
-#         print(data_table.ToJSon(columns_order=columns_,
-#                                    order_by=columns_[0]))
+    #         print("Content-type: text/plain")
+    #         print(data_table.ToJSon(columns_order=columns_,
+    #                                    order_by=columns_[0]))
         json_data = data_table.ToJSon(columns_order=columns_,
-                               order_by=columns_[0])
+                                order_by=columns_[0])
         return pie_chart_template % vars()
     except KeyError:
         raise Exception("Either this column doesn't exist or you have entered wrong column!")
     except Exception as ex:
         raise Exception(ex)
-    
