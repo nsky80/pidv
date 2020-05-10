@@ -57,7 +57,19 @@ class ColumnSelectionForm(forms.Form):
     col2 = forms.CharField(label="Numeric Columns")
 
 
+class LineChartColumnSelectionForm(forms.Form):
 
+    def __init__(self, numeric_type1, numeric_type2, numeric_type3, numeric_type4, *args,**kwargs):
+        super(LineChartColumnSelectionForm, self).__init__(*args,**kwargs)
+        self.fields['col1'].widget = forms.Select(choices=numeric_type1)
+        self.fields['col2'].widget = forms.Select(choices=numeric_type2)
+        self.fields['col3'].widget = forms.Select(choices=numeric_type3)
+        self.fields['col4'].widget = forms.Select(choices=numeric_type4)
+
+    col1 = forms.CharField(label="First Numeric Columns" )
+    col2 = forms.CharField(label="Second Numeric Columns")
+    col3 = forms.CharField(label="Third Numeric Columns" )
+    col4 = forms.CharField(label="Fourth Numeric Columns")
 
 # This class is added only for testing purposes it will remove soon!
 class ContactForm(forms.Form):

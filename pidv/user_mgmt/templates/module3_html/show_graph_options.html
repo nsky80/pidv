@@ -40,17 +40,17 @@
 
         <!-- size 6 on a large screen, 12 on a small, 6 on a med -->
             <div class="col s12 m6 l6">
-                <a href="#" class="waves-effect waves-light" style="color:#000">
+                <a href="{{ request.path }}/line_chart" class="waves-effect waves-light" style="color:#000">
                     <div class="card-panel hoverable" style="height:470px; background-color:#FFFFFF;">
                         <div class="card-image">
                             <img class="responsive-img" src="{% static 'user_mgmt/images/back3.png' %}" style="width:400px;height: 280px;">
-                            <br><span class="card-title"><h6><b>Pie Chart</b></h6></span>
+                            <br><span class="card-title"><h6><b>Line Chart</b></h6></span>
                         </div>
                         <div class="card-content">
-                            <p>Draw a pie chart</p>
+                            <p>Draw a line chart</p>
                         </div>
                         <div class="card-action center-align">
-                            <a href="#" class="waves-effect teal darken-4 waves-light btn"><b>Checkout Graph</b></a>
+                            <a href="{{ request.path }}/line_chart" class="waves-effect teal darken-4 waves-light btn"><b>Checkout Graph</b></a>
                         </div>
                     </div>
                 </a>
