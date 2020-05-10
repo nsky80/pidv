@@ -1,39 +1,36 @@
-{% extends 'user_mgmt/header_form.html' %}
+{% extends 'user_mgmt/header.html' %}
     {% block title %}Register | SignUp & Upload Your Own Dataset{% endblock %}
 
-    {% block content %}
+{% block content %}
+  {% load static %}
+ 
+  <div class="section"></div>
+<user_mgmt >
+  <center>
+    <h5 class="indigo-text"><b>Create New Account</b></h5>
+    <br>
+    <div class="container">
+      <div class="z-depth-1 grey lighten-4 row"
+        style="display: inline-block; padding: 32px 50px 10px 50px; border: 5px solid #004d40;">
 
-        
+        <form class="col s12" method="post" style="text-align: left;">
 
-        {% load static %}
-        <!-- Slide 2 (#55) -->
-<section class="slide fade-6 kenBurns">
-        <div class="content">
-          <div class="container">
-            <div class="wrap">
-      
-              <div class="form-55">
-                <div class="pad shadow left selected ae-3">
-                      <form method="post">
-                              {% csrf_token %}
-                              {{ form.as_p}}
-      <input type="submit" class="button wide blue gradient ae-10 margin-top-2 cropBottom" value="Register">
-                 
-                      </form>
-                      <br>
-                      If you already have an account <a href="/login" class="waves-effect waves-light btn orange darken-4">
-                      <i class="material-icons left">group_work</i><b>Login</b></a> instead.
-                </div>
-              </div>
-              
+          {% csrf_token %}
+          {{ form.as_p}}
+
+          <br>
+          <center>
+            <div class='row'>
+              <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>Register</button>
             </div>
-          </div>
-        </div>  
-        <!-- <div class="background" style="background-image:url(assets/img/background/img-55.jpg)"></div> -->
-        <div class="background" style="background-image:url({% static 'user_mgmt/images/back1.png' %})"></div>
-      
-      </section>
-      
-
-
+          </center>
+        </form>
+      </div>
+    </div>
+    <h6 class="indigo-text">
+    If you already have an account <a href="/login" class="waves-effect waves-light btn orange darken-4">
+      <i class="material-icons left">group_work</i><b>Login</b></a> instead.</h6>
+  </center>
+</user_mgmt>
+<br>
     {% endblock %}

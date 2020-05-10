@@ -1,40 +1,44 @@
-{% extends 'user_mgmt/header_form.html' %}
-    {% block title %}Login | Authorize Yourself and Explore!{% endblock %}
+{% extends 'user_mgmt/header.html' %}
+{% block title %}Login | Authorize Yourself and Explore!{% endblock %}
 
 {% block content %}
-
-
-
 {% load static %}
 
-<!-- Slide 2 (#55) -->
-<section class="slide fade-6 kenBurns">
-  <div class="content">
+<div class="section"></div>
+<user_mgmt>
+  <center>
+    <h5 class="indigo-text"><b>Please, login into your account</b></h5>
+    <br>
     <div class="container">
-      <div class="wrap">
+      <div class="z-depth-1 grey lighten-4 row"
+        style="display: inline-block; padding: 32px 50px 10px 50px; border: 5px solid #004d40;">
 
-        <div class="form-55">
-          <div class="pad shadow left selected ae-3">
-                <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p}}
-<input type="submit" class="button wide blue gradient ae-10 margin-top-2 cropBottom" value="Sign in">
-<!-- < data-success-text="Done!" data-success-class="message-sent" name="button"  onclick="method()">Send message</button> -->
-           
-                </form>
-                <br>
-                If you don't have an account <a href="/register" class="waves-effect waves-light btn teal darken-4"><i class="material-icons left">
-                people</i><b>Register</b></a> instead.
+        <form class="col s12" method="post" style="text-align: left;">
+
+          {% csrf_token %}
+          {{ form.as_p}}
+
+
+          <div class='row'>
+            <label style='float: right;'>
+              <a class='pink-text' href='#!'><b>Forgot Password?</b></a>
+            </label>
           </div>
-        </div>
-        
+
+          <br />
+          <center>
+            <div class='row'>
+              <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>Login</button>
+            </div>
+          </center>
+        </form>
       </div>
     </div>
-  </div>  
-  <!-- <div class="background" style="background-image:url(assets/img/background/img-55.jpg)"></div> -->
-  <div class="background" style="background-image:url({% static 'user_mgmt/images/back2.jpg' %})"></div>
+    <a href="/register">Create account</a>
+  </center>
 
-</section>
+  <div class="section"></div>
+</user_mgmt>
 
 
 {% endblock %}

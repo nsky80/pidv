@@ -1,8 +1,22 @@
 from django import forms 
 from .models import Feedback, Upload_csv
 # from django.contrib.flatpages.models import FlatPage
-from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.contrib.auth.models import User
+
+
+class UserCreateForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    def __init__(self, *args, **kwargs):
+        super(UserCreateForm, self).__init__(*args, **kwargs)
+
+        for fieldname in ['username', 'password1', 'password2']:
+            self.fields[fieldname].help_text = None
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
+
 
 # User can modify his information and it allows only what user can modify
 class EditProfileForm(UserChangeForm):
@@ -34,17 +48,11 @@ class Upload_csvForm(forms.ModelForm):
 
 class ColumnSelectionForm(forms.Form):
 
-    # col1 = forms.ModelChoiceField(queryset=None)
-    # col2 = forms.ModelChoiceField(queryset=None)
-
     def __init__(self, string_type, numeric_type, *args,**kwargs):
-        # self.string_type = string_type
-        # self.numeric_type = numeric_type
         super(ColumnSelectionForm, self).__init__(*args,**kwargs)
         self.fields['col1'].widget = forms.Select(choices=string_type)
         self.fields['col2'].widget = forms.Select(choices=numeric_type)
 
-    # height = forms.CharField()
     col1 = forms.CharField(label="String Columns" )
     col2 = forms.CharField(label="Numeric Columns")
 

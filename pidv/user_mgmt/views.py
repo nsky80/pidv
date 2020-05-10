@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
 from django.contrib.sessions.models import Session
 from django.utils import timezone
-from user_mgmt.forms import EditProfileForm, ContactForm, FeedbackForm, Upload_csvForm
+from user_mgmt.forms import EditProfileForm, ContactForm, FeedbackForm, Upload_csvForm, UserCreateForm
 from django.contrib.auth.models import User		# for community tab purpose
 from user_mgmt.models import Upload_csv
 
@@ -56,7 +56,7 @@ def register(request):
 	if request.user.is_authenticated:
 		return redirect("user_mgmt:account")
 	if request.method == "POST":
-		form = UserCreationForm(request.POST)
+		form = UserCreateForm(request.POST)
 		if form.is_valid():
 			user = form.save()
 			username = form.cleaned_data.get('username')
@@ -70,7 +70,7 @@ def register(request):
 			return render(request=request,
 							template_name="user_mgmt/register.html",
 							context={"form": form})
-	form = UserCreationForm
+	form = UserCreateForm
 	return render(request=request, 
 				  template_name="user_mgmt/register.html",
 				  context={"form":form}
