@@ -58,18 +58,24 @@ class ColumnSelectionForm(forms.Form):
 
 
 class LineChartColumnSelectionForm(forms.Form):
-
-    def __init__(self, numeric_type1, numeric_type2, numeric_type3, numeric_type4, *args,**kwargs):
+    def __init__(self, nt_x, nt_y, *args,**kwargs): #numeric_type1, numeric_type2, numeric_type3, *args,**kwargs):
         super(LineChartColumnSelectionForm, self).__init__(*args,**kwargs)
-        self.fields['col1'].widget = forms.Select(choices=numeric_type1)
-        self.fields['col2'].widget = forms.Select(choices=numeric_type2)
-        self.fields['col3'].widget = forms.Select(choices=numeric_type3)
-        self.fields['col4'].widget = forms.Select(choices=numeric_type4)
+        # self.no_of_cols = len(nt_args)
+        self.fields['col1'].widget = forms.Select(choices=nt_x)
+        # for cnt, dt in enumerate(nt_y, 2):
+        for i in range(2, 9):
+            self.fields['col%s'%i].widget = forms.Select(choices=nt_y)
 
-    col1 = forms.CharField(label="First Numeric Columns" )
-    col2 = forms.CharField(label="Second Numeric Columns")
-    col3 = forms.CharField(label="Third Numeric Columns" )
-    col4 = forms.CharField(label="Fourth Numeric Columns")
+    # for i in range(1, 4):
+    #     eval("col%s = forms.CharField(label='%s Numeric Column (Y-axis)')"%(i, i))
+    col1 = forms.CharField(label="Reference Columns (X-axis)", required=True)
+    col2 = forms.CharField(label="Second Numeric Columns (Y-axis)", required=False)
+    col3 = forms.CharField(label="Third Numeric Columns (Y-axis)", required=False)
+    col4 = forms.CharField(label="Fourth Numeric Columns (Y-axis)", required=False)
+    col5 = forms.CharField(label="Fifth Numeric Columns (Y-axis)", required=False)
+    col6 = forms.CharField(label="Sixth Numeric Columns (Y-axis)", required=False)
+    col7 = forms.CharField(label="Seventh Numeric Columns (Y-axis)", required=False)
+    col8 = forms.CharField(label="Eighth Numeric Columns (Y-axis)", required=False)
 
 # This class is added only for testing purposes it will remove soon!
 class ContactForm(forms.Form):

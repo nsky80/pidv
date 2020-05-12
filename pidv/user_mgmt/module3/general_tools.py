@@ -10,8 +10,10 @@ def description_creator(df):
             dt = "string"
         elif datatype == "bool":
             dt = "boolean"
-        else:
+        elif datatype == "float64" or datatype == "int64":
             dt = "number"
+        else:
+            pass
         description.append((field, dt))
     return description
 
@@ -25,7 +27,7 @@ def create_datatable(df):
 
     data = []
     for index, row in df.iterrows():
-        data.append(list(map(lambda x: row[x[0]], description)))
+        data.append(list(row))
 
     # Loading it into gviz_api.DataTable
     data_table = gviz_api.DataTable(description)

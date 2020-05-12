@@ -47,20 +47,18 @@ line_chart_template = """
 </html>
 """
 
-def draw_line_chart(original_df, col1, col2, col3, col4, flag=False):
-    try:
-        # check whether selected rows compatible with pie_chart or not?
-        if original_df[col1].dtypes == 'O' or original_df[col2].dtypes == 'O' or original_df[col3].dtypes == 'O' or original_df[col4].dtypes == 'O':
-            raise Exception("Selected columns isn't compatible with pie chart, Please select appropriate columns!")
-            
+def draw_line_chart(original_df, column_list, flag=False):
+    try:            
         # try to create a new dataframe from existing dataframe
-        df = original_df[[col1, col2, col3, col4]].copy()
+        if column_list[0] == "index":
+            df = original_df[column_list[1:]].copy()
+            df.insert(loc=0, column='auto_index', value=list(df.index))
+            # print(list(df.index))
+        else:
+            df = original_df[column_list].copy()
+
         columns_ = list(df.columns)
         data_table = general_tools.create_datatable(df)
-
-    #         print("Content-type: text/plain")
-    #         print(data_table.ToJSon(columns_order=columns_,
-    #                                    order_by=columns_[0]))
         json_data = data_table.ToJSon(columns_order=columns_,
                                 order_by=columns_[0])
         return line_chart_template % vars()

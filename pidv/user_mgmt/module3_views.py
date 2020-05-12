@@ -65,30 +65,37 @@ def line_chart(request, username, filename):
                     df = pd.read_excel(file_obj.uploaded_file)
                 # it returns the header of csv along with datatype. eg.('Name', 'string'), ('physics', 'number')
                 schema = general_tools.description_creator(df)
-
-                numeric_type1 = [('0', 'Select First Column')]
-                numeric_type2 = [('0', 'Select Second Column')]
-                numeric_type3 = [('0', 'Select Third Column')]
-                numeric_type4 = [('0', 'Select Fourth Column')]
-
+                # nt stands for numeric type and contains columns in form of options
+                nt_x = [('0', 'Select Column for X-axis (Reference axis)'), ('1', 'Index(Auto Generated)')]
+                nt_y = [('0', 'Select Column for Y-axis(Otherwise Leave blank)')]
                 for data_ in schema:
                     if data_[1] == 'number':
-                        numeric_type1.append((str(len(numeric_type1)), data_[0]))
-                        numeric_type2.append((str(len(numeric_type1)), data_[0]))
-                        numeric_type3.append((str(len(numeric_type1)), data_[0]))
-                        numeric_type4.append((str(len(numeric_type1)), data_[0]))
+                        nt_x.append((str(len(nt_x)), data_[0]))
+                        nt_y.append(((str(len(nt_y)), data_[0])))
 
                 if request.method == 'POST':
-                    form = LineChartColumnSelectionForm(numeric_type1, numeric_type2, numeric_type3, numeric_type4, request.POST)
+                    form = LineChartColumnSelectionForm(nt_x, nt_y, request.POST)
                     if form.is_valid():
-                        col1 = numeric_type1[int(form.cleaned_data.get('col1'))][1]
-                        col2 = numeric_type2[int(form.cleaned_data.get('col2'))][1]
-                        col3 = numeric_type1[int(form.cleaned_data.get('col3'))][1]
-                        col4 = numeric_type2[int(form.cleaned_data.get('col4'))][1]
-                        line_graph = line_chart_creator.draw_line_chart(df, col1, col2, col3, col4)
+                        columns_options = [int(form.cleaned_data.get('col1'))] # for x-axis
+                        if columns_options[0] == 0:
+                            raise Exception("Reference axis (X-axis) required!")
+                        # appending data for y-axis
+                        for i in range(2, 9):
+                            columns_options.append(int(form.cleaned_data.get('col%s'%i)))
+                        # checking whether x-axis is default(index ie auto) or not
+                        if columns_options[0] == 1:
+                            cols_list = ["index"]
+                        else:
+                            cols_list = [nt_x[columns_options[0]][1]]  # appending x-axis
+                        for i in range(1, 8):   # checking and appending y-axis
+                            if columns_options[i] != 0:
+                                cols_list.append(nt_y[columns_options[i]][1])
+                        if len(cols_list) == 1:
+                            raise Exception("Select atleast 1 column for y-axis")
+                        line_graph = line_chart_creator.draw_line_chart(df, cols_list)
                         return render(request, template_name="module3_html/draw_pie_chart.html", context={"graph": line_graph})
 
-                form = LineChartColumnSelectionForm(numeric_type1, numeric_type2, numeric_type3, numeric_type4)
+                form = LineChartColumnSelectionForm(nt_x, nt_y) #, numeric_type4)
                 return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form})
             except Exception as ex:
                 messages.error(request, ex)
