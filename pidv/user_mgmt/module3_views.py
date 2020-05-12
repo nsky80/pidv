@@ -8,7 +8,7 @@ import pandas as pd
 # import csv
 # import os
 from django.conf import settings
-from user_mgmt.module3 import pie_chart_creator, general_tools, line_chart_creator, area_chart_creator
+from user_mgmt.module3 import pie_chart_creator, general_tools, line_chart_creator, area_chart_creator, scatter_chart_creator
 
 
 def show_graph_options(request, username, filename):
@@ -52,7 +52,7 @@ def pie_chart(request, username, filename):
     raise Http404
 
 
-# this also handles area chart distinguished by graph_type
+# this also handles area chart, scatter chart distinguished by graph_type
 def line_chart(request, username, filename, graph_type):
     if request.user.is_authenticated:
 		# checking whether user is opening its own file or not
@@ -97,8 +97,11 @@ def line_chart(request, username, filename, graph_type):
                         # Now check whether it is line graph or area graph
                         if graph_type == 1:
                             graph_ = line_chart_creator.draw_line_chart(df, cols_list)
-                        else:
+                        elif graph_type == 2:
                             graph_ = area_chart_creator.draw_area_chart(df, cols_list)
+                        else:
+                            graph_ = scatter_chart_creator.draw_scatter_chart(df, cols_list)
+
                         return render(request, template_name="module3_html/draw_pie_chart.html", context={"graph": graph_})
 
                 form = LineChartColumnSelectionForm(nt_x, nt_y) #, numeric_type4)

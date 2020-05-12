@@ -2,7 +2,6 @@
 from user_mgmt.module3 import gviz_api
 import pandas as pd
 from user_mgmt.module3 import general_tools
-from django.contrib import messages
 
 pie_chart_template = """
 <html>

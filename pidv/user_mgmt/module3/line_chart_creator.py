@@ -13,8 +13,6 @@ line_chart_template = """
       google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-
-      var data = new google.visualization.DataTable();
           var data = new google.visualization.DataTable(%(json_data)s, 0.6);
 
 

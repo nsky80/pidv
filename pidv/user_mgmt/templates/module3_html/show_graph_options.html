@@ -76,7 +76,24 @@
             </div>    
         <!-- End of option of area chart -->
 
+        <!-- Scatter chart goes here -->
+            <div class="col s12 m6 l6">
+                <a href="{{ request.path }}/scatter_chart3" class="waves-effect waves-light" style="color:#000">
+                    <div class="card-panel hoverable" style="height:470px; background-color:#FFFFFF;">
+                        <div class="card-image">
+                            <img class="responsive-img" src="{% static 'module3_static/scatter_chart.png' %}" style="width:400px;height: 280px;">
+                            <br><span class="card-title"><h6><b>Scatter Chart</b></h6></span>
+                        </div>
+                        <div class="card-content">
+                            <p>Draw a Scatter chart</p>
+                        </div>
+                        <div class="card-action center-align">
+                            <a href="{{ request.path }}/scatter_chart3" class="waves-effect teal darken-4 waves-light btn"><b>Checkout Graph</b></a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <!-- Scatter chart ends here -->
     </div>
-
 </div>
 {% endblock %}

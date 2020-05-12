@@ -25,6 +25,7 @@ urlpatterns = [
     path('media/<str:username>/<str:filename>/visualize/pie_chart', module3_views.pie_chart, name='pie_chart'),
     path('media/<str:username>/<str:filename>/visualize/line_chart<int:graph_type>', module3_views.line_chart, name='line_chart1'),
     path('media/<str:username>/<str:filename>/visualize/area_chart<int:graph_type>', module3_views.line_chart, name='area_chart2'),
+    path('media/<str:username>/<str:filename>/visualize/scatter_chart<int:graph_type>', module3_views.line_chart, name='scatter_chart3'),
 
 
     path('<slug>', views.under_construction, name="under_construction"),
