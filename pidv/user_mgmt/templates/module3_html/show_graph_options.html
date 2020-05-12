@@ -14,14 +14,16 @@
               </div>
             <!-- </div> -->
     <!-- </nav> -->
-    <!-- This is for Pie chart option -->
     <div class="row">
+
+        <!-- This is for Pie chart option -->
+
         <!-- size 6 on a large screen, 12 on a small, 6 on a med -->
             <div class="col s12 m6 l6">
                 <a href="{{ request.path }}/pie_chart" class="waves-effect waves-light" style="color:#000">
                     <div class="card-panel hoverable" style="height:470px; background-color:#FFFFFF;">
                         <div class="card-image">
-                            <img class="responsive-img" src="{% static 'module3_static/pie_chart.png' %}" style="width:400px;height: 280px;">
+                            <img class="responsive-img" src="{% static 'module3_static/pie_chart1.png' %}" style="width:400px;height: 280px;">
                             <br><span class="card-title"><h6><b>Pie Chart</b></h6></span>
                         </div>
                         <div class="card-content">
@@ -35,26 +37,45 @@
             </div>
  
 
-
-    <!-- Option for another graph Coming soon -->
-
+        <!-- Option for line chart graph goes here -->
         <!-- size 6 on a large screen, 12 on a small, 6 on a med -->
             <div class="col s12 m6 l6">
-                <a href="{{ request.path }}/line_chart" class="waves-effect waves-light" style="color:#000">
+                <a href="{{ request.path }}/line_chart1" class="waves-effect waves-light" style="color:#000">
                     <div class="card-panel hoverable" style="height:470px; background-color:#FFFFFF;">
                         <div class="card-image">
-                            <img class="responsive-img" src="{% static 'user_mgmt/images/back3.png' %}" style="width:400px;height: 280px;">
+                            <img class="responsive-img" src="{% static 'module3_static/line_chart.png' %}" style="width:400px;height: 280px;">
                             <br><span class="card-title"><h6><b>Line Chart</b></h6></span>
                         </div>
                         <div class="card-content">
                             <p>Draw a line chart</p>
                         </div>
                         <div class="card-action center-align">
-                            <a href="{{ request.path }}/line_chart" class="waves-effect teal darken-4 waves-light btn"><b>Checkout Graph</b></a>
+                            <a href="{{ request.path }}/line_chart1" class="waves-effect teal darken-4 waves-light btn"><b>Checkout Graph</b></a>
                         </div>
                     </div>
                 </a>
-            </div>          
+            </div>   
+        <!-- End of option for line chart -->
+            
+        <!-- Option for Area Chart goes here-->
+            <div class="col s12 m6 l6">
+                <a href="{{ request.path }}/area_chart2" class="waves-effect waves-light" style="color:#000">
+                    <div class="card-panel hoverable" style="height:470px; background-color:#FFFFFF;">
+                        <div class="card-image">
+                            <img class="responsive-img" src="{% static 'module3_static/area_chart.png' %}" style="width:400px;height: 280px;">
+                            <br><span class="card-title"><h6><b>Area Chart</b></h6></span>
+                        </div>
+                        <div class="card-content">
+                            <p>Draw a Area chart</p>
+                        </div>
+                        <div class="card-action center-align">
+                            <a href="{{ request.path }}/area_chart2" class="waves-effect teal darken-4 waves-light btn"><b>Checkout Graph</b></a>
+                        </div>
+                    </div>
+                </a>
+            </div>    
+        <!-- End of option of area chart -->
+
     </div>
 
 </div>

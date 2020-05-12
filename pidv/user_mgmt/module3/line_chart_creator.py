@@ -2,7 +2,6 @@
 from user_mgmt.module3 import gviz_api
 import pandas as pd
 from user_mgmt.module3 import general_tools
-from django.contrib import messages
 
 
 line_chart_template = """
@@ -26,7 +25,7 @@ line_chart_template = """
           title: 'Line chart of given Data',
           subtitle: 'Scaling not known'
         },
-        width: 865,
+        width: 880,
         height: 500,
         axes: {
           x: {

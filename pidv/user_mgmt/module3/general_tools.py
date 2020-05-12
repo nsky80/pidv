@@ -5,15 +5,16 @@ import pandas as pd
 # This is used for creating the description or schema for dataframe to datatable convertor
 def description_creator(df):
     description= []
+    # print(df.dtypes)
     for field, datatype in zip(df.columns, df.dtypes):
         if datatype == 'object':
             dt = "string"
         elif datatype == "bool":
             dt = "boolean"
-        elif datatype == "float64" or datatype == "int64":
+        elif datatype == "float64" or datatype == "int64" or datatype == "int32":
             dt = "number"
         else:
-            pass
+            raise Exception("Error Code: 20200156. If possible give feedback!")
         description.append((field, dt))
     return description
 
