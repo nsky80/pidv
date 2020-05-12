@@ -71,8 +71,9 @@ def line_chart(request, username, filename):
                 for data_ in schema:
                     if data_[1] == 'number':
                         nt_x.append((str(len(nt_x)), data_[0]))
-                        nt_y.append(((str(len(nt_y)), data_[0])))
-
+                        nt_y.append((str(len(nt_y)), data_[0]))
+                    elif data_[1] == 'string':
+                        nt_x.append((str(len(nt_x)), data_[0]))
                 if request.method == 'POST':
                     form = LineChartColumnSelectionForm(nt_x, nt_y, request.POST)
                     if form.is_valid():

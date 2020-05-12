@@ -50,12 +50,12 @@ line_chart_template = """
 def draw_line_chart(original_df, column_list, flag=False):
     try:            
         # try to create a new dataframe from existing dataframe
+        df = original_df[column_list[1:]].copy()
         if column_list[0] == "index":
-            df = original_df[column_list[1:]].copy()
             df.insert(loc=0, column='auto_index', value=list(df.index))
             # print(list(df.index))
         else:
-            df = original_df[column_list].copy()
+            df.insert(loc=0, column=column_list[0], value=original_df[column_list[0]])
 
         columns_ = list(df.columns)
         data_table = general_tools.create_datatable(df)
