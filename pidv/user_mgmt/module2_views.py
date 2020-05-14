@@ -8,6 +8,7 @@ import pandas as pd
 import os
 from django.conf import settings
 from user_mgmt.module3 import datatable_table_creator
+from user_mgmt.forms import RenameColumnForm
 
 
 
@@ -74,4 +75,70 @@ def delete_data_file(request, username, filename):
 def preprocess(request, username, filename):
     if request.user.is_authenticated:
         if "user_" + str(request.user.id) == username:
-            return render(request, template_name='module2_html/preprocess.html')
+            current_path = "/media/" + username + "/" + filename + "/preprocess"
+            current_op = None
+            return render(request, template_name='module2_html/preprocess.html', context={"current_url": current_path, "current_op": current_op})
+    raise Http404
+
+def renaming(request, username, filename):
+    if request.user.is_authenticated:
+		# checking whether user is opening its own file or not
+        if "user_" + str(request.user.id) == username:
+            try:
+                # current_path gives the url to sidebar
+                current_path = "/media/" + username + "/" + filename + "/preprocess"
+                current_op = "renaming"
+                file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
+                if file_obj.uploaded_file.name.endswith('csv'):
+                    df = pd.read_csv(file_obj.uploaded_file)
+                else:
+                    df = pd.read_excel(file_obj.uploaded_file)
+                cols_list = list(df.columns)
+                if request.method == 'POST':
+                    form = RenameColumnForm(cols_list, request.POST or None)
+                    if form.is_valid():
+                        col1 = form.cleaned_data.get('col1')
+                        col2 = form.cleaned_data.get('col2')
+                        col3 = form.cleaned_data.get('col3')
+                        messages.success(request, [col1, col2, col3])
+                        # This will have to change
+                        return render(request, template_name="module2_html/preprocess.html", context={"current_url": current_path, "current_op": current_op})
+                # messages.success(request, len(cols_list))
+                form = RenameColumnForm(cols_list) 
+                return render(request=request, template_name='module2_html/renaming.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
+            except Exception as ex:
+                messages.error(request, ex)
+                return render(request=request, template_name='module2_html/preprocess.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
+    raise Http404
+
+
+def remove_column(request, username, filename):
+    if request.user.is_authenticated:
+		# checking whether user is opening its own file or not
+        if "user_" + str(request.user.id) == username:
+            try:
+                # current_path gives the url to sidebar
+                current_path = "/media/" + username + "/" + filename + "/preprocess"
+                current_op = "remove_column"
+                file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
+                if file_obj.uploaded_file.name.endswith('csv'):
+                    df = pd.read_csv(file_obj.uploaded_file)
+                else:
+                    df = pd.read_excel(file_obj.uploaded_file)
+                cols_list = list(df.columns)
+                if request.method == 'POST':
+                    form = RenameColumnForm(cols_list, request.POST or None)
+                    if form.is_valid():
+                        col1 = form.cleaned_data.get('col1')
+                        col2 = form.cleaned_data.get('col2')
+                        col3 = form.cleaned_data.get('col3')
+                        messages.success(request, [col1, col2, col3])
+                        # This will have to change
+                        return render(request, template_name="module2_html/preprocess.html", context={"current_url": current_path, "current_op": current_op})
+                # messages.success(request, len(cols_list))
+                form = RenameColumnForm(cols_list) 
+                return render(request=request, template_name='module2_html/remove_column.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
+            except Exception as ex:
+                messages.error(request, ex)
+                return render(request=request, template_name='module2_html/preprocess.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
+    raise Http404

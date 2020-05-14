@@ -12,7 +12,11 @@ from user_mgmt.module3 import pie_chart_creator, general_tools, line_chart_creat
 
 
 def show_graph_options(request, username, filename):
-    return render(request, template_name="module3_html/show_graph_options.html")
+    if request.user.is_authenticated:
+		# checking whether user is opening its own file or not
+        if "user_" + str(request.user.id) == username:
+            return render(request, template_name="module3_html/show_graph_options.html")
+    raise Http404
 
 
 def pie_chart(request, username, filename):
@@ -57,7 +61,7 @@ def line_chart(request, username, filename, graph_type):
     if request.user.is_authenticated:
 		# checking whether user is opening its own file or not
         if "user_" + str(request.user.id) == username:
-            try:
+            # try:
                 file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
                 if file_obj.uploaded_file.name.endswith('csv'):
                     df = pd.read_csv(file_obj.uploaded_file)
@@ -82,7 +86,12 @@ def line_chart(request, username, filename, graph_type):
                             raise Exception("Reference axis (X-axis) required!")
                         # appending data for y-axis
                         for i in range(2, 9):
-                            columns_options.append(int(form.cleaned_data.get('col%s'%i)))
+                            ch = form.cleaned_data.get('col%s'%i)
+                            # checking whether it is empty or not
+                            if ch:
+                                columns_options.append(int(ch))
+                            else:
+                                columns_options.append(0)  # i.e. no options selected
                         # checking whether x-axis is default(index ie auto) or not
                         if columns_options[0] == 1:
                             cols_list = ["index"]
@@ -106,7 +115,7 @@ def line_chart(request, username, filename, graph_type):
 
                 form = LineChartColumnSelectionForm(nt_x, nt_y) #, numeric_type4)
                 return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form})
-            except Exception as ex:
-                messages.error(request, ex)
-                return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form})
+            # except Exception as ex:
+            #     messages.error(request, ex)
+            #     return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form})
     raise Http404

@@ -3,50 +3,136 @@
 
 {% block account %}
 <user_mgmt>
-    <h1 class="center" style="margin-top: -10px;">	<center><h2 class="indigo-text"><b>Preprocessing or Manipulation</b></h2></center></h1>
-    <div class="hoverable" style="padding: 20px; background-color: white; margin-top: 10px;">
+    <div class="container col s12" style="font-size: 130%">
+        <br>
+        <a href="javascript:history.go(-1);" class="waves-effect teal darken-4 waves-light btn tooltipped" data-position="bottom" data-tooltip="Go Back"><i class="material-icons left">arrow_back</i>Go back</a>
+        <!-- <a href="javascript:history.go(0);" class="tooltipped" data-position="bottom" data-tooltip="Go Back">&nbsp;<b>All Category</b>&nbsp;&nbsp;></a> -->
+        <center><h2 class="center" style="margin-top: -15px;">	<center><h2 class="indigo-text"><b>Preprocessing or Manipulation</b></h2></center>
 
-        <ul class="collapsible">
-            {% if files %}
-                <li class="collection-item">
-                    <li style="font-size: 30px;margin: 10px;"><i class="material-icons left" style="font-size: 40px;">folder_open</i>Your Uploaded Data Files</li>
-                    <!-- <h5 class="center"><b><i class="material-icons" style="font-size: 40px;">folder_open</i>&nbsp;&nbsp;Your Uploaded Files&nbsp;&nbsp; </b></h5> -->
-                </li>
-            {% else %}
-                <li class="collection-item"><h5><center><b>Coming Soon...!&nbsp;&nbsp; </b></center></h5></li>
-            {% endif %}
-            <hr>
-            {% for f in files %}
-                <li>
+      </div>
+<!-- Script for setting up url -->
+
+
+<!-- Trying to add preprocessing feature here -->
+    <!-- Page Layout here -->
+    <div class="row" >
+		<div class="col s12 m4 l3" >
+				<!-- Grey navigation panel -->
+			<ul class="collapsible popout">
+                <h5 class="teal-text"><b>Select Preprocessing Operation</b></h5>
+
+
+<!-- Renaming Operations mentioned Here -->
+                {% if current_op == "renaming" %}
+                <!-- If this is currently viewing -->
+                <li class="active">
                     <div class="collapsible-header">
-                        <h6>
-                            <b>File&nbsp;&nbsp;:&nbsp </b></h6>
-                            <h6 style="color:cornflowerblue">{{f.uploaded_file.name}}</h6>
+                        <b>Renaming</b>&nbsp;&nbsp;&nbsp; <b class="green-text right">(Currently selected)</b>
                     </div>
+
+                </li>
+                {% else %}
+                <li>
+                    <div class="collapsible-header"><b>Renaming</b></div>
                     <div class="collapsible-body">
-                        <!-- <span>Lorem ipsum dolor sit amet.</span> -->
-                        <span>
-                            <center>
-                                <h6><b>Uploaded on:</b>&nbsp; {{f.uploaded_on}}</h6>
-                                <h6><b>Size&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp; {{f.uploaded_file.size}}Bytes</h6>
-                            </center>
-                            <br>
-                            <center>
-                                <a href="{{f.uploaded_file.url}}" class="waves-effect waves-light btn"><i class="material-icons left">open_in_browser</i>Open</a>
-                                <a href="{{f.uploaded_file.url}}/download" class="waves-effect blue waves-light btn"><i class="material-icons left">file_download</i>Download</a>
-                                <a class="waves-effect waves-light btn green"><i class="material-icons left">cached</i>Preprocess</a>
-                                <a class="waves-effect waves-light btn red"><i class="material-icons left">delete</i>Delete</a>
-                            </center>
-                        </span>
+                        <p><b>Rename Column/Header.</b></p>
+                        <p>
+                            <!-- <a id="myAnchor">A Link: Go to w3schools.com</a> -->
+                            <a href="{{current_url}}/renaming" >
+                                <button class="btn waves-effect teal darken-4 waves-light right-align" style="color:white">
+                                    <b>Expand</b>
+                                </button>
+                            </a>
+                        </p>
                     </div>
                 </li>
-            {% endfor %}
-        </ul>
+                {% endif %}
+<!-- Remove Columns Operation goes Here-->
+                {% if current_op == "remove_column" %}
+                <!-- If this is currently viewing -->
+                <li class="active">
+                    <div class="collapsible-header">
+                        <b>Remove Columns</b>&nbsp;&nbsp;&nbsp; <b class="green-text right">(Currently selected)</b>                    
+                    </div>
+                </li>
+                {% else %}
+                <li>
+                    <div class="collapsible-header"><b>Remove Columns</b></div>
+                    <div class="collapsible-body" >
+                        <p>
+                            <b>Select and Remove/Drop a column.</b>
+                        </p>
+                        <p>
+                            <a href="{{current_url}}/remove_column">
+                                <button class="btn waves-effect teal darken-4 waves-light right-align" style="color:white">
+                                    <b>Expand</b>
+                                </button>
+                            </a>
+                        </p>
+                    </div>
+                </li>
+                {% endif %}
+<!-- Cleaning Missing Data -->
+                {% if current_op == "cleaning" %}
+                <!-- If this is currently viewing -->
+                <li class="active">
+                    <div class="collapsible-header">
+                        <b>Clean Missing Data</b>&nbsp;&nbsp;&nbsp; <b class="green-text right">(Currently selected)</b>
+                    </div>
 
-        <div class="center-align">
-                <a href="/upload" class="waves-effect teal darken-4 waves-yellow btn" ><i class="material-icons left">file_upload</i><b>Upload new Data File</b></a>
-        </div>
-    </div>
+                </li>
+                {% else %}
+                <li>
+                    <div class="collapsible-header"><b>Clean Missing Data</b></div>
+                    <div class="collapsible-body">
+                        <p><b>Remove ambiguity in Data</b></p>
+                        <p>
+                            <!-- <a id="myAnchor">A Link: Go to w3schools.com</a> -->
+                            <a href="{{current_url}}/cleaning" >
+                                <button class="btn waves-effect teal darken-4 waves-light right-align" style="color:white">
+                                    <b>Expand</b>
+                                </button>
+                            </a>
+                        </p>
+                    </div>
+                </li>
+                {% endif %}
+<!-- Combining Datasets -->
+                {% if current_op == "combining_dataset" %}
+                <!-- If this is currently viewing -->
+                <li class="active">
+                    <div class="collapsible-header">
+                        <b>Combining Datasets(Beta)</b>&nbsp;&nbsp;&nbsp; <b class="green-text right">(Currently selected)</b>
+                    </div>
+
+                </li>
+                {% else %}
+                <li>
+                    <div class="collapsible-header"><b>Combining Datasets(Beta)</b></div>
+                    <div class="collapsible-body">
+                        <p><b>Combine two Data Sets</b></p>
+                        <p>
+                            <!-- <a id="myAnchor">A Link: Go to w3schools.com</a> -->
+                            <a href="{{current_url}}/combining_dataset" >
+                                <button class="btn waves-effect teal darken-4 waves-light right-align" style="color:white">
+                                    <b>Expand</b>
+                                </button>
+                            </a>
+                        </p>
+                    </div>
+                </li>
+                {% endif %}
+<!-- Operations End Here -->
+			</ul>
+		</div>
+        <br>
+
+<!-- Right side page for perticular operation  -->
+        {% block preprocess_operations %}
+        {% endblock %}
+
+	</div>
+
 </user_mgmt>
 <br>
 <br>

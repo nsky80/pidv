@@ -63,11 +63,15 @@ class LineChartColumnSelectionForm(forms.Form):
         # self.no_of_cols = len(nt_args)
         self.fields['col1'].widget = forms.Select(choices=nt_x)
         # for cnt, dt in enumerate(nt_y, 2):
+        cols_available = len(nt_y) + 1
         for i in range(2, 9):
-            self.fields['col%s'%i].widget = forms.Select(choices=nt_y)
+            if i < cols_available:
+                self.fields['col%s'%i].widget = forms.Select(choices=nt_y)
+            else:
+                self.fields['col%s'%i].widget = forms.HiddenInput()
+                # self.fields['col%s'%i].disabled = True
 
-    # for i in range(1, 4):
-    #     eval("col%s = forms.CharField(label='%s Numeric Column (Y-axis)')"%(i, i))
+    # currently supporting only 8 columns
     col1 = forms.CharField(label="Reference Columns (X-axis)", required=True)
     col2 = forms.CharField(label="Second Numeric Columns (Y-axis)", required=False)
     col3 = forms.CharField(label="Third Numeric Columns (Y-axis)", required=False)
@@ -76,6 +80,29 @@ class LineChartColumnSelectionForm(forms.Form):
     col6 = forms.CharField(label="Sixth Numeric Columns (Y-axis)", required=False)
     col7 = forms.CharField(label="Seventh Numeric Columns (Y-axis)", required=False)
     col8 = forms.CharField(label="Eighth Numeric Columns (Y-axis)", required=False)
+
+
+class RenameColumnForm(forms.Form):
+    def __init__(self, cols_list, *args,**kwargs): 
+        super(RenameColumnForm, self).__init__(*args,**kwargs)
+        cols_available = len(cols_list) 
+        for i in range(1, 9):
+            if i <= cols_available:
+                # pass
+                self.fields['col%s'%i].label = cols_list[i-1]
+            else:
+                self.fields['col%s'%i].widget = forms.HiddenInput()
+
+    col1 = forms.CharField(max_length=30, required=False)
+    col2 = forms.CharField(max_length=30, required=False)
+    col3 = forms.CharField(max_length=30, required=False)
+    col4 = forms.CharField(max_length=30, required=False)
+    col5 = forms.CharField(max_length=30, required=False)
+    col6 = forms.CharField(max_length=30, required=False)
+    col7 = forms.CharField(max_length=30, required=False)
+    col8 = forms.CharField(max_length=30, required=False)
+
+
 
 # This class is added only for testing purposes it will remove soon!
 class ContactForm(forms.Form):

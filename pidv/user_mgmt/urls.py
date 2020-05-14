@@ -17,10 +17,15 @@ urlpatterns = [
     path('contribute', views.contribute, name="contribute"),
     path('community', views.community, name="community"),
     path('upload', views.upload_csv_file, name="upload"),
+
     path('media/<str:username>/<str:filename>', module2_views.open_data_file, name="open_data_file"),
     path('media/<str:username>/<str:filename>/download', module2_views.download_file, name="download_file"),
-    path('media/<str:username>/<str:filename>/preprocess', module2_views.preprocess, name='preprocess'),
     path('media/<str:username>/<str:filename>/delete_file', module2_views.delete_data_file, name='delete_file'),
+    path('media/<str:username>/<str:filename>/preprocess', module2_views.preprocess, name='preprocess'),
+    path('media/<str:username>/<str:filename>/preprocess/renaming', module2_views.renaming, name='renaming'),
+    path('media/<str:username>/<str:filename>/preprocess/remove_column', module2_views.remove_column, name='remove_column'),
+
+
     path('media/<str:username>/<str:filename>/visualize', module3_views.show_graph_options, name='show_graph_options'),
     path('media/<str:username>/<str:filename>/visualize/pie_chart', module3_views.pie_chart, name='pie_chart'),
     path('media/<str:username>/<str:filename>/visualize/line_chart<int:graph_type>', module3_views.line_chart, name='line_chart1'),
