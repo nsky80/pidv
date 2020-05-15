@@ -103,6 +103,26 @@ class RenameColumnForm(forms.Form):
     col8 = forms.CharField(max_length=30, required=False)
 
 
+class RemoveColumnForm(forms.Form):
+    def __init__(self, cols_list, *args,**kwargs): 
+        super(RemoveColumnForm, self).__init__(*args,**kwargs)
+        cols_available = len(cols_list) 
+        for i in range(1, 9):
+            if i <= cols_available:
+                # pass
+                self.fields['col%s'%i].label = cols_list[i-1]
+            else:
+                self.fields['col%s'%i].widget = forms.HiddenInput()
+
+    col1 = forms.BooleanField(required=False)
+    col2 = forms.BooleanField(required=False)
+    col3 = forms.BooleanField(required=False)
+    col4 = forms.BooleanField(required=False)
+    col5 = forms.BooleanField(required=False)
+    col6 = forms.BooleanField(required=False)
+    col7 = forms.BooleanField(required=False)
+    col8 = forms.BooleanField(required=False)
+
 
 # This class is added only for testing purposes it will remove soon!
 class ContactForm(forms.Form):

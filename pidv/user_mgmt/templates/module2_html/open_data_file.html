@@ -2,16 +2,41 @@
     {% block title %}Opening Data File...{% endblock %}
 
     {% block content %}
-        <div class="container">
-            {% load static %}
-            <br>
-            <a href="/dashboard" class="waves-effect teal darken-4 waves-light btn"><i class="material-icons left">arrow_back</i>Go back</a>
-            <center><h2 class="indigo-text">File has opened.....</h2></center>
-            <div class = "hoverable" style="padding: 20px; background-color: rgb(240, 229, 229); margin-top: 10px;">
-            
-                {{data_file|safe}}
-            </div>
-        </div>
+    <div class="container">
+        {% load static %}
         <br>
+        <a href="javascript:history.go(-1);" class="waves-effect teal darken-4 waves-light btn tooltipped" data-position="bottom" data-tooltip="Go Back"><i class="material-icons left">arrow_back</i>Go back</a>
 
-    {% endblock %}
+        <center>
+            <h2 class="indigo-text">File has opened.....</h2>
+        </center>
+        <table class="responsive-table centered">
+            <tbody>
+              <tr>
+                <td>
+                    <a href="{{request.path}}/preprocess" class="waves-effect waves-light btn green"><i
+                        class="material-icons left">cached</i>Preprocess</a>
+                </td>
+                <td>
+                    <a href="{{request.path}}/visualize" class="waves-effect pink darken-4 waves-light btn"><i
+                        class="material-icons left">insert_chart</i>Visualize</a>
+                </td>
+                <td>
+                    <a href="{{request.path}}/download" class="waves-effect blue waves-light btn"><i
+                        class="material-icons left">file_download</i>Download</a>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+
+        <!-- <div class = "hoverable" style="padding: 20px; background-color: rgb(240, 229, 229); margin-top: 10px;"> -->
+        <div class="col s12 m8 l9 hoverable"
+            style="padding: 20px;background-color: rgb(250, 250, 250);border: 5px solid #004d40;">
+    
+            {{data_file|safe}}
+        </div>
+    
+        <br>
+    </div>
+    <br>
+{% endblock %}

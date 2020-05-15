@@ -29,6 +29,7 @@ def pie_chart(request, username, filename):
                     df = pd.read_csv(file_obj.uploaded_file)
                 else:
                     df = pd.read_excel(file_obj.uploaded_file)
+                current_path = "/media/" + username + "/" + filename
                 # it returns the header of csv along with datatype. eg.('Name', 'string'), ('physics', 'number')
                 schema = general_tools.description_creator(df)
                 string_type = [('0', 'Select String Type')]
@@ -46,13 +47,13 @@ def pie_chart(request, username, filename):
                         col1 = string_type[int(form.cleaned_data.get('col1'))][1]
                         col2 = numeric_type[int(form.cleaned_data.get('col2'))][1]
                         pie_graph = pie_chart_creator.draw_pie_chart(df, col1, col2)
-                        return render(request, template_name="module3_html/draw_pie_chart.html", context={"graph": pie_graph})
+                        return render(request, template_name="module3_html/draw_pie_chart.html", context={"graph": pie_graph, "current_path": current_path})
 
                 form = ColumnSelectionForm(string_type, numeric_type)
-                return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form})
+                return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form, "current_path": current_path})
             except Exception as ex:
                 messages.error(request, ex)
-                return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form})
+                return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form, "current_path": current_path})
     raise Http404
 
 
@@ -61,12 +62,14 @@ def line_chart(request, username, filename, graph_type):
     if request.user.is_authenticated:
 		# checking whether user is opening its own file or not
         if "user_" + str(request.user.id) == username:
-            # try:
+            try:
                 file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
                 if file_obj.uploaded_file.name.endswith('csv'):
                     df = pd.read_csv(file_obj.uploaded_file)
                 else:
                     df = pd.read_excel(file_obj.uploaded_file)
+                current_path = "/media/" + username + "/" + filename
+
                 # it returns the header of csv along with datatype. eg.('Name', 'string'), ('physics', 'number')
                 schema = general_tools.description_creator(df)
                 # nt stands for numeric type and contains columns in form of options
@@ -111,11 +114,11 @@ def line_chart(request, username, filename, graph_type):
                         else:
                             graph_ = scatter_chart_creator.draw_scatter_chart(df, cols_list)
 
-                        return render(request, template_name="module3_html/draw_pie_chart.html", context={"graph": graph_})
+                        return render(request, template_name="module3_html/draw_pie_chart.html", context={"graph": graph_, "current_path": current_path})
 
                 form = LineChartColumnSelectionForm(nt_x, nt_y) #, numeric_type4)
-                return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form})
-            # except Exception as ex:
-            #     messages.error(request, ex)
-            #     return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form})
+                return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form, "current_path": current_path})
+            except Exception as ex:
+                messages.error(request, ex)
+                return render(request=request, template_name='module3_html/draw_pie_chart_options.html', context= {'form':form, "current_path": current_path})
     raise Http404

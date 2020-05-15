@@ -8,9 +8,7 @@
         <a href="javascript:history.go(-1);" class="waves-effect teal darken-4 waves-light btn tooltipped" data-position="bottom" data-tooltip="Go Back"><i class="material-icons left">arrow_back</i>Go back</a>
         <!-- <a href="javascript:history.go(0);" class="tooltipped" data-position="bottom" data-tooltip="Go Back">&nbsp;<b>All Category</b>&nbsp;&nbsp;></a> -->
         <center><h2 class="center" style="margin-top: -15px;">	<center><h2 class="indigo-text"><b>Preprocessing or Manipulation</b></h2></center>
-
       </div>
-<!-- Script for setting up url -->
 
 
 <!-- Trying to add preprocessing feature here -->
@@ -38,7 +36,7 @@
                         <p><b>Rename Column/Header.</b></p>
                         <p>
                             <!-- <a id="myAnchor">A Link: Go to w3schools.com</a> -->
-                            <a href="{{current_url}}/renaming" >
+                            <a href="{{current_url}}/preprocess/renaming" >
                                 <button class="btn waves-effect teal darken-4 waves-light right-align" style="color:white">
                                     <b>Expand</b>
                                 </button>
@@ -63,7 +61,7 @@
                             <b>Select and Remove/Drop a column.</b>
                         </p>
                         <p>
-                            <a href="{{current_url}}/remove_column">
+                            <a href="{{current_url}}/preprocess/remove_column">
                                 <button class="btn waves-effect teal darken-4 waves-light right-align" style="color:white">
                                     <b>Expand</b>
                                 </button>
@@ -88,7 +86,7 @@
                         <p><b>Remove ambiguity in Data</b></p>
                         <p>
                             <!-- <a id="myAnchor">A Link: Go to w3schools.com</a> -->
-                            <a href="{{current_url}}/cleaning" >
+                            <a href="{{current_url}}/preprocess/cleaning" >
                                 <button class="btn waves-effect teal darken-4 waves-light right-align" style="color:white">
                                     <b>Expand</b>
                                 </button>
@@ -113,7 +111,7 @@
                         <p><b>Combine two Data Sets</b></p>
                         <p>
                             <!-- <a id="myAnchor">A Link: Go to w3schools.com</a> -->
-                            <a href="{{current_url}}/combining_dataset" >
+                            <a href="{{current_url}}/preprocess/combining_dataset" >
                                 <button class="btn waves-effect teal darken-4 waves-light right-align" style="color:white">
                                     <b>Expand</b>
                                 </button>
@@ -122,6 +120,24 @@
                     </div>
                 </li>
                 {% endif %}
+<!-- Buttons for supportive operations starts here -->
+                <li>
+                    <div class="collapsible-header">
+                        <a href="{{current_url}}" class="waves-effect waves-light btn"><i class="material-icons left">open_in_browser</i>Open Source File</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header">
+                        <a href="{{current_url}}/visualize" class="waves-effect pink darken-4 waves-light btn"><i
+                            class="material-icons left">insert_chart</i>Visualize File</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header">
+                        <a href="{{current_url}}/download" class="waves-effect blue waves-light btn"><i
+                            class="material-icons left">file_download</i>Download File</a>
+                    </div>
+                </li>
 <!-- Operations End Here -->
 			</ul>
 		</div>
@@ -132,9 +148,8 @@
         {% endblock %}
 
 	</div>
-
 </user_mgmt>
 <br>
-<br>
+
 {% endblock %}
         

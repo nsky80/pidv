@@ -8,7 +8,7 @@ import pandas as pd
 import os
 from django.conf import settings
 from user_mgmt.module3 import datatable_table_creator
-from user_mgmt.forms import RenameColumnForm
+from user_mgmt.forms import RenameColumnForm, RemoveColumnForm
 
 
 
@@ -75,7 +75,7 @@ def delete_data_file(request, username, filename):
 def preprocess(request, username, filename):
     if request.user.is_authenticated:
         if "user_" + str(request.user.id) == username:
-            current_path = "/media/" + username + "/" + filename + "/preprocess"
+            current_path = "/media/" + username + "/" + filename 
             current_op = None
             return render(request, template_name='module2_html/preprocess.html', context={"current_url": current_path, "current_op": current_op})
     raise Http404
@@ -86,7 +86,7 @@ def renaming(request, username, filename):
         if "user_" + str(request.user.id) == username:
             try:
                 # current_path gives the url to sidebar
-                current_path = "/media/" + username + "/" + filename + "/preprocess"
+                current_path = "/media/" + username + "/" + filename 
                 current_op = "renaming"
                 file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
                 if file_obj.uploaded_file.name.endswith('csv'):
@@ -94,16 +94,26 @@ def renaming(request, username, filename):
                 else:
                     df = pd.read_excel(file_obj.uploaded_file)
                 cols_list = list(df.columns)
+
                 if request.method == 'POST':
                     form = RenameColumnForm(cols_list, request.POST or None)
                     if form.is_valid():
-                        col1 = form.cleaned_data.get('col1')
-                        col2 = form.cleaned_data.get('col2')
-                        col3 = form.cleaned_data.get('col3')
-                        messages.success(request, [col1, col2, col3])
+                        columns_options = [] # this list contain the response of each column
+                        # appending data for each response
+                        flag = False   # it remains false if no column selected for deletion
+                        for i in range(1, 9):    # currently we are supporting 8 columns only
+                            ch = form.cleaned_data.get('col%s'%i)
+                            # checking whether it is empty or not
+                            if ch:
+                                columns_options.append(cols_list[i - 1])  # appending the name of given column to be deleted
+                                flag = True
+                        if flag:
+                            messages.success(request, ", ".join(columns_options) + " renamed successfully!")
+                        else:
+                            messages.info(request, "No changes made!")
                         # This will have to change
-                        return render(request, template_name="module2_html/preprocess.html", context={"current_url": current_path, "current_op": current_op})
-                # messages.success(request, len(cols_list))
+                        return redirect("user_mgmt:renaming", username=username, filename=filename)
+                        # messages.success(request, len(cols_list))
                 form = RenameColumnForm(cols_list) 
                 return render(request=request, template_name='module2_html/renaming.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
             except Exception as ex:
@@ -118,7 +128,7 @@ def remove_column(request, username, filename):
         if "user_" + str(request.user.id) == username:
             try:
                 # current_path gives the url to sidebar
-                current_path = "/media/" + username + "/" + filename + "/preprocess"
+                current_path = "/media/" + username + "/" + filename
                 current_op = "remove_column"
                 file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
                 if file_obj.uploaded_file.name.endswith('csv'):
@@ -127,16 +137,25 @@ def remove_column(request, username, filename):
                     df = pd.read_excel(file_obj.uploaded_file)
                 cols_list = list(df.columns)
                 if request.method == 'POST':
-                    form = RenameColumnForm(cols_list, request.POST or None)
+                    form = RemoveColumnForm(cols_list, request.POST or None)
                     if form.is_valid():
-                        col1 = form.cleaned_data.get('col1')
-                        col2 = form.cleaned_data.get('col2')
-                        col3 = form.cleaned_data.get('col3')
-                        messages.success(request, [col1, col2, col3])
+                        columns_options = [] # this list contain the response of each column
+                        # appending data for each response
+                        flag = False   # it remains false if no column selected for deletion
+                        for i in range(1, 9):    # currently we are supporting 8 columns only
+                            ch = form.cleaned_data.get('col%s'%i)
+                            # checking whether it is empty or not
+                            if ch:
+                                columns_options.append(cols_list[i - 1])  # appending the name of given column to be deleted
+                                flag = True
+                        if flag:
+                            messages.success(request, ", ".join(columns_options) + " deleted successfully!")
+                        else:
+                            messages.info(request, "No changes made!")
                         # This will have to change
-                        return render(request, template_name="module2_html/preprocess.html", context={"current_url": current_path, "current_op": current_op})
-                # messages.success(request, len(cols_list))
-                form = RenameColumnForm(cols_list) 
+                        return redirect("user_mgmt:remove_column", username=username, filename=filename)
+                        # return render(request, template_name="module2_html/remove_column.html", context={'form': form, "current_url": current_path, "current_op": current_op})
+                form = RemoveColumnForm(cols_list) 
                 return render(request=request, template_name='module2_html/remove_column.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
             except Exception as ex:
                 messages.error(request, ex)
