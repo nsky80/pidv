@@ -27,7 +27,7 @@ pie_chart_template = """
 
 // Set chart options
       var options = {'title':'Pie Chart for given columns',
-                     'width':880,
+                     'width':875,
                      'height':500};
 
       // Instantiate and draw our chart, passing in some options.

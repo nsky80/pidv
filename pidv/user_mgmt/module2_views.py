@@ -8,7 +8,7 @@ import pandas as pd
 import os
 from django.conf import settings
 from user_mgmt.module3 import datatable_table_creator
-from user_mgmt.forms import RenameColumnForm, RemoveColumnForm
+from user_mgmt.forms import RenameColumnForm, RemoveColumnForm, ColumnForSorting
 
 
 
@@ -76,7 +76,7 @@ def preprocess(request, username, filename):
     if request.user.is_authenticated:
         if "user_" + str(request.user.id) == username:
             current_path = "/media/" + username + "/" + filename 
-            current_op = None
+            current_op = "preprocess"
             return render(request, template_name='module2_html/preprocess.html', context={"current_url": current_path, "current_op": current_op})
     raise Http404
 
@@ -118,7 +118,7 @@ def renaming(request, username, filename):
                 return render(request=request, template_name='module2_html/renaming.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
             except Exception as ex:
                 messages.error(request, ex)
-                return render(request=request, template_name='module2_html/preprocess.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
+                return render(request=request, template_name='module2_html/preprocess.html', context= {"current_url": current_path, "current_op": current_op})
     raise Http404
 
 
@@ -159,5 +159,69 @@ def remove_column(request, username, filename):
                 return render(request=request, template_name='module2_html/remove_column.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
             except Exception as ex:
                 messages.error(request, ex)
-                return render(request=request, template_name='module2_html/preprocess.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
+                return render(request=request, template_name='module2_html/preprocess.html', context= {"current_url": current_path, "current_op": current_op})
     raise Http404
+
+
+def sorting(request, username, filename):
+    if request.user.is_authenticated:
+		# checking whether user is opening its own file or not
+        if "user_" + str(request.user.id) == username:
+            try:
+                # current_path gives the url to sidebar
+                current_path = "/media/" + username + "/" + filename 
+                current_op = "sorting"
+                file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
+                if file_obj.uploaded_file.name.endswith('csv'):
+                    df = pd.read_csv(file_obj.uploaded_file)
+                else:
+                    df = pd.read_excel(file_obj.uploaded_file)
+                cols_list = [('0', 'Select Column')]
+                for i, col_name in enumerate((df.columns), 1):
+                    cols_list.append((str(i), col_name))
+
+                if request.method == 'POST':
+                    form = ColumnForSorting(cols_list, request.POST or None)
+                    if form.is_valid():
+                        flag = form.cleaned_data.get("col1")
+                        if flag == '0':
+                            messages.info(request, "No changes made!")
+                        else:
+                            column_name = cols_list[int(flag)][1]
+                            messages.success(request, "Data sorted Successfully w.r.t. " + column_name)
+                        # This will have to change
+                        return redirect("user_mgmt:sorting", username=username, filename=filename)
+                form = ColumnForSorting(cols_list) 
+                return render(request=request, template_name='module2_html/sorting.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
+            except Exception as ex:
+                messages.error(request, ex)
+                return render(request=request, template_name='module2_html/preprocess.html', context= {"current_url": current_path, "current_op": current_op})
+    raise Http404
+
+
+
+def cleaning(request, username, filename):
+    if request.user.is_authenticated:
+		# checking whether user is opening its own file or not
+        if "user_" + str(request.user.id) == username:
+            try:
+                # current_path gives the url to sidebar
+                current_path = "/media/" + username + "/" + filename 
+                current_op = "cleaning"
+                return render(request=request, template_name='module2_html/cleaning.html', context= {"current_url": current_path, "current_op": current_op})
+            except Exception as ex:
+                messages.error(request, ex)
+                return render(request=request, template_name='module2_html/preprocess.html', context= {"current_url": current_path, "current_op": current_op})
+    raise Http404
+
+
+def under_construction(request, username, filename, slug="Coming Soon"):
+    if request.user.is_authenticated:
+		# checking whether user is opening its own file or not
+        if "user_" + str(request.user.id) == username:
+                # current_path gives the url to sidebar
+                current_path = "/media/" + username + "/" + filename 
+                current_op = "preprocess"
+                messages.info(request, str(slug) + " feature coming soon..")
+                return render(request=request, template_name='module2_html/under_construction.html', context= {"current_url": current_path, "current_op": current_op})
+

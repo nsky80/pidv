@@ -124,6 +124,14 @@ class RemoveColumnForm(forms.Form):
     col8 = forms.BooleanField(required=False)
 
 
+class ColumnForSorting(forms.Form):
+    def __init__(self, cols_list, *args,**kwargs):
+        super(ColumnForSorting, self).__init__(*args,**kwargs)
+        self.fields['col1'].widget = forms.Select(choices=cols_list)
+
+    col1 = forms.CharField(label="Select Column")
+
+
 # This class is added only for testing purposes it will remove soon!
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=30)

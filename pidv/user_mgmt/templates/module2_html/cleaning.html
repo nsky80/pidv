@@ -1,0 +1,89 @@
+{% extends 'module2_html/preprocess.html' %}
+{% block preprocess_operations %}
+<!-- This file propagate renaming operations, currently supported renaming of 8 columns -->
+<div class="col s12 m8 l9 hoverable" style="background-color: rgb(250, 250, 250);border: 5px solid #004d40;">
+    <div style="margin: 20px">
+        <h4 class="teal-text"><b>Data Cleaning</b></h4>
+        <!-- <br> -->
+        <!-- <p></p> -->
+        <hr>
+        <ul>
+            <li style="list-style-type: square">
+                <p class="black-text"><b>The data can have many irrelevant and missing parts. To handle this part, data
+                        cleaning is done. It involves handling of missing data, noisy data etc.
+                    </b></p>
+            </li>
+            <li style="list-style-type: circle">
+                <h6 class="black-text"><b>How would you like to handle the cleaning of data:</b></h6>
+            </li>
+        </ul>
+
+        <ul class="collection">
+            <li class="collection-item">
+            <!-- This is for data cleaning options -->
+                <ul class="collection with-header">
+                    <li class="collection-header">
+                        <h5 class="teal-text">Handling Missing Values:</h5>
+                    </li>
+                    <li class="collection-item">
+
+                        <a href="{{current_url}}/preprocess/cleaning/dropna" class="waves-effect indigo waves-light btn">DROP ROWS
+                            OF MISSING DATA</a>
+                        <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                            <b>Ignore/Drop the tuples:</b> This approach is suitable only when the dataset we have is
+                            quite large and multiple values are missing within a tuple.
+                        </p>
+                    </li>
+                    <li class="collection-item">
+                        <a href="{{current_url}}/preprocess/cleaning/ffill" class="waves-effect indigo waves-light btn">Forward Fill</a>
+                        <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                            <b class="red-text">*</b>A forward fill finds any missing data, and sweeps "forward" the last known previous value.
+                        </p>
+                    </li>
+                    <li class="collection-item">
+                        <a href="{{current_url}}/preprocess/cleaning/bfill" class="waves-effect indigo waves-light btn">Backward Fill</a>
+                        <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                            <b class="red-text">*</b>A back fill finds any missing data, and sweeps "backwards" the most recent following value.
+                        </p>
+                    </li>
+                    <li class="collection-item">
+                        <a href="{{current_url}}/preprocess/cleaning/replace" class="waves-effect indigo waves-light btn">Replace</a>
+                        <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                            Replace a missing data with certain value by selecting perticular column.
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li class="collection-item">
+                <a href="{{current_url}}/preprocess/cleaning/remove_duplicate"
+                    class="waves-effect indigo waves-light btn">Duplicate row elimination</a>
+                <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                    It determines whether data contains duplicate representations of the same entity. If so then it
+                    merges them together.
+                </p>
+            </li>
+            <li class="collection-item">
+                <a href="{{current_url}}/preprocess/cleaning/data_transformation" class="waves-effect indigo waves-light btn">Data
+                    transformation</a>
+                <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">Data transformation allows the mapping of
+                    the data from its given format into the format expected by the appropriate application.
+                    This includes value conversions or translation functions, as well as normalizing numeric values to
+                    conform to minimum and maximum values.
+                </p>
+            </li>
+            <li class="collection-item">
+                <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                    <b class="red-text">*</b> Take note how your data is ordered by default. 
+                    Some date-time data may be ordered with oldest date first, or newest or based on some column. 
+                    Check the table by <a href="{{current_url}}"><b><u>Open Source File</u></b></a> to confirm how your data is ordered!
+                     Otherwise sort it from <a href="{{current_url}}/preprocess/sorting"><b><u>Sort</u></b></a> tab based on required column.
+                </p>
+            </li>
+            <li class="collection-item">
+                <h5 class="green-text">More Features Coming Soon...</h5>
+            </li>
+        </ul>
+
+    </div>
+</div>
+{% endblock %}

@@ -25,7 +25,7 @@ area_chart_template = """
     </script>
   </head>
   <body>
-    <div id="chart_div" style="width: 880px; height: 500px;"></div>
+    <div id="chart_div" style="width: 875px; height: 500px;"></div>
   </body>
 </html>
 """

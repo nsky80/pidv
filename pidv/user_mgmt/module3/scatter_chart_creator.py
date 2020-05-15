@@ -24,7 +24,7 @@ scatter_chart_template = """
             title: 'Scatter plot of given data',
             subtitle: 'based on given y-axis column'
           },
-          width: 880,
+          width: 875,
           height: 500,
           series: {
             0: {axis: '%(y_axis_title1)s'},
@@ -74,7 +74,7 @@ scatter_chart_template = """
 </script>
   </head>
   <body>
-    <button id="change-chart" class="waves-effect white waves-light btn black-text">Change to Classic</button>
+    <button id="change-chart" class="waves-effect indigo waves-light btn white-text">Change to Classic</button>
     <br><br>
     <div id="chart_div" style="width: 880px; height: 500px;"></div>
 

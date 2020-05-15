@@ -24,6 +24,10 @@ urlpatterns = [
     path('media/<str:username>/<str:filename>/preprocess', module2_views.preprocess, name='preprocess'),
     path('media/<str:username>/<str:filename>/preprocess/renaming', module2_views.renaming, name='renaming'),
     path('media/<str:username>/<str:filename>/preprocess/remove_column', module2_views.remove_column, name='remove_column'),
+    path('media/<str:username>/<str:filename>/preprocess/sorting', module2_views.sorting, name='sorting'),
+    path('media/<str:username>/<str:filename>/preprocess/cleaning', module2_views.cleaning, name='cleaning'),
+    path('media/<str:username>/<str:filename>/preprocess/cleaning/<slug>', module2_views.under_construction, name='under_construction'),
+    path('media/<str:username>/<str:filename>/preprocess/combining_dataset', module2_views.under_construction, name='under_construction'),
 
 
     path('media/<str:username>/<str:filename>/visualize', module3_views.show_graph_options, name='show_graph_options'),

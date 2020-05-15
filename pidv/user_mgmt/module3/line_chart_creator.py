@@ -23,7 +23,7 @@ line_chart_template = """
           title: 'Line chart of given Data',
           subtitle: 'Scaling not known'
         },
-        width: 880,
+        width: 875,
         height: 500,
         axes: {
           x: {

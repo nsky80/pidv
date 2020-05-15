@@ -1,0 +1,16 @@
+{% extends 'module2_html/preprocess.html' %}
+{% block preprocess_operations %}
+<!-- This file propagate renaming operations, currently supported renaming of 8 columns -->
+<div class="col s12 m8 l9 hoverable" style="background-color: rgb(250, 250, 250);border: 5px solid #004d40;">
+    <div style="margin: 20px">
+        <h4 class="teal-text"><b>Under Construction</b></h4>
+        <!-- <br> -->
+        <!-- <p></p> -->
+        <hr>
+        <p class="green-text"><b>Feature Coming Soon....Stay Tuned!</b></p>
+        {% load static %}
+        <img class="responsive-img" src="{% static 'user_mgmt/images/under_construction.jpg' %}">
+
+    </div>
+</div>
+{% endblock %}
