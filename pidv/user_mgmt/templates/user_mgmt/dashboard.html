@@ -9,7 +9,7 @@
         <ul class="collapsible">
             {% if files %}
                 <li class="collection-item">
-                    <li style="font-size: 30px;margin: 10px;"><i class="material-icons left" style="font-size: 40px;">folder_open</i>Your Uploaded Data Files</li>
+                    <li style="font-size: 30px;margin: 10px;"><i class="material-icons left" style="font-size: 40px;">folder_open</i><b class="teal-text">Your Uploaded Data Files</b></li>
                     <!-- <h5 class="center"><b><i class="material-icons" style="font-size: 40px;">folder_open</i>&nbsp;&nbsp;Your Uploaded Files&nbsp;&nbsp; </b></h5> -->
                 </li>
             {% else %}
@@ -21,12 +21,13 @@
                     <div class="collapsible-header">
                         <h6>
                             <b>File&nbsp;&nbsp;:&nbsp </b></h6>
-                            <h6 style="color:cornflowerblue">{{f.uploaded_file.name}}</h6>
+                            <h6 style="color:cornflowerblue">{{f.uploaded_file.name}}
+                            </h6>                  
                     </div>
                     <div class="collapsible-body">
                         <!-- <span>Lorem ipsum dolor sit amet.</span> -->
                         <span>
-                            <table class="striped">
+                            <table class="striped centered">
                                 <thead>
                                   <tr>
                                       <th>Name/Action</th>

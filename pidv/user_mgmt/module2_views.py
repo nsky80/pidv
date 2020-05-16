@@ -27,9 +27,6 @@ def open_data_file(request, username, filename):
                 else:
                     df = pd.read_excel(file_obj.uploaded_file)
                 datatable = datatable_table_creator.converter(df)
-                # json_data = df.to_json(orient='split')
-                # dict_data = df.to_dict('list')
-                # return render(request, template_name="module2_html/open_data_file.html", context={"json_data":json_data, "dict_data":dict_data})
                 return render(request, template_name="module2_html/open_data_file.html", context={"data_file": datatable})
 
             except Exception as ex:
@@ -80,6 +77,7 @@ def preprocess(request, username, filename):
             return render(request, template_name='module2_html/preprocess.html', context={"current_url": current_path, "current_op": current_op})
     raise Http404
 
+# This renames the column of csv file not other
 def renaming(request, username, filename):
     if request.user.is_authenticated:
 		# checking whether user is opening its own file or not
@@ -105,10 +103,14 @@ def renaming(request, username, filename):
                             ch = form.cleaned_data.get('col%s'%i)
                             # checking whether it is empty or not
                             if ch:
-                                columns_options.append(cols_list[i - 1])  # appending the name of given column to be deleted
+                                columns_options.append(ch)  # appending the name of given column to be deleted
                                 flag = True
+                            else:
+                                columns_options.append(cols_list[i - 1])
                         if flag:
-                            messages.success(request, ", ".join(columns_options) + " renamed successfully!")
+                            # reflecting changes into DataFrame
+                            df.columns = columns_options
+                            messages.success(request, list(df.columns))
                         else:
                             messages.info(request, "No changes made!")
                         # This will have to change
@@ -215,13 +217,16 @@ def cleaning(request, username, filename):
     raise Http404
 
 
-def under_construction(request, username, filename, slug="Coming Soon"):
+def under_construction(request, username, filename, slug=False):
     if request.user.is_authenticated:
 		# checking whether user is opening its own file or not
         if "user_" + str(request.user.id) == username:
                 # current_path gives the url to sidebar
-                current_path = "/media/" + username + "/" + filename 
-                current_op = "preprocess"
+                current_path = "/media/" + username + "/" + filename
+                if slug: 
+                    current_op = "cleaning"
+                else:
+                    current_op = "combining_dataset"
                 messages.info(request, str(slug) + " feature coming soon..")
                 return render(request=request, template_name='module2_html/under_construction.html', context= {"current_url": current_path, "current_op": current_op})
-
+    raise Http404
