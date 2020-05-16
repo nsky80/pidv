@@ -168,8 +168,9 @@ def upload_csv_file(request):
 					else:
 						obj.user = request.user
 						obj.save() 
-						messages.success(request, "File Successfully uploaded!") 
-						return redirect("/dashboard")
+						username, filename = obj.uploaded_file.name.split("/")
+						messages.success(request, filename + " Uploaded Successfully!") 
+						return redirect("user_mgmt:open_data_file", username=username, filename=filename)
 				else:
 					messages.error(request, "Upload CSV files only!")
 					return HttpResponseRedirect(reverse("user_mgmt:upload"))

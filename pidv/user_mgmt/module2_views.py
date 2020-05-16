@@ -9,7 +9,8 @@ import os
 from django.conf import settings
 from user_mgmt.module3 import datatable_table_creator
 from user_mgmt.forms import RenameColumnForm, RemoveColumnForm, ColumnForSorting
-
+from django.core.files.base import ContentFile
+from user_mgmt.module2 import general_tool
 
 
 # This function used to 
@@ -87,19 +88,16 @@ def renaming(request, username, filename):
                 current_path = "/media/" + username + "/" + filename 
                 current_op = "renaming"
                 file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
-                if file_obj.uploaded_file.name.endswith('csv'):
-                    df = pd.read_csv(file_obj.uploaded_file)
-                else:
-                    df = pd.read_excel(file_obj.uploaded_file)
+                # Here we are reading dataframe from another function for security purpose
+                df = general_tool.read_dataframe(file_obj)
                 cols_list = list(df.columns)
-
                 if request.method == 'POST':
                     form = RenameColumnForm(cols_list, request.POST or None)
                     if form.is_valid():
                         columns_options = [] # this list contain the response of each column
                         # appending data for each response
                         flag = False   # it remains false if no column selected for deletion
-                        for i in range(1, 9):    # currently we are supporting 8 columns only
+                        for i in range(1, min(9, len(cols_list)+1)):    # currently we are supporting 8 columns only
                             ch = form.cleaned_data.get('col%s'%i)
                             # checking whether it is empty or not
                             if ch:
@@ -110,11 +108,18 @@ def renaming(request, username, filename):
                         if flag:
                             # reflecting changes into DataFrame
                             df.columns = columns_options
-                            messages.success(request, list(df.columns))
+                            f1 = ContentFile(df.to_csv(index=False))
+                            file_obj.uploaded_file.delete()
+                            # trying to flag the old file but incase of renaming we do not need a backup
+                            # general_tool.file_backup(file_obj, "renaming", username, filename)
+                            file_obj.uploaded_file.save(filename, f1, save=True)
+                            # print(type(f1))
+                            messages.success(request, "Column(s) Renamed Successfully!")
+                            return redirect("user_mgmt:renaming", username=username, filename=filename)
                         else:
                             messages.info(request, "No changes made!")
-                        # This will have to change
-                        return redirect("user_mgmt:renaming", username=username, filename=filename)
+                        # this return to changed name template
+                            return redirect("user_mgmt:renaming", username=username, filename=filename)
                         # messages.success(request, len(cols_list))
                 form = RenameColumnForm(cols_list) 
                 return render(request=request, template_name='module2_html/renaming.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
@@ -144,7 +149,7 @@ def remove_column(request, username, filename):
                         columns_options = [] # this list contain the response of each column
                         # appending data for each response
                         flag = False   # it remains false if no column selected for deletion
-                        for i in range(1, 9):    # currently we are supporting 8 columns only
+                        for i in range(1, min(9, len(cols_list)+1)):    # currently we are supporting 8 columns only
                             ch = form.cleaned_data.get('col%s'%i)
                             # checking whether it is empty or not
                             if ch:
