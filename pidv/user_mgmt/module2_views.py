@@ -22,14 +22,9 @@ def open_data_file(request, username, filename):
             # messages.success(request, username)
             try:
                 file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
-
-                # csv_file = file_obj.uploaded_file
-                if file_obj.uploaded_file.name.endswith('csv'):
-                    df = pd.read_csv(file_obj.uploaded_file)
-                else:
-                    df = pd.read_excel(file_obj.uploaded_file)
+                df = general_tool.read_dataframe(file_obj)
                 datatable = datatable_table_creator.converter(df)
-                return render(request, template_name="module2_html/open_data_file.html", context={"data_file": datatable})
+                return render(request, template_name="module2_html/open_data_file.html", context={"data_file": datatable, "file_obj": file_obj})
             except Exception as ex:
                 messages.error(request, ex)
                 return HttpResponseRedirect(reverse("user_mgmt:dashboard"))        
@@ -61,6 +56,7 @@ def delete_data_file(request, username, filename):
             try:
                 file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
                 # instance.delete()
+                file_obj.uploaded_file.delete(save=True)
                 file_obj.delete()
                 messages.success(request, "File Deleted Successfully!")
                 return HttpResponseRedirect(reverse("user_mgmt:dashboard"))

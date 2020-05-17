@@ -95,7 +95,12 @@ def draw_scatter_chart(original_df, column_list, flag=False):
             x_axis_title = column_list[0]
             df.insert(loc=0, column=column_list[0], value=original_df[column_list[0]])
         y_axis_title1 = column_list[1]
-        y_axis_title2 = column_list[2]
+        # since minimum 1 column can be selected
+        if len(column_list) > 2:
+            y_axis_title2 = column_list[2]
+        else:
+            y_axis_title2 = column_list[1]
+
         columns_ = list(df.columns)
         data_table = general_tools.create_datatable(df)
         json_data = data_table.ToJSon(columns_order=columns_,

@@ -71,17 +71,18 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="#modal_delete" class="waves-effect waves-light btn red modal-trigger"><i class="material-icons left">delete</i>Delete</a>
+                                        <a href="#modal_delete{{forloop.counter}}" class="waves-effect waves-light btn red modal-trigger"><i class="material-icons left">delete</i>Delete</a>
                                     </td>
                                     <td>Delete this file</td>
                                 </tr>
                                 </tbody>
                               </table>
+                              
                         </span>
                     </div>
                 </li>
                                 <!-- Modal for deleting content Structure -->
-                <div id="modal_delete" class="modal">
+                <div id="modal_delete{{forloop.counter}}" class="modal">
                     <div class="modal-content" style="color: black">
                     <h3 class="center">Are you sure?</h3>
                     <p>Once you delete this file then it is not recoverable, make sure you have downloaded it.</p>

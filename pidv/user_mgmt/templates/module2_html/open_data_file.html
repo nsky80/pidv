@@ -9,11 +9,15 @@
         data-position="bottom" data-tooltip="Go Back"><i class="material-icons left">arrow_back</i>Go back</a>
 
     <center>
-        <h2 class="indigo-text"><b>File has opened.....</b></h2>
+        <h3 class="indigo-text"><b>{{file_obj.uploaded_file.name}}</b></h3>
     </center>
     <table class="striped responsive-table centered">
         <tbody>
             <tr>
+                <td>
+                    <a href="/upload" class="waves-effect waves-light btn teal darken-4"><i
+                            class="material-icons left">file_upload</i>Upload New file</a>
+                </td>
                 <td>
                     <a href="{{request.path}}/preprocess" class="waves-effect waves-light btn green"><i
                             class="material-icons left">cached</i>Preprocess</a>
@@ -53,7 +57,21 @@
         <div style="margin: 20px">
             <h4 class="teal-text"><b>Stats</b></h4>
             <hr>
-            Coming Soon...
+            <ul class="collection">
+                <table class="responsive-table">
+                    <tbody>
+                      <tr>
+                        <td style="padding: 20px;"><h6><b>Uploaded On: </b></h6></td>
+                        <td style="font-family: Verdana, Geneva, Tahoma, sans-serif;">{{file_obj.uploaded_on}}</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 20px;"><h6><b>Last Modified: </b></h6></td>
+                        <td style="font-family: Verdana, Geneva, Tahoma, sans-serif;">{{file_obj.last_modified}}</td>
+                      </tr>
+                      
+                    </tbody>
+                </table>
+            </ul>
         </div>
     </div>
 
