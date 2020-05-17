@@ -15,7 +15,7 @@ def read_dataframe(file_obj):
 # Currently this gives a backup for edited file
 def file_backup(car, opr, username, filename):
     # car contain Upload_csv object like: <Upload_csv: user_1/new_student_record.csv>
-    # this is initial path of file
+    # this is initial path of file, car is nothing but file object
     initial_path = car.uploaded_file.path
     car.uploaded_file.name = username  + "_" + filename[:-4] + "_" + opr + "_" + re.sub(r'\:|\+|\.', '-', str(timezone.now())) + ".csv"
     # print(re.sub(r'\:|\+|\.', '-', st))    
@@ -23,5 +23,6 @@ def file_backup(car, opr, username, filename):
     new_path = settings.MEDIA_ROOT + car.uploaded_file.name
     # print(new_path, type(new_path))
     os.rename(initial_path, new_path)
+    car.last_modified = timezone.now()
     car.save()         
     return True

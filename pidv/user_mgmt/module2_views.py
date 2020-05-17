@@ -11,6 +11,7 @@ from user_mgmt.module3 import datatable_table_creator
 from user_mgmt.forms import RenameColumnForm, RemoveColumnForm, ColumnForSorting
 from django.core.files.base import ContentFile
 from user_mgmt.module2 import general_tool
+from django.utils import timezone
 
 
 # This function used to 
@@ -29,7 +30,6 @@ def open_data_file(request, username, filename):
                     df = pd.read_excel(file_obj.uploaded_file)
                 datatable = datatable_table_creator.converter(df)
                 return render(request, template_name="module2_html/open_data_file.html", context={"data_file": datatable})
-
             except Exception as ex:
                 messages.error(request, ex)
                 return HttpResponseRedirect(reverse("user_mgmt:dashboard"))        
@@ -109,6 +109,7 @@ def renaming(request, username, filename):
                             # reflecting changes into DataFrame
                             df.columns = columns_options
                             f1 = ContentFile(df.to_csv(index=False))
+                            file_obj.last_modified = timezone.now()
                             file_obj.uploaded_file.delete()
                             # trying to flag the old file but incase of renaming we do not need a backup
                             # general_tool.file_backup(file_obj, "renaming", username, filename)
@@ -138,10 +139,8 @@ def remove_column(request, username, filename):
                 current_path = "/media/" + username + "/" + filename
                 current_op = "remove_column"
                 file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
-                if file_obj.uploaded_file.name.endswith('csv'):
-                    df = pd.read_csv(file_obj.uploaded_file)
-                else:
-                    df = pd.read_excel(file_obj.uploaded_file)
+                # Here we are reading dataframe from another function for security purpose
+                df = general_tool.read_dataframe(file_obj)
                 cols_list = list(df.columns)
                 if request.method == 'POST':
                     form = RemoveColumnForm(cols_list, request.POST or None)
@@ -156,11 +155,22 @@ def remove_column(request, username, filename):
                                 columns_options.append(cols_list[i - 1])  # appending the name of given column to be deleted
                                 flag = True
                         if flag:
+                            # deleting the selected column
+                            df.drop(columns_options, axis = 1, inplace = True) 
+
+                            f1 = ContentFile(df.to_csv(index=False))
+                            # file_obj.uploaded_file.delete()
+                            # trying to flag the old file but incase of renaming we do not need a backup
+                            general_tool.file_backup(file_obj, "remove_column", username, filename)
+                            file_obj.uploaded_file.save(filename, f1, save=True)
                             messages.success(request, ", ".join(columns_options) + " deleted successfully!")
+                            return redirect("user_mgmt:remove_column", username=username, filename=filename)
+
                         else:
                             messages.info(request, "No changes made!")
+                            return redirect("user_mgmt:remove_column", username=username, filename=filename)
                         # This will have to change
-                        return redirect("user_mgmt:remove_column", username=username, filename=filename)
+                        # return redirect("user_mgmt:remove_column", username=username, filename=filename)
                         # return render(request, template_name="module2_html/remove_column.html", context={'form': form, "current_url": current_path, "current_op": current_op})
                 form = RemoveColumnForm(cols_list) 
                 return render(request=request, template_name='module2_html/remove_column.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
@@ -179,10 +189,8 @@ def sorting(request, username, filename):
                 current_path = "/media/" + username + "/" + filename 
                 current_op = "sorting"
                 file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
-                if file_obj.uploaded_file.name.endswith('csv'):
-                    df = pd.read_csv(file_obj.uploaded_file)
-                else:
-                    df = pd.read_excel(file_obj.uploaded_file)
+                # prepairing the pandas dataframe
+                df = general_tool.read_dataframe(file_obj)
                 cols_list = [('0', 'Select Column')]
                 for i, col_name in enumerate((df.columns), 1):
                     cols_list.append((str(i), col_name))
@@ -193,11 +201,20 @@ def sorting(request, username, filename):
                         flag = form.cleaned_data.get("col1")
                         if flag == '0':
                             messages.info(request, "No changes made!")
+                            return redirect("user_mgmt:sorting", username=username, filename=filename)
                         else:
                             column_name = cols_list[int(flag)][1]
+                            df.sort_values(by=[column_name], inplace=True)
+                            f1 = ContentFile(df.to_csv(index=False))
+                            file_obj.last_modified = timezone.now()
+                            file_obj.uploaded_file.delete()
+                            # trying to flag the old file but incase of renaming we do not need a backup
+                            # general_tool.file_backup(file_obj, "renaming", username, filename)
+                            file_obj.uploaded_file.save(filename, f1, save=True)
+                            
                             messages.success(request, "Data sorted Successfully w.r.t. " + column_name)
-                        # This will have to change
-                        return redirect("user_mgmt:sorting", username=username, filename=filename)
+                            return redirect("user_mgmt:open_data_file", username=username, filename=filename)
+
                 form = ColumnForSorting(cols_list) 
                 return render(request=request, template_name='module2_html/sorting.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
             except Exception as ex:
