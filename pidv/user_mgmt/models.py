@@ -20,9 +20,17 @@ class Feedback(models.Model):
 	def __str__(self):
 		return self.feedback_title
 
+
 def user_directory_path(instance, filename):
 	# file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
 	return 'user_{0}/{1}'.format(instance.user.id, filename)
+
+
+# this provides user directory path for creating a backup of file
+def user_directory_path_for_backup(instance, filename):
+	# file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+	return 'user_{0}/backup/{1}'.format(instance.user.id, filename)
+
 
 class Upload_csv(models.Model):
 	# user = models.ForeignKey(User, default=1, on_delete=models.SET_DEFAULT)
@@ -33,6 +41,8 @@ class Upload_csv(models.Model):
 					) 
 
 	uploaded_file = models.FileField(upload_to=user_directory_path)
+	uploaded_file_backup = models.FileField(upload_to=user_directory_path_for_backup, null=True)
+
 	uploaded_on = models.DateTimeField("Uploaded On", default=timezone.now)
 	last_modified = models.DateTimeField("Last Modified", default=timezone.now)
 	class Meta:

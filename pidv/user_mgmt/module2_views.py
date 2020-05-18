@@ -32,11 +32,21 @@ def open_data_file(request, username, filename):
 
 
 # this function usef for downloading of uploaded files
-def download_file(request, username, filename):
+def download_file(request, username, filename, version):
     if request.user.is_authenticated:
         if "user_" + str(request.user.id) == username:
             try:
-                file_path = os.path.join(settings.MEDIA_ROOT, username+'/'+filename)
+                if version == 1:
+                    file_path = os.path.join(settings.MEDIA_ROOT, username+'/'+filename)
+                elif version == 2:
+                    file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
+                    # checking whether backup created until or not
+                    if file_obj.uploaded_file_backup:
+                        file_path = os.path.join(settings.MEDIA_ROOT, file_obj.uploaded_file_backup.path)
+                    else:
+                        raise Exception("This file doesn't have a backup till now!")
+                else:
+                    raise Http404
                 if os.path.exists(file_path):
                     with open(file_path, 'rb') as fh:
                         response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
@@ -56,7 +66,8 @@ def delete_data_file(request, username, filename):
             try:
                 file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
                 # instance.delete()
-                file_obj.uploaded_file.delete(save=True)
+                file_obj.uploaded_file.delete()
+                file_obj.uploaded_file_backup.delete(save=True)
                 file_obj.delete()
                 messages.success(request, "File Deleted Successfully!")
                 return HttpResponseRedirect(reverse("user_mgmt:dashboard"))
@@ -155,8 +166,7 @@ def remove_column(request, username, filename):
                             df.drop(columns_options, axis = 1, inplace = True) 
 
                             f1 = ContentFile(df.to_csv(index=False))
-                            # file_obj.uploaded_file.delete()
-                            # trying to flag the old file but incase of renaming we do not need a backup
+                            # trying to backing up the old file but incase of renaming we do not need a backup
                             general_tool.file_backup(file_obj, "remove_column", username, filename)
                             file_obj.uploaded_file.save(filename, f1, save=True)
                             messages.success(request, ", ".join(columns_options) + " deleted successfully!")
@@ -165,9 +175,7 @@ def remove_column(request, username, filename):
                         else:
                             messages.info(request, "No changes made!")
                             return redirect("user_mgmt:remove_column", username=username, filename=filename)
-                        # This will have to change
-                        # return redirect("user_mgmt:remove_column", username=username, filename=filename)
-                        # return render(request, template_name="module2_html/remove_column.html", context={'form': form, "current_url": current_path, "current_op": current_op})
+
                 form = RemoveColumnForm(cols_list) 
                 return render(request=request, template_name='module2_html/remove_column.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
             except Exception as ex:
@@ -204,10 +212,8 @@ def sorting(request, username, filename):
                             f1 = ContentFile(df.to_csv(index=False))
                             file_obj.last_modified = timezone.now()
                             file_obj.uploaded_file.delete()
-                            # trying to flag the old file but incase of renaming we do not need a backup
-                            # general_tool.file_backup(file_obj, "renaming", username, filename)
+                            # trying to flag the old file but incase of sorting we do not need a backup
                             file_obj.uploaded_file.save(filename, f1, save=True)
-                            
                             messages.success(request, "Data sorted Successfully w.r.t. " + column_name)
                             return redirect("user_mgmt:open_data_file", username=username, filename=filename)
 

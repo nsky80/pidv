@@ -39,10 +39,14 @@
                                     <td>{{f.uploaded_file.size}} Bytes</td>
                                   </tr>
                                   <tr>
+                                    <td><b>Last Modified :</b></td>
+                                    <td>{{f.last_modified}}</td>
+                                  </tr>
+                                  <tr>
                                       <td>
                                         <a href="{{f.uploaded_file.url}}" class="waves-effect waves-light btn"><i class="material-icons left">open_in_browser</i>Open</a>
                                       </td>
-                                      <td>View your data</td>
+                                      <td>View your Data/Stats</td>
                                   </tr>
                                 <tr>
                                     <td>
@@ -58,15 +62,23 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="{{f.uploaded_file.url}}/download" class="waves-effect blue waves-light btn"><i class="material-icons left">file_download</i>Download</a>
+                                        <a href="{{f.uploaded_file.url}}/download1" class="waves-effect blue waves-light btn"><i class="material-icons left">file_download</i>Download</a>
                                     </td>
-                                    <td>Download Current File</td>
+                                    <td>Download <b class="red-text">Current Version</b> File</td>
                                 </tr>
+                                {% if f.uploaded_file_backup %}
+                                <tr>
+                                    <td>
+                                        <a href="{{f.uploaded_file.url}}/download2" class="waves-effect indigo waves-light btn"><i class="material-icons left">file_download</i>Download</a>
+                                    </td>
+                                    <td>Download <b class="red-text">Previous Version</b> File</td>
+                                </tr>
+                                {% endif %}
                                 <tr>
                                     <td>
                                         <a href="#modal_delete{{forloop.counter}}" class="waves-effect waves-light btn red modal-trigger"><i class="material-icons left">delete</i>Delete</a>
                                     </td>
-                                    <td>Delete this file</td>
+                                    <td>Delete this file completely</td>
                                 </tr>
                                 </tbody>
                               </table>
