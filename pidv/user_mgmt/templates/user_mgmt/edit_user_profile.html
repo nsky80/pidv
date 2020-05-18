@@ -2,11 +2,14 @@
 {% block title %} Setting your Profile {% endblock %}
 
 {% block account %}
-       
+
 <user_mgmt>
-    <h1 class="center" style="margin-top: -10px;">	<center><h2 class="indigo-text"><b>Edit Your Profile</b></h2></center></h1>
-    <div class="container hoverable" style="padding: 20px; background-color: white; margin-top: 10px;">
-         <form method="POST">
+    <center>
+        <h2 class="indigo-text"><b>Edit Your Profile</b></h2>
+    </center>
+    <div class="container hoverable" style="padding: 30px;background-color: white;border: 5px solid #004d40;">
+
+        <form method="POST">
             {% csrf_token %}
             {{form.as_p}}
             <button class="btn waves-effect teal darken-4 waves-light" type="submit" name="action"><b>Submit

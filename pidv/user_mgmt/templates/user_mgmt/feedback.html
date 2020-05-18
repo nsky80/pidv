@@ -3,23 +3,29 @@
 
 {% block content %}
 {{ form.media }}
+<div class="container ">
+    <center>
+        <h3 class="header indigo-text"><b>Write Your Feedback Here!</b></h3>
+    </center>
     <div class="container ">
-    <center><h3 class="header indigo-text"><b>Write Your Feedback Here!</b></h3></center>
-        <div class="hoverable" style="background-color: #ffffff">
-            <div style="margin: 20px; padding-top: 12px;padding-bottom: 15px;">
-                <form method="post" action='' enctype="multipart/form-data">
+        <div class="z-depth-1 white hoverable row"
+            style="display: inline-block; padding: 32px 50px 10px 50px; border: 5px solid #004d40;">
 
-                        {% csrf_token %}
-                        {{ form.as_p}}
+            <form method="post" action='' enctype="multipart/form-data">
 
-                        <div style="padding-top: 20px;padding-bottom:20px;">
-                        <button class="btn waves-effect teal darken-4 waves-light" type="submit" name="action"><b>Send Feedback
-                                </b><i class="material-icons right">send</i>
-                        </button>
-                        </div>
-                </form>
-
-            </div>
+                {% csrf_token %}
+                {{ form.as_p}}
+                <br>
+                <center>
+                    <div class='row'>
+                        <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>
+                            Send Feedback
+                            <i class="material-icons right">send</i></button>
+                    </div>
+                </center>
+            </form>
         </div>
     </div>
+</div>
+<br>
 {% endblock %}
