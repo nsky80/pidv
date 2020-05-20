@@ -81,9 +81,15 @@ def register(request):
 def account(request):
 	if request.user.is_authenticated:
 		user = request.user
+		users_file = Upload_csv.objects.filter(user=user)
+		size_ = 0
+		for i in users_file:
+			size_ += i.uploaded_file.size
+		  # converting into MB
+		size_ /= (1024)
 		return render(request=request, 
 				  template_name="user_mgmt/account.html",
-				  context={"user":user},
+				  context={"user": user, "memory_used": "%.1f"%size_, "memory_available": "%.1f"%(1024 * 5-size_)},
 				 )
 	else:
 		return redirect("user_mgmt:login_request")

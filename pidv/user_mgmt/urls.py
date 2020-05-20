@@ -26,9 +26,12 @@ urlpatterns = [
     path('media/<str:username>/<str:filename>/preprocess/remove_column', module2_views.remove_column, name='remove_column'),
     path('media/<str:username>/<str:filename>/preprocess/sorting', module2_views.sorting, name='sorting'),
     path('media/<str:username>/<str:filename>/preprocess/cleaning', module2_views.cleaning, name='cleaning'),
+    path('media/<str:username>/<str:filename>/preprocess/cleaning/dropna', module2_views.dropna, name='dropna'),
+    path('media/<str:username>/<str:filename>/preprocess/cleaning/dropna/<str:action_>', module2_views.dropna, name='dropna'),
+    path('media/<str:username>/<str:filename>/preprocess/cleaning/fill', module2_views.fill, name='fill'),
+    path('media/<str:username>/<str:filename>/preprocess/cleaning/fill/<str:action_>', module2_views.fill, name='fill'),
     path('media/<str:username>/<str:filename>/preprocess/cleaning/<slug>', module2_views.under_construction, name='under_construction'),
     path('media/<str:username>/<str:filename>/preprocess/combining_dataset', module2_views.under_construction, name='under_construction'),
-
 
     path('media/<str:username>/<str:filename>/visualize', module3_views.show_graph_options, name='show_graph_options'),
     path('media/<str:username>/<str:filename>/visualize/pie_chart', module3_views.pie_chart, name='pie_chart'),

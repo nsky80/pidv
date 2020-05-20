@@ -1,0 +1,58 @@
+{% extends 'module2_html/preprocess.html' %}
+{% block preprocess_operations %}
+<!-- This file supposed to provide interface for backfill and forward fill operation and also shows datatable -->
+<div class="col s12 m8 l9 hoverable" style="background-color: rgb(250, 250, 250);border: 5px solid #004d40;">
+    <div style="margin: 20px">
+        <h4 class="teal-text"><b>Forward/Backward Filling of Null Values</b></h4>
+        <hr>
+        <p class="black-text"><b>How would you like to handle the filling of missing data:</b></p>
+
+        <ul class="collection with-header">
+            <li class="collection-header">
+                <h5 class="teal-text center">Data Table With Missing Values</h5>
+
+            </li>
+            <li class="collection-item">
+                <div style="padding: 10px;">
+
+                    {{data_file|safe}}
+                </div>
+                <center>
+                    <a href="{{current_url}}" class="waves-effect waves-light btn"><i
+                            class="material-icons left">open_in_browser</i>Open Complete Data</a>
+                </center>
+            </li>
+            <li class="collection-item">
+                <p class="red-text" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                    &gt; If modified then most recent version could be recoverable from <a
+                        href="{{current_url}}/download2" class="tooltipped" data-position="bottom"
+                        data-tooltip="Download Previous Version"><b class="green-text">here</b></a>
+                </p>
+                <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                    &gt; Take note how your data is ordered by default.
+                    Some data may be ordered with oldest date first, or newest or based on some column. We recommond
+                    to <a href="{{current_url}}/preprocess/sorting" class="tooltipped" data-position="bottom"
+                        data-tooltip="Sort Your Data"><b class="green-text">Sort</b></a> the data based on required
+                    column so that
+                    best values fill into cells.
+                </p>
+            </li>
+            <li class="collection-item">
+                <a href="{{current_url}}/preprocess/cleaning/fill/forward"
+                    class="waves-effect indigo waves-light btn">Forward Fill</a>
+                <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                    &gt; A forward fill finds any missing data, and sweeps "forward" the last known previous value.
+                </p>
+            </li>
+            <li class="collection-item">
+                <a href="{{current_url}}/preprocess/cleaning/fill/backward"
+                    class="waves-effect indigo waves-light btn">Backward Fill</a>
+                <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                    &gt; A backward fill finds any missing data, and sweeps "backwards" the most recent following value.
+                </p>
+            </li>
+        </ul>
+
+    </div>
+</div>
+{% endblock %}

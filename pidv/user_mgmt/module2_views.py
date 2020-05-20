@@ -23,7 +23,7 @@ def open_data_file(request, username, filename):
             try:
                 file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
                 df = general_tool.read_dataframe(file_obj)
-                datatable = datatable_table_creator.converter(df)
+                datatable = datatable_table_creator.converter(df, 1)   # here 1 indicate that default screen table
                 return render(request, template_name="module2_html/open_data_file.html", context={"data_file": datatable, "file_obj": file_obj})
             except Exception as ex:
                 messages.error(request, ex)
@@ -44,7 +44,7 @@ def download_file(request, username, filename, version):
                     if file_obj.uploaded_file_backup:
                         file_path = os.path.join(settings.MEDIA_ROOT, file_obj.uploaded_file_backup.path)
                     else:
-                        raise Exception("This file doesn't have a backup till now!")
+                        raise Exception("This file doesn't modified yet!")
                 else:
                     raise Http404
                 if os.path.exists(file_path):
@@ -240,6 +240,66 @@ def cleaning(request, username, filename):
                 return render(request=request, template_name='module2_html/preprocess.html', context= {"current_url": current_path, "current_op": current_op})
     raise Http404
 
+
+def dropna(request, username, filename, action_=None):
+    if request.user.is_authenticated:
+		# checking whether user is opening its own file or not
+        if "user_" + str(request.user.id) == username:
+            try:
+                # current_path gives the url to sidebar and current_op used to activate siderbar
+                current_path = "/media/" + username + "/" + filename 
+                current_op = "cleaning"
+                # sending datafile with missing values
+                file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
+                df = general_tool.read_dataframe(file_obj)
+                if action_ == "drop_row":
+                    # trying to backing up the old file but incase of renaming we do not need a backup
+                    general_tool.file_backup(file_obj, "dropping_row", username, filename)
+                    # these drops the rows 
+                    num_of_rows = len(df)
+                    df.dropna(inplace=True)
+                    f1 = ContentFile(df.to_csv(index=False))
+                    # df.reset_index(drop=True)
+                    file_obj.uploaded_file.save(filename, f1, save=True)
+                    messages.success(request, str(num_of_rows - len(df)) + " Row(s) dropped successfully!")
+                # finding only those rows which contain null values
+                # df = df[pd.isnull(df).any(axis=1)]   This will return all rows having missing values
+                datatable = datatable_table_creator.converter(df[pd.isnull(df).any(axis=1)], 2) # here 2 tells that width and height should reduced
+                return render(request=request, template_name='module2_html/dropna.html', context= {"current_url": current_path, "current_op": current_op, "data_file": datatable})
+            except Exception as ex:
+                messages.error(request, ex)
+                return render(request=request, template_name='module2_html/preprocess.html', context= {"current_url": current_path, "current_op": current_op})
+    raise Http404
+
+# this support both forward fill as well as backward fill, distinguished by action_
+def fill(request, username, filename, action_=None):
+    if request.user.is_authenticated:
+		# checking whether user is opening its own file or not
+        if "user_" + str(request.user.id) == username:
+            try:
+                # current_path gives the url to sidebar and current_op used to activate siderbar
+                current_path = "/media/" + username + "/" + filename 
+                current_op = "cleaning"
+                # sending datafile with missing values
+                file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
+                df = general_tool.read_dataframe(file_obj)
+                if action_:
+                    # trying to backing up the old file for both backfill and forward fill
+                    general_tool.file_backup(file_obj, "fbfill", username, filename)
+                    if action_ == "forward":
+                        df.ffill(axis=0, inplace=True)
+                    else:
+                        df.bfill(axis=0, inplace=True)
+                    # Now trying to save file
+                    f1 = ContentFile(df.to_csv(index=False))
+                    file_obj.uploaded_file.save(filename, f1, save=True)
+                    messages.success(request, "Eligible Data Filled Successfully!")
+                datatable = datatable_table_creator.converter(df[pd.isnull(df).any(axis=1)], 2) # here 2 tells that width and height should reduced
+                return render(request=request, template_name='module2_html/fill.html', context= {"current_url": current_path, "current_op": current_op, "data_file": datatable})
+            except Exception as ex:
+                messages.error(request, ex)
+                return render(request=request, template_name='module2_html/preprocess.html', context= {"current_url": current_path, "current_op": current_op})
+    raise Http404
 
 def under_construction(request, username, filename, slug=False):
     if request.user.is_authenticated:

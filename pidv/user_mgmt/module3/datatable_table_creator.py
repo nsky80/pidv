@@ -18,10 +18,8 @@ table_page_template = """
         var table = new google.visualization.Table(document.getElementById('table_div'));
 
         table.draw(data, {showRowNumber: true,
-        width: 880,
-        height: 500,
+        %(measure)s
         page: 'enable',
-        pageSize: 15,
         pagingSymbols: {
             prev: 'prev',
             next: 'next'
@@ -38,26 +36,16 @@ table_page_template = """
 
     """
 
-def converter(df):
-    # Creating the data
-    # df = pd.read_csv('D:\\Project IDV\\Jupyter\\Datasets\\student_data.csv')
-    # columns_ = tuple(df.columns)
-    # description = description_creator(df)
-    # data = []
-    # for index, row in df.iterrows():
-    #     data.append(list(map(lambda x: row[x[0]], description)))
-
-    # # Loading it into gviz_api.DataTable
-    # data_table = gviz_api.DataTable(description)
-    # data_table.LoadData(data)
-
+def converter(df, type_=1):
     # creating datatable format from dataframe
     columns_ = tuple(df.columns)
     data_table = general_tools.create_datatable(df)
     # Create a JSON string.
-    json_data = data_table.ToJSon(columns_order=columns_,
-                            order_by=columns_[0])
-
+    json_data = data_table.ToJSon(columns_order=columns_)
+    if type_ == 1:
+        measure = "height: 'auto',width: '875', pageSize: 20,"
+    else:
+        measure = 'width: 875, pageSize: 5,'
     # Put JSON string into the template.
 
     return table_page_template % vars()
