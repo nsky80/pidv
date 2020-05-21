@@ -26,6 +26,7 @@ urlpatterns = [
     path('media/<str:username>/<str:filename>/preprocess/remove_column', module2_views.remove_column, name='remove_column'),
     path('media/<str:username>/<str:filename>/preprocess/sorting', module2_views.sorting, name='sorting'),
     path('media/<str:username>/<str:filename>/preprocess/cleaning', module2_views.cleaning, name='cleaning'),
+    path('media/<str:username>/<str:filename>/preprocess/cleaning/replace', module2_views.replace, name='replace'),
     path('media/<str:username>/<str:filename>/preprocess/cleaning/dropna', module2_views.dropna, name='dropna'),
     path('media/<str:username>/<str:filename>/preprocess/cleaning/dropna/<str:action_>', module2_views.dropna, name='dropna'),
     path('media/<str:username>/<str:filename>/preprocess/cleaning/fill', module2_views.fill, name='fill'),

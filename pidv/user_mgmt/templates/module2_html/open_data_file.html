@@ -54,33 +54,45 @@
     </div>
 
     <div class="col s12 m8 l9 hoverable" id="stats"
-        style="background-color: rgb(250, 250, 250);border: 5px solid #004d40;">
+    style="background-color: rgb(250, 250, 250);border: 5px solid #004d40;">
         <div style="margin: 20px">
-            <h4 class="teal-text"><b>Stats</b></h4>
+            <center><h4 class="teal-text"><b>Statistics</b></h4></center>
             <hr>
-            <ul class="collection">
-                <table class="responsive-table">
-                    <tbody>
-                        <tr>
-                            <td style="padding: 20px;">
-                                <h6><b>Uploaded On: </b></h6>
-                            </td>
-                            <td style="font-family: Verdana, Geneva, Tahoma, sans-serif;">{{file_obj.uploaded_on}}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 20px;">
-                                <h6><b>Last Modified: </b></h6>
-                            </td>
-                            <td style="font-family: Verdana, Geneva, Tahoma, sans-serif;">{{file_obj.last_modified}}
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
+    
+            <ul class="collection with-header">
+                <li class="collection-header">
+                    <h5 class="teal-text center">Column-wise Statistics</h5>
+                </li>
+                <li class="collection-item">
+                    <div style="padding: 5px;">
+                        {{stats|safe}}
+                    </div>
+                </li>
+                <li class="collection-header">
+                    <h5 class="teal-text center">Quick Facts</h5>
+                </li>
+                <li class="collection-item">
+                    <table class="responsive-table" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                        <tbody>
+                            <tr>
+                                <td >
+                                    <b>Uploaded On: </b>
+                                </td>
+                                <td>{{file_obj.uploaded_on}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Last Modified: </b>
+                                </td>
+                                <td >{{file_obj.last_modified}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
             </ul>
         </div>
     </div>
-
 </div>
 <br>
 {% endblock %}

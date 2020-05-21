@@ -24,7 +24,12 @@ def open_data_file(request, username, filename):
                 file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
                 df = general_tool.read_dataframe(file_obj)
                 datatable = datatable_table_creator.converter(df, 1)   # here 1 indicate that default screen table
-                return render(request, template_name="module2_html/open_data_file.html", context={"data_file": datatable, "file_obj": file_obj})
+                # Prepairing stats 
+                perc =[.20, .25, .40, .50, .60, .75, .80] 
+                df = df.describe(percentiles = perc, include = 'all') 
+                df.insert(loc=0, column="Definition", value=list(df.index))
+                stats = datatable_table_creator.converter(df, 3)  # it contains statistics of data
+                return render(request, template_name="module2_html/open_data_file.html", context={"data_file": datatable, "stats": stats, "file_obj": file_obj})
             except Exception as ex:
                 messages.error(request, ex)
                 return HttpResponseRedirect(reverse("user_mgmt:dashboard"))        
@@ -296,6 +301,55 @@ def fill(request, username, filename, action_=None):
                     messages.success(request, "Eligible Data Filled Successfully!")
                 datatable = datatable_table_creator.converter(df[pd.isnull(df).any(axis=1)], 2) # here 2 tells that width and height should reduced
                 return render(request=request, template_name='module2_html/fill.html', context= {"current_url": current_path, "current_op": current_op, "data_file": datatable})
+            except Exception as ex:
+                messages.error(request, ex)
+                return render(request=request, template_name='module2_html/preprocess.html', context= {"current_url": current_path, "current_op": current_op})
+    raise Http404
+
+# this support replacing of missing data based on column
+# this function uses same form which is used incase of renaming of columns
+def replace(request, username, filename, action_=None):
+    if request.user.is_authenticated:
+		# checking whether user is opening its own file or not
+        if "user_" + str(request.user.id) == username:
+            try:
+                # current_path gives the url to sidebar and current_op used to activate siderbar
+                current_path = "/media/" + username + "/" + filename 
+                current_op = "cleaning"
+                # sending datafile with missing values
+                file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
+                df = general_tool.read_dataframe(file_obj)
+                cols_list = list(df.columns)
+                form_cols_list = list(map(lambda x: " (".join(x) + ")", zip(map(str, cols_list), map(str, df.dtypes))))
+                if request.method == 'POST':
+                    form = RenameColumnForm(form_cols_list, request.POST or None)
+                    if form.is_valid():
+                        columns_options = dict(map(lambda x: (x, None), cols_list)) # this dict contain the response of each column
+                        # appending data for each response
+                        flag = False   # it remains false if no column selected for filling
+                        for i in range(1, min(9, len(cols_list)+1)):    # currently we are supporting 8 columns only
+                            ch = form.cleaned_data.get('col%s'%i)
+                            # checking whether it is empty or not
+                            if ch:
+                                columns_options[cols_list[i-1]] = ch  # appending the name of given column to be deleted
+                                flag = True
+                            else:
+                                pass    # because None already assigned
+                        if flag:
+                            for i in columns_options.items():
+                                if i[1]:
+                                    df[i[0]].fillna(i[1], inplace = True) 
+                            # backing up and saving file
+                            general_tool.file_backup(file_obj, "ReplaceMissingData", username, filename)
+                            f1 = ContentFile(df.to_csv(index=False))
+                            file_obj.uploaded_file.save(filename, f1, save=True)
+                            messages.success(request, " Data Replaced Successfully!")
+                        else:
+                            messages.info(request, " No changes made!")
+                        return redirect("user_mgmt:replace", username=username, filename=filename)
+                datatable = datatable_table_creator.converter(df[pd.isnull(df).any(axis=1)], 2) # here 2 tells that width and height should reduced
+                form = RenameColumnForm(form_cols_list) 
+                return render(request=request, template_name='module2_html/replace_missing_data.html', context= {"form": form, "current_url": current_path, "current_op": current_op, "data_file": datatable})
             except Exception as ex:
                 messages.error(request, ex)
                 return render(request=request, template_name='module2_html/preprocess.html', context= {"current_url": current_path, "current_op": current_op})
