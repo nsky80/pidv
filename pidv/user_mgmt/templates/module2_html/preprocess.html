@@ -1,8 +1,7 @@
-{% extends 'user_mgmt/header.html' %}
-{% block title %}Data Preprocessing | Clean Your Data{% endblock %}
+    {% extends 'user_mgmt/header.html' %}
+    {% block title %}Data Preprocessing | Clean Your Data{% endblock %}
 
-{% block account %}
-<user_mgmt>
+    {% block content %}
     <br>
     <div class="container">
         <div class="row">
@@ -45,8 +44,7 @@
                         <p>
                             <!-- <a id="myAnchor">A Link: Go to w3schools.com</a> -->
                             <a href="{{current_url}}/preprocess/renaming">
-                                <button class="btn waves-effect teal darken-4 waves-light right-align"
-                                    style="color:white">
+                                <button class="btn waves-effect teal darken-4 waves-light right-align" style="color:white">
                                     <b>Expand</b>
                                 </button>
                             </a>
@@ -71,8 +69,7 @@
                         </p>
                         <p>
                             <a href="{{current_url}}/preprocess/remove_column">
-                                <button class="btn waves-effect teal darken-4 waves-light right-align"
-                                    style="color:white">
+                                <button class="btn waves-effect teal darken-4 waves-light right-align" style="color:white">
                                     <b>Expand</b>
                                 </button>
                             </a>
@@ -97,8 +94,7 @@
                         </p>
                         <p>
                             <a href="{{current_url}}/preprocess/sorting">
-                                <button class="btn waves-effect teal darken-4 waves-light right-align"
-                                    style="color:white">
+                                <button class="btn waves-effect teal darken-4 waves-light right-align" style="color:white">
                                     <b>Expand</b>
                                 </button>
                             </a>
@@ -124,8 +120,7 @@
                         <p>
                             <!-- <a id="myAnchor">A Link: Go to w3schools.com</a> -->
                             <a href="{{current_url}}/preprocess/cleaning">
-                                <button class="btn waves-effect teal darken-4 waves-light right-align"
-                                    style="color:white">
+                                <button class="btn waves-effect teal darken-4 waves-light right-align" style="color:white">
                                     <b>Expand</b>
                                 </button>
                             </a>
@@ -151,8 +146,7 @@
                         <p>
                             <!-- <a id="myAnchor">A Link: Go to w3schools.com</a> -->
                             <a href="{{current_url}}/preprocess/combining_dataset">
-                                <button class="btn waves-effect teal darken-4 waves-light right-align"
-                                    style="color:white">
+                                <button class="btn waves-effect teal darken-4 waves-light right-align" style="color:white">
                                     <b>Expand</b>
                                 </button>
                             </a>
@@ -211,7 +205,5 @@
         {% endblock %}
         {% endif %}
     </div>
-</user_mgmt>
-<br>
-
-{% endblock %}
+    <br>
+    {% endblock %}

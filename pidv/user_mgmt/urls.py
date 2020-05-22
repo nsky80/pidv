@@ -10,6 +10,9 @@ urlpatterns = [
     path('register', views.register, name="register"),
     path('help', views.help, name="help"),
     path('feedback', views.feedback, name="feedback"),
+    path('about', views.about, name="about"),
+    path('privacy_policy', views.privacy_policy, name="privacy_policy"),
+    
 
     path('dashboard', views.dashboard, name="dashboard"),
     path('account', views.account, name="account"), 

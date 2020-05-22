@@ -205,6 +205,13 @@ def contribute(request):
 	return render(request=request, template_name="user_mgmt/contribute.html")
 
 
+def about(request):
+	return render(request=request, template_name="user_mgmt/about.html")
+
+
+def privacy_policy(request):
+	return render(request=request, template_name="other_html/privacy_policy.html")
+
 # template for error handling 
 def under_construction(request, slug):
 	messages.success(request, slug)
