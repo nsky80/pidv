@@ -1,0 +1,129 @@
+{% extends 'user_mgmt/header.html' %}
+{% block title %}Privacy Policy{% endblock %}
+
+{% block content %}
+<div class="row container">
+    <br>
+    <div class="col s12 m3 center hide-on-small-only">
+        <a href="javascript:history.go(-1);" class="waves-effect teal darken-4 waves-light btn tooltipped"
+            data-position="bottom" data-tooltip="Go Back"><i class="material-icons left">arrow_back</i>Go back</a>
+    </div>
+    <div class="col s12 m9 center">
+            <h4 class="indigo-text" style="margin-top: -1px;"><b>PIDV Help!</b></h4>
+    </div>
+</div>
+<div class="row container hoverable"
+    style="padding-left:10px; padding-right:10px;background-color: rgb(250, 250, 250);border: 5px solid #004d40;">
+    <!-- Left Side Menu  -->
+    <div class="col hide-on-small-only s12 m4 l4">
+        <ul class="section table-of-contents fixed">
+            <li><a href="#introduction">What information PIDV collects</a></li>
+            <li><a href="#info_does_not_collect">What information PIDV doesn't collect</a></li>
+            <li><a href="#preprocess">Preprocessing
+                </a></li>
+        </ul>
+    </div>
+    <div class="col hide-on-med-and-up s12">
+        <ul class="section table-of-contents ">
+            <li><a href="#introduction">What information PIDV collects</a></li>
+            <li><a href="#info_does_not_collect">What information PIDV does not collect</a></li>
+            <li><a href="#user_info_status">How PIDV uses your information
+                </a></li>
+        </ul>
+    </div>
+    <!-- Right Side Content Goes Here -->
+    <div class="col s12 m8 l8">
+        <div id="introduction" class="section scrollspy"
+            style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'; font-size: 16px;">
+            <h5 class="teal-text center"><b>What information PIDV collects</b></h5>
+            <hr>
+            <p><b>"User Personal Information" </b>is any information about one of our Users which could,
+                alone or together with other information, personally identify them or otherwise be reasonably linked or
+                connected
+                with them. Information such as a username and password, an email address, a real name, an Internet
+                protocol (IP)
+                address, and a photograph are examples of “User Personal Information.”
+            </p>
+            <p>
+                User Personal Information does not include aggregated, non-personally identifying information that does
+                not identify
+                a User or cannot otherwise be reasonably linked or connected with them. We may use such aggregated,
+                non-personally
+                identifying information for research purposes and to operate, analyze, improve, and optimize our Website
+                and
+                Service.
+            </p>
+            <a href="/account">
+                <h6><b>Information users provide directly to PIDV</b></h6>
+            </a>
+            <strong><em>Registration Information</em></strong>
+            <p>We require some basic information at the time of account creation. When you create your own username and
+                password, we
+                ask you for a valid email address.
+            </p>
+            <strong><em>Profile Information</em></strong>
+            <p>You may choose to give us more information for your Account profile, such as your full name, an avatar
+                which may
+                include a photograph, your biography, your location, your company, and a URL to a third-party website.
+                This
+                information may include User Personal Information. Please note that your profile information may be
+                visible to other
+                Users of our Service.
+            </p>
+            <strong><em>Usage Information</em></strong>
+            <p>If you're accessing our Service or Website, we automatically collect the same basic information that most
+                services collect, subject, where necessary, to your consent. This includes information about how you use
+                the Service, such as the pages you view, the referring site, your IP address and session information,
+                and the date and time of each request. This is information we collect from every visitor to the Website,
+                whether they have an Account or not. This information may include User Personal information.
+            </p>
+            <strong><em>Device Information
+                </em></strong>
+            <p>
+                We may collect certain information about your device, such as its IP address, browser or client
+                application information,
+                language preference, operating system and application version, device type and ID, and device model and
+                manufacturer.
+                This information may include User Personal information.
+            </p>
+        </div>
+
+
+        <div id="info_does_not_collect" class="section scrollspy"
+            style="margin-top:-25px;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'; font-size: 16px;">
+            <h5 class="teal-text center"><b>What information PIDV does not collect</b></h5>
+            <hr>
+            <p>We do not intentionally collect <strong>“Sensitive Personal Information”</strong>, such as personal data
+                revealing racial or ethnic
+                origin, political opinions, religious or philosophical beliefs, or trade union membership, and the
+                processing of
+                genetic data, biometric data for the purpose of uniquely identifying a natural person, data concerning
+                health or
+                data concerning a natural person’s sex life or sexual orientation. If you choose to store any Sensitive
+                Personal
+                Information on our servers, you are responsible for complying with any regulatory controls regarding
+                that data.
+            </p>
+            <p>
+                We do not intentionally collect User Personal Information that is stored in your CSV or Data file or
+                other free-form content
+                inputs. Any personal information within a user's CSV file is the responsibility of the file owner.
+            </p>
+        </div>
+
+
+        <div id="preprocess" class="section scrollspy"
+            style="margin-top:-25px;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'; font-size: 16px;">
+            <h5 class="teal-text center"><b>Preprocessing Help
+                </b></h5>
+            <hr>
+            <p><strong> We could help you for preprocessing for the following purposes: </strong></p>
+            <ul style="padding-left:20px;">
+                <li style="list-style-type: square">
+                    We use your User Personal Information, specifically your username, to identify you on PIDV.
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -198,7 +198,7 @@ def dashboard(request):
 
 
 def help(request):
-	return render(request=request, template_name="user_mgmt/under_construction.html")
+	return render(request=request, template_name="other_html/help.html")
 
 
 def contribute(request):

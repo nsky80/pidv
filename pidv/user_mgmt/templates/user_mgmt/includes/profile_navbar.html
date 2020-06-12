@@ -1,4 +1,5 @@
 {% load static %}
+<!-- This will used for dashboard like operations -->
 <style>
         header, user_mgmt, footer {
           padding-left: 300px;
@@ -50,16 +51,17 @@
                 <div class="background">
                     <img src="{% static 'user_mgmt/images/user-profile-bg.jpg' %}" style="width: 100%;">
                 </div>
-                <a href="#!user"><img class="circle" src="{% static 'user_mgmt/images/sample-1.jpg' %}"></a>
+                <a href="#!user"><img class="circle" src="{% static 'user_mgmt/images/user.jpg' %}"></a>
                 <a href="#!name"><span class="black-text name"><b>{{user.username}}</b></span></a>
                 <a href="#!email"><span class="white-text email">{{user.email}}</span></a>
             </div>
         </li>
             <li {% if request.get_full_path == '/dashboard' %}class="active"{% endif %}><a href="/dashboard"><i class="material-icons left">home</i>Dashboard</a></li>
             <li {% if request.get_full_path == '/account' %}class="active"{% endif %}><a href="/account"><i class="material-icons">account_box</i>Account</a></li>
-            <li {% if request.get_full_path == '/visualize' %}class="active"{% endif %}><a href="/visualize"><i class="material-icons">trending_up </i>visualize<span class="new badge">1</span></a></li>
+            <li><a href="/community"><i class="material-icons left">people</i>Ask in Community</a></li>
+            <li class="tooltipped" data-position="down" data-tooltip="Contribute to Community"><a href="/contribute"><i class="material-icons left">add</i>Contribute</a></li>
             <li {% if request.get_full_path == '/personal_content' %}class="active"{% endif %}><a href="/personal_content"><i class="material-icons">view_module</i>Your Contents</a></li>
-            <li {% if request.get_full_path == '/account/edit_profile/' %} class="active"{% endif %}><a href="/account/edit_profile"><i class="material-icons">settings_applications</i>Setting</a></li>
+            <li {% if request.get_full_path == '/account/edit_profile' %} class="active"{% endif %}><a href="/account/edit_profile"><i class="material-icons">settings_applications</i>Setting</a></li>
             <li {% if request.get_full_path == '/help' %}class="active"{% endif %}><a href="/help"><i class="material-icons">help</i>Help</a></li>
             <li><a href="/logout" class="waves-effect waves-light btn orange darken-4"><i class="material-icons left">group_work</i>Logout</a></li>
      

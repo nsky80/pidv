@@ -347,6 +347,7 @@ def replace(request, username, filename, action_=None):
                         else:
                             messages.info(request, " No changes made!")
                         return redirect("user_mgmt:replace", username=username, filename=filename)
+                # this is coupled with module 3
                 datatable = datatable_table_creator.converter(df[pd.isnull(df).any(axis=1)], 2) # here 2 tells that width and height should reduced
                 form = RenameColumnForm(form_cols_list) 
                 return render(request=request, template_name='module2_html/replace_missing_data.html', context= {"form": form, "current_url": current_path, "current_op": current_op, "data_file": datatable})
