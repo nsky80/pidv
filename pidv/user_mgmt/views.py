@@ -197,6 +197,14 @@ def dashboard(request):
 		return redirect("/")
 
 
+# This processes the users own Q&A asked and answered in Community
+def users_content(request):
+	if request.user.is_authenticated:
+		return render(request=request, template_name="user_mgmt/users_content.html", )
+	else:
+		return redirect("/")
+
+
 def help(request):
 	return render(request=request, template_name="other_html/help.html")
 

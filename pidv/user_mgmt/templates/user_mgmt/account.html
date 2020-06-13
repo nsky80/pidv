@@ -42,7 +42,7 @@
             function drawChart() {
                 var data = google.visualization.arrayToDataTable([
                     ['Label', 'Value'],
-                    ['Memory', (100 * {{ memory_used }}) /(1024 * 5)],
+                    ['Memory %', (100 * {{ memory_used }}) /(1024 * 5)],
              ]);
 
             var options = {

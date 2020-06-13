@@ -12,7 +12,7 @@ urlpatterns = [
     path('feedback', views.feedback, name="feedback"),
     path('about', views.about, name="about"),
     path('privacy_policy', views.privacy_policy, name="privacy_policy"),
-    
+    path('users_content', views.users_content, name="users_content"),
 
     path('dashboard', views.dashboard, name="dashboard"),
     path('account', views.account, name="account"), 
@@ -34,6 +34,8 @@ urlpatterns = [
     path('media/<str:username>/<str:filename>/preprocess/cleaning/dropna/<str:action_>', module2_views.dropna, name='dropna'),
     path('media/<str:username>/<str:filename>/preprocess/cleaning/fill', module2_views.fill, name='fill'),
     path('media/<str:username>/<str:filename>/preprocess/cleaning/fill/<str:action_>', module2_views.fill, name='fill'),
+    path('media/<str:username>/<str:filename>/preprocess/cleaning/remove_duplicate', module2_views.remove_duplicate, name='remove_duplicate'),
+    path('media/<str:username>/<str:filename>/preprocess/cleaning/remove_duplicate/<str:action_>', module2_views.remove_duplicate, name='remove_duplicate'),
     path('media/<str:username>/<str:filename>/preprocess/cleaning/<slug>', module2_views.under_construction, name='under_construction'),
     path('media/<str:username>/<str:filename>/preprocess/combining_dataset', module2_views.under_construction, name='under_construction'),
 

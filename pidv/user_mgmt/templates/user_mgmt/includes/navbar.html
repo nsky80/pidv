@@ -21,12 +21,11 @@
 							<li><a href="/account">Account</a></li>
 							<li><a href="/network">Network</a></li>
 							<li class="divider" tabindex="-1"></li>
-							<!-- <li><a href="/setting">Setting</a></li> -->
-							<li><a href="/personal_content"><i class="material-icons">view_module</i>Your Contents</a></li>
+							<li><a href="/users_content"><i class="material-icons">view_module</i>Your Contents</a></li>
 							<li><a href="/logout"  class="red darken-4" style="color:white;"><i class="material-icons">group_work</i>LOGOUT!</a></li>
                         </ul>
                     </li>
-                    <li><a href="/help" class="waves-effect waves-light btn orange darken-4"><i class="material-icons left">help</i>Help</a></li>
+                    <li {% if request.get_full_path == '/help' %}class="active"{% endif %}><a href="/help" class="waves-effect waves-light btn orange darken-4"><i class="material-icons left">help</i>Help</a></li>
                 {% else %}
                     <li {% if request.get_full_path == '/' or request.get_full_path == '/dashboard' %}class="active"{% endif %}><a href="/"><i class="material-icons left">home</i>Home</a></li>
                     <li {% if request.get_full_path == '/community' %}class="active"{% endif %}><a href="/community"><i class="material-icons left">people</i>Community</a></li>
@@ -54,18 +53,20 @@
                     <li><a href="/account">Account</a></li>
                     <li><a href="/network">Network<span class="new badge">1</span></a></li>
                     <!-- <li><a href="/account/edit_profile">Setting</a></li> -->
-					<li><a href="/personal_content"><i class="material-icons">view_module</i>Your Contents</a></li>
-					<li><a href="#!"><i class="material-icons">cloud</i>Kake!</a></li>
+					<li><a href="/users_content"><i class="material-icons">view_module</i>Your Contents</a></li>
+                    <li><a href="/logout" class="waves-effect waves-light btn orange darken-4"><i class="material-icons left">group_work</i>Logout</a></li>
                 </ul>
                 <a class="btn dropdown-trigger" href="#!" data-target="dropdown2">{{user.username|title}}
                     <i class="material-icons right">arrow_drop_down</i></a>
             </li>
-		    <li><a href="/logout" class="waves-effect waves-light btn orange darken-4"><i class="material-icons left">group_work</i>Logout</a></li>
+            
+            <li {% if request.get_full_path == '/help' %}class="active"{% endif %}><a href="/help" class="waves-effect waves-light btn orange darken-4"><i class="material-icons left">help</i>Help</a></li>
         {% else %}
             <li {% if request.get_full_path == '/' or request.get_full_path == '/dashboard' %}class="active"{% endif %}><a href="/"><i class="material-icons left">home</i>Home</a></li>
             <li {% if request.get_full_path == '/community' %}class="active"{% endif %}><a href="/community"><i class="material-icons left">people</i>Community</a></li>
 			<li {% if request.get_full_path == '/register' %}class="active"{% endif %}><a href="/register"><i class="material-icons left">person_add</i>Register</a></li>
 			<li {% if request.get_full_path == '/login' %}class="active"{% endif %}><a href="/login" class="waves-effect waves-light btn orange darken-4"><i class="material-icons left">group_work</i>Login</a></li>
-			<li {% if request.get_full_path == '/about' %}class="active"{% endif %}><a href="/about"><i class="material-icons left">domain</i>About</a></li>
+            <li {% if request.get_full_path == '/about' %}class="active"{% endif %}><a href="/about"><i class="material-icons left">domain</i>About</a></li>
+            <li><a href="/help" class="waves-effect waves-light btn orange darken-4"><i class="material-icons left">help</i>Help</a></li>
         {% endif %}
     </ul>

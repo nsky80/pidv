@@ -142,6 +142,7 @@ def renaming(request, username, filename):
     raise Http404
 
 
+# this will used to delete a column in csv
 def remove_column(request, username, filename):
     if request.user.is_authenticated:
 		# checking whether user is opening its own file or not
@@ -173,6 +174,7 @@ def remove_column(request, username, filename):
                             f1 = ContentFile(df.to_csv(index=False))
                             # trying to backing up the old file but incase of renaming we do not need a backup
                             general_tool.file_backup(file_obj, "remove_column", username, filename)
+                            file_obj.last_modified = timezone.now()                            
                             file_obj.uploaded_file.save(filename, f1, save=True)
                             messages.success(request, ", ".join(columns_options) + " deleted successfully!")
                             return redirect("user_mgmt:remove_column", username=username, filename=filename)
@@ -189,6 +191,7 @@ def remove_column(request, username, filename):
     raise Http404
 
 
+# it will sort the dataset based on selected column
 def sorting(request, username, filename):
     if request.user.is_authenticated:
 		# checking whether user is opening its own file or not
@@ -230,7 +233,7 @@ def sorting(request, username, filename):
     raise Http404
 
 
-
+# it will gives the interface for cleaning operations
 def cleaning(request, username, filename):
     if request.user.is_authenticated:
 		# checking whether user is opening its own file or not
@@ -246,6 +249,7 @@ def cleaning(request, username, filename):
     raise Http404
 
 
+# This is support data cleaning by droping rows or column
 def dropna(request, username, filename, action_=None):
     if request.user.is_authenticated:
 		# checking whether user is opening its own file or not
@@ -265,6 +269,7 @@ def dropna(request, username, filename, action_=None):
                     df.dropna(inplace=True)
                     f1 = ContentFile(df.to_csv(index=False))
                     # df.reset_index(drop=True)
+                    file_obj.last_modified = timezone.now()
                     file_obj.uploaded_file.save(filename, f1, save=True)
                     messages.success(request, str(num_of_rows - len(df)) + " Row(s) dropped successfully!")
                 # finding only those rows which contain null values
@@ -275,6 +280,7 @@ def dropna(request, username, filename, action_=None):
                 messages.error(request, ex)
                 return render(request=request, template_name='module2_html/preprocess.html', context= {"current_url": current_path, "current_op": current_op})
     raise Http404
+
 
 # this support both forward fill as well as backward fill, distinguished by action_
 def fill(request, username, filename, action_=None):
@@ -297,6 +303,7 @@ def fill(request, username, filename, action_=None):
                         df.bfill(axis=0, inplace=True)
                     # Now trying to save file
                     f1 = ContentFile(df.to_csv(index=False))
+                    file_obj.last_modified = timezone.now()
                     file_obj.uploaded_file.save(filename, f1, save=True)
                     messages.success(request, "Eligible Data Filled Successfully!")
                 datatable = datatable_table_creator.converter(df[pd.isnull(df).any(axis=1)], 2) # here 2 tells that width and height should reduced
@@ -305,6 +312,7 @@ def fill(request, username, filename, action_=None):
                 messages.error(request, ex)
                 return render(request=request, template_name='module2_html/preprocess.html', context= {"current_url": current_path, "current_op": current_op})
     raise Http404
+
 
 # this support replacing of missing data based on column
 # this function uses same form which is used incase of renaming of columns
@@ -342,6 +350,7 @@ def replace(request, username, filename, action_=None):
                             # backing up and saving file
                             general_tool.file_backup(file_obj, "ReplaceMissingData", username, filename)
                             f1 = ContentFile(df.to_csv(index=False))
+                            file_obj.last_modified = timezone.now()
                             file_obj.uploaded_file.save(filename, f1, save=True)
                             messages.success(request, " Data Replaced Successfully!")
                         else:
@@ -355,6 +364,64 @@ def replace(request, username, filename, action_=None):
                 messages.error(request, ex)
                 return render(request=request, template_name='module2_html/preprocess.html', context= {"current_url": current_path, "current_op": current_op})
     raise Http404
+
+
+# this will provide interface for removing duplicates row actions i.e. row/col option 
+# it will also handles operations based on parameter "action_"
+# This will uses same form which is used in Remove Column method
+def remove_duplicate(request, username, filename, action_=None):
+    if request.user.is_authenticated:
+		# checking whether user is opening its own file or not
+        if "user_" + str(request.user.id) == username:
+            try:
+                # current_path gives the url to sidebar and current_op used to activate siderbar
+                current_path = "/media/" + username + "/" + filename 
+                current_op = "cleaning"
+
+                file_obj = Upload_csv.objects.get(uploaded_file=username+'/'+filename)
+                # prepairing the pandas dataframe
+                df = general_tool.read_dataframe(file_obj)
+
+                cols_list = list(df.columns)
+                columns_options = [] # this list contain the response of each column if it is empty then no cols selected
+
+                if request.method == 'POST':
+                    form = RemoveColumnForm(cols_list, request.POST or None)
+                    if form.is_valid():
+                        # appending data for each response
+                        for i in range(1, min(9, len(cols_list)+1)):    # currently we are supporting 8 columns only
+                            ch = form.cleaned_data.get('col%s'%i)
+                            # checking whether it is empty or not
+                            if ch:
+                                columns_options.append(cols_list[i - 1])  # appending the name of given column to be deleted
+                    if not columns_options:
+                        messages.warning(request, "Select atleast 1 option!")
+
+                # performing operations here
+                if columns_options or action_:
+                    earlier_length = len(df)
+                    if columns_options:
+                        df.drop_duplicates(subset = columns_options, keep = "first", inplace = True)
+                    elif action_:
+                        # dropping duplicate values 
+                        df.drop_duplicates(keep="first", inplace=True) 
+                    
+                    # First creating backup file after that changes reflected to original file
+                    f1 = ContentFile(df.to_csv(index=False))
+                    # trying to backing up the old file 
+                    general_tool.file_backup(file_obj, "remove_duplicate", username, filename)
+                    file_obj.last_modified = timezone.now()                            
+                    file_obj.uploaded_file.save(filename, f1, save=True)
+                    messages.success(request, str(earlier_length - len(df)) + " row(s) eliminated!")
+                    return redirect("user_mgmt:remove_duplicate", username=username, filename=filename)
+
+                form = RemoveColumnForm(cols_list) 
+                return render(request=request, template_name='module2_html/d_row_elimination.html', context= {'form':form, "current_url": current_path, "current_op": current_op})
+            except Exception as ex:
+                messages.error(request, ex)
+                return render(request=request, template_name='module2_html/preprocess.html', context= {"current_url": current_path, "current_op": current_op})
+    raise Http404
+
 
 def under_construction(request, username, filename, slug=False):
     if request.user.is_authenticated:

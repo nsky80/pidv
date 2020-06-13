@@ -1,0 +1,94 @@
+{% extends 'module2_html/preprocess.html' %}
+{% block preprocess_operations %}
+<!-- This file supposed to provide interface for Duplicate row elimination operation -->
+<div class="col s12 m8 l9 hoverable" style="background-color: rgb(250, 250, 250);border: 5px solid #004d40;">
+    <div style="margin: 20px">
+        <h4 class="teal-text"><b>Eliminate Duplicates Based on Row/Column</b></h4>
+        <hr>
+
+        <ul class="collection with-header">
+            <li class="collection-header">
+                <h5 class="teal-text center">Remove Duplicates Based on Perticular Column</h5>
+            </li>
+
+            <li class="collection-item">
+                <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                    &gt; This method finds duplicate data based on selected column and delete entire row corresponding
+                    to Duplicate Column Values.
+                </p>
+                <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                    &gt; It will keep first row of duplicate columns whether duplicate found in entire row or single column.
+                </p>
+            </li>
+            <li class="collection-item">
+                <p class="black-text"><b>Choose which column(s) to match otherwise leave blank..</b></p>
+
+                <!-- Form for selecting a column for duplicate row elimination -->
+                <div class="row">
+                    <form method="post" action='' enctype="multipart/form-data" class="col s12 m12">
+                        {% csrf_token %}
+        
+                        <div class="row">
+                            {% for field in form.visible_fields %}
+                            <div class="fieldWrapper">
+                                <div class="input-field col s6 m4">
+                                    {{ field.errors }}
+                                    <label>
+                                        {{ field }}
+                                        <span><b>{{field.label}}</b></span>
+                                      </label>
+                           
+                                    {% if field.help_text %}
+                                    <span class="helper-text" data-error="wrong" data-success="right">
+                                        <p class="help">{{ field.help_text|safe }}</p>
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <b class="red-text">If modified then most recent version could be recoverable from <a href="{{current_url}}/download2" class="tooltipped" data-position="bottom" data-tooltip="Download Previous Version">here.</a></b>
+                        <br>
+                        <!-- Form button goes here -->
+                        <div style="padding-top: 20px;padding-bottom:10px;">
+                            <button class="btn waves-effect teal darken-4 waves-light" type="submit" name="action"><b>Submit
+                                </b><i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+                        </div>
+            </li>
+
+
+            <li class="collection-header">
+                <h5 class="teal-text center">Remove Duplicates Based on Entire Row</h5>
+            </li>
+            <li class="collection-item">
+                <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                    &gt; This method finds any matching row, and delete all Duplicate rows and left original one.
+                </p>
+                <a href="{{current_url}}/preprocess/cleaning/remove_duplicate/drow"
+                    class="waves-effect indigo waves-light btn">Click Here</a>
+            </li>
+
+            <li class="collection-item">
+                <p class="red-text" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                    &gt; If modified then most recent version could be recoverable from <a
+                        href="{{current_url}}/download2" class="tooltipped" data-position="bottom"
+                        data-tooltip="Download Previous Version"><b class="green-text">here</b></a>
+                </p>
+                <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                    &gt; Take note how your data is ordered by default.
+                    Some data may be ordered with oldest date first, or newest or based on some column. We recommond
+                    to <a href="{{current_url}}/preprocess/sorting" class="tooltipped" data-position="bottom"
+                        data-tooltip="Sort Your Data"><b class="green-text">Sort</b></a> the data based on required
+                    column so that
+                    best values fill into cells.
+                </p>
+            </li>
+        </ul>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'user_mgmt/header.html' %}
+{% block title %} {{user.username}}'s Content | Explore Your Own Questions & Answers {% endblock %}
+
+{% block content %}
+<!-- This contains the content of users Questions and answers -->
+    <div class="row container">
+        <br>
+        <div class="col s12 m3 center hide-on-small-only">
+            <a href="javascript:history.go(-1);" class="waves-effect teal darken-4 waves-light btn tooltipped"
+                data-position="bottom" data-tooltip="Go Back"><i class="material-icons left">arrow_back</i>Go back</a>
+        </div>
+        <div class="col s12 m9 center">
+                <h4 class="indigo-text" style="margin-top: -1px;"><b>{{user.username|upper}}'s Q&A!</b></h4>
+        </div>
+    </div>
+    
+    
+    <div class="container hoverable" style="padding: 20px; background-color: white; margin-top: 10px;border: 5px solid #004d40;">
+            <ul class="collection">
+                <li class="collection-item"><h5><center><b>Looks like you haven't asked or answered yet!&nbsp;&nbsp; </b></center></h5></li>
+            </ul>
+    </div>
+
+<br>
+<br>
+{% endblock %}
+        
