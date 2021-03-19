@@ -1,5 +1,5 @@
 ﻿asgiref==3.2.7
-Django==3.0.7
+Django==3.1.6
 numpy==1.18.3
 pandas==1.0.3
 python-dateutil==2.8.1
